@@ -4,10 +4,6 @@ const announce = m => { $('live-region').textContent = m; };
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const pause = REDUCED ? 2200 : 1100;
 
-/* Teams deep link to the published agent (Copilot Studio → Channels → Teams → "Copy link").
-   Leave empty until the agent is published; the button then explains how to get it. */
-const AGENT_URL = '';
-
 /* ================= presenter notes ================= */
 $('notes-on').addEventListener('change', e => {
   document.querySelectorAll('.pnote').forEach(p => { p.hidden = !e.target.checked; });
@@ -210,16 +206,6 @@ const STACK = [
 $('stack-diagram').innerHTML = STACK.map(s =>
   `<div class="stack-row"><strong>${s.layer}</strong><div class="chip-row">${s.items.map(x => `<span class="gchip">${x}</span>`).join('')}</div></div>`
 ).join('');
-
-/* ================= 08 · see it live ================= */
-if (AGENT_URL) {
-  $('agent-link').href = AGENT_URL;
-} else {
-  const a = $('agent-link');
-  a.removeAttribute('target');
-  a.href = '#live';
-  a.title = 'Publish the agent to Teams, then paste its link into AGENT_URL in campus-chat.js';
-}
 
 /* ================= section nav ================= */
 $('section-jump').addEventListener('change', e => {

@@ -17,7 +17,6 @@ A static, single-page "Lab" showing how one **Microsoft Copilot Studio** agent c
 5. Message mode: the agent only responds when @mentioned; an agent flow reads the recent chat history so it can catch up.
 6. One place: web search, Fabric data, MCP tools, SharePoint, file upload, code interpreter, topics, flows.
 7. How it's built: the architecture stack.
-8. See it live: link to the published Teams agent (set `AGENT_URL` in `campus-chat.js`).
 
 Turn on **Notes** in the header to show presenter notes with the platform details.
 
