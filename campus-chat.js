@@ -48,17 +48,18 @@ pressGroup('[data-access]', b => showAccess(b.dataset.access));
 showAccess('individual');
 
 /* ================= 02 · every model ================= */
-/* Copilot Studio model choice: the agent's main model (OpenAI default, Anthropic if an admin allows it),
-   plus Azure AI Foundry models in prompt tools ("bring your own model"). */
+/* Models offered in Copilot Studio (Microsoft Learn, "Select a primary AI model" and
+   "Bring your own model for your prompts", checked November 2026).
+   GPT-4.1, GPT-5.x Chat/Auto/Reasoning are retired or retiring into GPT Chat Latest. */
 const MODELS = [
-  { name: 'GPT', house: 'OpenAI · default model' },
-  { name: 'Claude Sonnet', house: 'Anthropic · admin-enabled' },
-  { name: 'Claude Opus', house: 'Anthropic · admin-enabled' },
-  { name: 'Llama', house: 'Meta · via Azure AI Foundry' },
-  { name: 'Mistral', house: 'Mistral · via Azure AI Foundry' },
-  { name: 'DeepSeek', house: 'DeepSeek · via Azure AI Foundry' },
-  { name: 'Phi', house: 'Microsoft · via Azure AI Foundry' },
-  { name: 'and the next one', house: 'deployed, not renegotiated' }
+  { name: 'GPT Chat Latest', house: 'OpenAI · default · GA' },
+  { name: 'Claude Sonnet 4.6', house: 'Anthropic · GA · admin-enabled' },
+  { name: 'Claude Opus 4.8', house: 'Anthropic · GA · also 4.7, 4.6' },
+  { name: 'Mistral', house: 'Mistral · external · preview' },
+  { name: 'Grok 4.2', house: 'xAI · experimental · early access' },
+  { name: 'Llama', house: 'Meta · Azure AI Foundry · prompts' },
+  { name: 'DeepSeek', house: 'DeepSeek · Azure AI Foundry · prompts' },
+  { name: '1,800+ more', house: 'Foundry catalog · connected, not renegotiated' }
 ];
 $('model-wall').innerHTML = MODELS.map((m, i) =>
   `<div class="model${i === MODELS.length - 1 ? ' is-next' : ''}"><strong>${m.name}</strong><span>${m.house}</span></div>`
@@ -94,12 +95,12 @@ function playThread(node, messages, done) {
 /* ================= 03 · right model, same thread ================= */
 const SWITCH_THREAD = [
   { from: 'you', who: 'You', text: 'Write a 500-word essay about the weather in Chicago.' },
-  { from: 'ai', model: 'Campus Copilot · GPT', text: 'Chicago has a humid continental climate with four distinct seasons…' },
+  { from: 'ai', model: 'Campus Copilot · GPT Chat Latest', text: 'Chicago has a humid continental climate with four distinct seasons…' },
   { from: 'you', who: 'You', text: 'Tighten this and check the temperature claims.' },
-  { from: 'sys', who: 'Orchestrator', text: 'Routing to Editor agent (connected agent · Claude). Conversation history passed along.' },
-  { from: 'ai', model: 'Editor agent · Claude', text: 'Trimmed to 380 words. Two figures were off — spring highs are upper 50s, not upper 60s.' },
+  { from: 'sys', who: 'Orchestrator', text: 'Routing to Editor agent (connected agent · Claude Opus 4.8). Conversation history passed along.' },
+  { from: 'ai', model: 'Editor agent · Claude Opus 4.8', text: 'Trimmed to 380 words. Two figures were off — spring highs are upper 50s, not upper 60s.' },
   { from: 'you', who: 'You', text: 'Give me a two-line summary for the newsletter.' },
-  { from: 'ai', model: 'Summary prompt · Foundry model', text: 'Chicago swings from icy winters to humid summers. Spring and autumn are short, mild and changeable.' }
+  { from: 'ai', model: 'Summary prompt · Llama via Foundry', text: 'Chicago swings from icy winters to humid summers. Spring and autumn are short, mild and changeable.' }
 ];
 $('switch-play').addEventListener('click', () => {
   const b = $('switch-play');
@@ -199,7 +200,7 @@ $('msg-actions').innerHTML = ['Copy', 'Citations', 'Thumbs up / down', 'Start ov
 /* ================= 07 · how it's built ================= */
 const STACK = [
   { layer: 'Where people chat', items: ['Microsoft Teams · 1:1, group chats, channels', 'Campus website (optional)'] },
-  { layer: 'Copilot Studio agent', items: ['Generative orchestration', 'Model: GPT or Claude', 'Instructions & guardrails'] },
+  { layer: 'Copilot Studio agent', items: ['Generative orchestration', 'Model: GPT Chat Latest or Claude', 'Instructions & guardrails'] },
   { layer: 'Topics', items: ['Guided questions & adaptive cards', 'Escalate to a person', 'Start over, feedback'] },
   { layer: 'Connected agents', items: ['Fabric data agent · OneLake, warehouse, semantic models', 'Specialist agents · Editor, Advising'] },
   { layer: 'Tools', items: ['MCP servers · LMS, SIS, ITSM', 'Connectors', 'Agent flows · Power Automate'] },
