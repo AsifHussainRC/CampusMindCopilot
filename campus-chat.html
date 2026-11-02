@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Campus Chat Lab · Campus Copilot</title><meta name="description" content="Visual companion for Campus Chat on Microsoft Copilot Studio: one agent for everyone on campus, with Fabric data agents, MCP tools, topics and Power Automate flows behind it."><meta name="theme-color" content="#023347"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css"><link rel="stylesheet" href="/campus-chat.css"><script src="/campus-chat.js" defer></script></head>
+<body><a class="skip" href="#main">Skip to the Lab</a><nav class="labs-navigation" aria-label="Labs">
+    <a href="/campus-chat.html" aria-current="page">Campus Chat</a>
+    <a href="#stack">How it's built</a>
+    <a href="#live">Open in Teams</a>
+  </nav>
+
+<div class="shell">
+<div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>CAMPUS CHAT LAB</span></div>
+
+<div class="section-nav">
+<select id="section-jump" aria-label="Jump to section">
+<option value="everyone">1 · Everyone, or nobody</option>
+<option value="models">2 · Every model</option>
+<option value="switch">3 · Right model, same thread</option>
+<option value="together">4 · Bring people in</option>
+<option value="mode">5 · Message mode</option>
+<option value="tools">6 · One place</option>
+<option value="stack">7 · How it's built</option>
+<option value="live">8 · See it live</option>
+</select>
+<label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+</div>
+
+<main id="main">
+
+<!-- ===== 01 ===== -->
+<section id="everyone" aria-labelledby="everyone-heading">
+<p class="eyebrow"><b>01</b> EVERYONE, OR NOBODY</p>
+<h1 id="everyone-heading">AI shouldn't be something you can afford.</h1>
+
+<div class="choices" role="group" aria-label="How it is paid for">
+<button type="button" data-access="individual" aria-pressed="true">Individual subscriptions</button>
+<button type="button" data-access="site" aria-pressed="false">One institutional agent</button>
+</div>
+
+<figure class="figure">
+  <div class="access-head">
+    <div><strong id="access-covered">—</strong><span>with access</span></div>
+    <div class="is-right"><strong id="access-left">—</strong><span id="access-left-label">without</span></div>
+  </div>
+  <div class="dotgrid" id="access-dots" role="img" aria-labelledby="access-alt"></div>
+  <p class="sr-only" id="access-alt"></p>
+  <p class="figure-takeaway" id="access-note"></p>
+</figure>
+<p class="pnote" hidden>Individual subscriptions sort a campus by who can pay $20 a month. A Copilot Studio agent published to Microsoft Teams is open to anyone signed in with an institutional Entra ID account. Usage is billed to the institution through Copilot Credits (prepaid capacity packs or pay-as-you-go), so a student does not need a personal AI subscription or a Microsoft 365 Copilot licence to chat with it.</p>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="models" aria-labelledby="models-heading">
+<p class="eyebrow"><b>02</b> EVERY MODEL</p>
+<h2 id="models-heading">Not one vendor. Several.</h2>
+<div class="model-wall" id="model-wall"></div>
+<p class="figure-takeaway">One Microsoft agreement. No separate contract per model vendor.</p>
+<p class="pnote" hidden>Each Copilot Studio agent picks its main model from a dropdown. OpenAI GPT is the default, and Anthropic Claude models are available once a tenant admin allows them. Prompt tools can also call models deployed in Azure AI Foundry, such as Llama, Mistral, DeepSeek or Phi. Which versions are offered changes over time, and some are preview only. Check the current list before using one in production.</p>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="switch" aria-labelledby="switch-heading">
+<p class="eyebrow"><b>03</b> RIGHT MODEL, SAME THREAD</p>
+<h2 id="switch-heading">Change model. Keep the conversation.</h2>
+
+<div class="controls"><button type="button" id="switch-play" class="primary-button">▶ Play the thread</button></div>
+<div class="thread" id="switch-thread"></div>
+<p class="figure-takeaway" id="switch-note">One thread. The context carries from step to step.</p>
+<p class="pnote" hidden>Users don't pick models in chat. The agent's generative orchestration does it, sending each step to the agent or tool whose description fits. Here an Editor agent running on Claude checks the main agent's GPT draft, and a Foundry-model prompt summarises the result. Conversation history and variables carry across, so nobody copies text between tabs.</p>
+</section>
+
+<!-- ===== 04 ===== -->
+<section id="together" aria-labelledby="together-heading">
+<p class="eyebrow"><b>04</b> BRING PEOPLE IN</p>
+<h2 id="together-heading">A conversation, not a private tab.</h2>
+
+<div class="controls"><button type="button" id="invite-play" class="primary-button">▶ Invite a colleague</button></div>
+<div class="room" id="room">
+  <div class="room-bar"><span class="room-tag">TEAMS GROUP CHAT</span><span id="room-count">1 participant</span></div>
+  <div class="room-people" id="room-people"></div>
+  <div class="thread" id="room-thread"></div>
+</div>
+<p class="pnote" hidden>When publishing to the Teams channel, turn on the option that lets the agent be used in group and meeting chats. People then add the agent to a group chat and @mention it. Everyone shares one thread and one history in Teams, so the work doesn't sit in somebody's private account.</p>
+</section>
+
+<!-- ===== 05 ===== -->
+<section id="mode" aria-labelledby="mode-heading">
+<p class="eyebrow"><b>05</b> MESSAGE MODE</p>
+<h2 id="mode-heading">Leave the agent out. It can still catch up.</h2>
+
+<div class="choices" role="group" aria-label="Message mode">
+<button type="button" data-mode="ai" aria-pressed="true">@Campus Copilot</button>
+<button type="button" data-mode="human" aria-pressed="false">Message mode · people only</button>
+</div>
+
+<div class="thread" id="mode-thread"></div>
+<p class="figure-takeaway" id="mode-note"></p>
+<p class="pnote" hidden>In a Teams group chat, the agent only receives messages that @mention it, so people can talk among themselves without it. When someone @mentions it, a topic runs an agent flow (Power Automate) that reads the recent chat messages through Microsoft Graph and gives them to the agent. It then answers using what was decided while it was quiet.</p>
+</section>
+
+<!-- ===== 06 ===== -->
+<section id="tools" aria-labelledby="tools-heading">
+<p class="eyebrow"><b>06</b> ONE PLACE</p>
+<h2 id="tools-heading">Nobody leaves the chat.</h2>
+
+<div class="tool-grid" id="tool-grid"></div>
+
+<h3 class="mini-head">On every answer</h3>
+<div class="chip-row" id="msg-actions"></div>
+<p class="pnote" hidden>Knowledge (web, SharePoint), tools (MCP servers, connectors, agent flows), connected agents (Fabric data agent) and topics all sit behind one chat. The orchestrator chooses which one to use based on each one's description. Thumbs up or down sends feedback to Copilot Studio analytics, and "Start over" resets the conversation.</p>
+</section>
+
+<!-- ===== 07 ===== -->
+<section id="stack" aria-labelledby="stack-heading">
+<p class="eyebrow"><b>07</b> HOW IT'S BUILT</p>
+<h2 id="stack-heading">One agent. Everything behind it.</h2>
+
+<div class="stack" id="stack-diagram"></div>
+<p class="figure-takeaway">Microsoft 365, Power Platform and Fabric, already licensed by most campuses.</p>
+<p class="pnote" hidden>Microsoft validates a Copilot Studio agent with a connected Fabric data agent only in Teams; it isn't supported in Microsoft 365 Copilot yet, so publish to Teams. With user authentication, each person sees only the Fabric data they're already allowed to see. Admins control model access, data loss prevention (DLP) and environments in the Power Platform admin center.</p>
+</section>
+
+<!-- ===== 08 ===== -->
+<section id="live" aria-labelledby="live-heading">
+<p class="eyebrow"><b>08</b> SEE IT LIVE</p>
+<h2 id="live-heading">Open the real thread.</h2>
+<p class="agent-open"><a class="agent-primary" id="agent-link" href="#" target="_blank" rel="noopener">Open in Microsoft Teams</a></p>
+<p class="closing-question">Who on your campus does not have this today?</p>
+<p class="micro">Illustrative figures · not product output</p>
+</section>
+
+</main>
+
+<div class="closing"><a href="#everyone">↑ Back to top</a><a href="https://learn.microsoft.com/microsoft-copilot-studio/" target="_blank" rel="noopener">Copilot Studio docs →</a></div>
+</div>
+
+<p id="live-region" class="sr-only" role="status" aria-live="polite"></p>
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body></html>
