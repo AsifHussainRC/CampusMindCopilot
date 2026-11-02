@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Campus Chat Plus Lab · Campus Copilot</title>
+<meta name="description" content="Visual companion for Campus Chat Plus on Microsoft Copilot Studio: every office's agents in one Agent Store, one chat box, Teams group chats, connected agents and your website.">
+<meta name="theme-color" content="#023347"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/labs-navigation.css"><link rel="stylesheet" href="/campus-chat-plus.css">
+<script src="/campus-chat-plus.js" defer></script>
+</head>
+<body><a class="skip" href="#main">Skip to the Lab</a>
+<nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html" aria-current="page">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+
+<div class="shell">
+<div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>CAMPUS CHAT PLUS LAB</span></div>
+
+<div class="section-nav">
+<select id="section-jump" aria-label="Jump to section">
+<option value="connect">1 · One campus</option>
+<option value="box">2 · One box</option>
+<option value="market">3 · Agent Store</option>
+<option value="answer">4 · Ask the conference</option>
+<option value="together">5 · Group chat</option>
+<option value="orchestrate">6 · Agents calling agents</option>
+<option value="widget">7 · On your website</option>
+<option value="try">8 · Build it</option>
+</select>
+<label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+</div>
+
+<main id="main">
+
+<!-- ===== 01 ===== -->
+<section id="connect" class="scene" aria-labelledby="connect-heading">
+<div class="scene-copy">
+<p class="eyebrow"><b>01</b> ONE CAMPUS</p>
+<h1 id="connect-heading">Every office bought its own AI.</h1>
+<div class="controls"><button type="button" id="connect-play" class="primary-button" aria-pressed="false">Connect them</button></div>
+<p class="pnote" hidden>Before: five offices, five contracts, five logins, and nobody can see what went where. After: each office builds its agents in Copilot Studio inside the institution's own Microsoft tenant. Everyone signs in with their Entra ID account, admins set environments and data loss prevention (DLP) policies in the Power Platform admin center, and agent activity lands in the Microsoft Purview audit log.</p>
+</div>
+<figure class="scene-visual">
+<div class="stage office-stage" id="office-stage" data-state="apart">
+<svg class="wires" id="office-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+<div class="hub" id="office-hub" aria-hidden="true"><span class="hub-mark">C</span><b>Campus Copilot</b></div>
+</div>
+<p class="tally" id="office-tally"></p>
+</figure>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="box" class="scene is-tint" aria-labelledby="box-heading">
+<div class="scene-copy">
+<p class="eyebrow"><b>02</b> ONE BOX</p>
+<h2 id="box-heading">Every agent, one place.</h2>
+<p class="scene-hint"><code>@</code> an agent. Each agent brings its own model.</p>
+<p class="pnote" hidden>This is the chat box in Microsoft 365 Copilot Chat or Teams. People @mention any agent they've added, and each agent shows its conversation starters. People don't pick a model per message: each agent's maker picks its primary model on the agent's Overview page in Copilot Studio. GPT Chat Latest is the default. Claude Sonnet 4.6 and Claude Opus 4.8 are generally available once an admin turns on external models. Mistral (preview) and Grok 4.2 (experimental, US early access) aren't meant for production. Prompt tools can call Azure AI Foundry models such as Llama or DeepSeek.</p>
+</div>
+<figure class="scene-visual">
+<div class="app">
+<p class="app-greet">How can I help you today?</p>
+<p class="answering">Answering: <b id="answering">Campus Copilot</b> · <span id="answering-model">GPT Chat Latest</span></p>
+<div class="picker">
+<div class="picker-tabs" role="tablist" aria-label="Picker" id="picker-tabs"></div>
+<p class="picker-head" id="picker-head"></p>
+<div class="picker-list" id="picker-list" role="tabpanel"></div>
+</div>
+<div class="composer">
+<p class="composer-text" id="composer-text"><span class="placeholder">Message Copilot. Type @ to bring in an agent.</span></p>
+<div class="composer-bar"><span class="composer-pill" id="composer-model">@Campus Copilot</span><span class="composer-tool">Attach</span><span class="composer-send" aria-hidden="true">→</span></div>
+</div>
+</div>
+</figure>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="market" class="scene" aria-labelledby="market-heading">
+<div class="scene-copy">
+<p class="eyebrow"><b>03</b> AGENT STORE</p>
+<h2 id="market-heading">Build an agent once. Anyone adds it.</h2>
+<p class="pnote" hidden>An office publishes its agent to the Teams and Microsoft 365 Copilot channel, then submits it for admin approval. Once approved it appears in the Built by your org section of the Microsoft 365 Agent Store (and Built for your org in the Teams app store), and only an admin can remove it. For a smaller pilot, "Show to my teammates and shared users" lists it under Shared with you instead. Nobody installs software; people add the agent and it shows up under @.</p>
+</div>
+<figure class="scene-visual">
+<div class="window">
+<div class="window-bar"><i></i><i></i><i></i><span>Microsoft 365 Agent Store</span></div>
+<div class="window-tabs" aria-hidden="true"><span class="is-on">Built by your org</span><span>Shared with you</span></div>
+<div class="market" id="market-grid"></div>
+</div>
+<div class="my-chat"><span class="my-chat-tag">IN YOUR CHAT</span><span class="my-chat-list" id="my-agents"></span></div>
+</figure>
+</section>
+
+<!-- ===== 04 ===== -->
+<section id="answer" class="scene is-tint" aria-labelledby="answer-heading">
+<div class="scene-copy">
+<p class="eyebrow"><b>04</b> CONFERENCE GUIDE</p>
+<h2 id="answer-heading">Ask the conference. Get the day.</h2>
+<div class="controls"><button type="button" id="answer-play" class="ghost-button">↻ Ask again</button></div>
+<p class="pnote" hidden>One Copilot Studio agent, four kinds of source: an MCP server tool for the live session schedule, SharePoint knowledge for speaker bios (read with the user's own permissions), an agent flow in Power Automate that looks up rooms, and public website knowledge that searches the conference site through Grounding with Bing Search. The chips show which sources answered. Sessions and names are illustrative.</p>
+</div>
+<figure class="scene-visual">
+<div class="app is-thread" id="answer-app">
+<p class="bubble-you" id="answer-q"></p>
+<div class="agent-head"><span class="avatar is-agent">G</span><b>Conference Guide</b><span>agent</span></div>
+<div class="sources"><span class="sources-tag">SOURCES</span><span class="source-list" id="answer-sources"></span></div>
+<p class="answer-lead" id="answer-lead"></p>
+<ol class="agenda" id="answer-agenda"></ol>
+<div class="answer-actions" aria-hidden="true"><span>👍</span><span>👎</span><span>Copy</span></div>
+</div>
+<p class="micro">Illustrative figures · not product output</p>
+</figure>
+</section>
+
+<!-- ===== 05 ===== -->
+<section id="together" class="scene" aria-labelledby="together-heading">
+<div class="scene-copy">
+<p class="eyebrow"><b>05</b> GROUP CHAT</p>
+<h2 id="together-heading">Bring people in. Bring the agent.</h2>
+<div class="controls"><button type="button" id="together-play" class="ghost-button">↻ Play again</button></div>
+<p class="pnote" hidden>The maker turns on "Use this agent for group and meeting chats" in the Teams channel settings. Colleagues add the agent to a Teams group chat and @mention it; messages without an @mention aren't sent to it. The calendar invite is built with an agent flow that uses the Office 365 Outlook connector. In group chats and channels, Copilot Studio agents can't use knowledge that needs end-user sign-in, such as SharePoint, so this agent answers here from its public website knowledge and MCP schedule tool.</p>
+</div>
+<figure class="scene-visual">
+<div class="app is-thread">
+<div class="room-bar"><span class="room-tag">TEAMS</span><b>Wednesday plan</b><span class="room-people" id="room-people"></span><span class="room-add" aria-hidden="true">Add people</span></div>
+<ol class="thread" id="thread"></ol>
+</div>
+<p class="micro">Illustrative figures · not product output</p>
+</figure>
+</section>
+
+<!-- ===== 06 ===== -->
+<section id="orchestrate" class="scene is-tint" aria-labelledby="orchestrate-heading">
+<div class="scene-copy">
+<p class="eyebrow"><b>06</b> AGENTS CALLING AGENTS</p>
+<h2 id="orchestrate-heading">One question. Three agents.</h2>
+<div class="controls"><button type="button" id="orch-play" class="ghost-button">↻ Ask again</button></div>
+<p class="pnote" hidden>Campus Copilot uses generative orchestration to split the question and pick agents by their descriptions. Conference Guide is a connected agent: a separate Copilot Studio agent that its office publishes and maintains. Schedule helper is a child agent that lives inside Campus Copilot and calls Outlook through a connector. Campus Facilities is a Fabric data agent over the facilities lakehouse, connected in preview; Microsoft validates that pairing only in Teams, and with user authentication each person sees only data they're allowed to see.</p>
+</div>
+<figure class="scene-visual">
+<p class="bubble-you is-center" id="orch-ask"></p>
+<div class="stage orch-stage" id="orch-stage">
+<svg class="wires" id="orch-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+<div class="orch-hub node" id="orch-hub"><span class="node-kind">main agent · orchestrator</span><b>Campus Copilot</b></div>
+</div>
+<ol class="plan" id="orch-plan"></ol>
+<p class="micro">Illustrative figures · not product output</p>
+</figure>
+</section>
+
+<!-- ===== 07 ===== -->
+<section id="widget" class="scene" aria-labelledby="widget-heading">
+<div class="scene-copy">
+<p class="eyebrow"><b>07</b> ON YOUR WEBSITE</p>
+<h2 id="widget-heading">Same agent, on your website.</h2>
+<div class="choices" role="group" aria-label="Website sign-in">
+<button type="button" data-auth="public" aria-pressed="true">Public page</button>
+<button type="button" data-auth="staff" aria-pressed="false">Staff page</button>
+</div>
+<p class="pnote" hidden>Publish to the Custom website channel and paste the iframe snippet (or use Web Chat with a token endpoint). With No authentication, anyone with the link can chat, and the agent can only reach public information such as its public website knowledge. For a staff page, choose Authenticate manually with Microsoft Entra ID so people sign in and SharePoint knowledge works. Separately, "Require secured access" makes clients present a Direct Line secret or token; on its own that doesn't sign anyone in.</p>
+</div>
+<figure class="scene-visual">
+<div class="window site">
+<div class="window-bar"><i></i><i></i><i></i><span id="site-url">harborstate.edu/summit</span></div>
+<div class="site-page" aria-hidden="true">
+<b class="site-logo">Harbor State University</b>
+<i style="width:70%"></i><i style="width:92%"></i><i style="width:84%"></i><i style="width:60%"></i>
+</div>
+<div class="widget" id="widget-box">
+<div class="widget-head"><span class="avatar is-agent">G</span><b>Conference Guide</b><span class="widget-badge" id="widget-badge">No sign-in</span></div>
+<p class="widget-signin" id="widget-signin" hidden>Signed in with Microsoft Entra ID</p>
+<p class="widget-you" id="widget-you"></p>
+<p class="widget-agent" id="widget-agent"></p>
+<p class="widget-src" id="widget-src"></p>
+</div>
+</div>
+<p class="micro">Illustrative figures · not product output</p>
+</figure>
+</section>
+
+<!-- ===== 08 ===== -->
+<section id="try" class="scene is-tint" aria-labelledby="try-heading">
+<div class="scene-copy">
+<p class="eyebrow"><b>08</b> BUILD IT</p>
+<h2 id="try-heading">Build it. Then ask it.</h2>
+<p class="scene-hint">There's no shared demo to open. Each campus builds this in its own tenant, in about an afternoon for a first version.</p>
+<p class="pnote" hidden>Tick the steps as you build in Copilot Studio, then paste the questions into the Test pane before you publish. Name a date, not "day two", so the agent doesn't count preconference days. Connected Fabric data agents are in preview; check your tenant's admin settings for external models and the Agent Store approval flow first.</p>
+</div>
+<div class="scene-visual">
+<div class="build">
+<div class="build-head"><b>Build checklist</b><span id="build-count">0 of 7</span></div>
+<div class="build-bar" aria-hidden="true"><i id="build-fill"></i></div>
+<ol class="build-list" id="build-list"></ol>
+</div>
+<h3 class="mini-head">Questions for the Test pane</h3>
+<ul class="try-list" id="try-list"></ul>
+<p class="closing-question">Which agent would your campus build first?</p>
+</div>
+</section>
+
+</main>
+
+<div class="closing"><a href="/campus-chat.html">← Campus Chat</a><a href="/ontology.html">Data Bridge →</a></div>
+</div>
+
+<p id="live-region" class="sr-only" role="status" aria-live="polite"></p>
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body></html>
