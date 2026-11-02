@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Console Lab · Campus Copilot</title><meta name="description" content="Visual companion for governing Campus Copilot on Microsoft Copilot Studio: Copilot Credits capacity, agent limits, data policies, monitoring, roles and branding."><meta name="theme-color" content="#023347"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css"><link rel="stylesheet" href="/admin-console.css"><script src="/admin-console.js" defer></script></head>
+<body><a class="skip" href="#main">Skip to the Lab</a><nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html" aria-current="page">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+
+<div class="shell">
+<div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>ADMIN CONSOLE LAB</span></div>
+
+<div class="section-nav">
+<select id="section-jump" aria-label="Jump to section">
+<option value="runaway">1 · The runaway bill</option>
+<option value="scopes">2 · Where the cap sits</option>
+<option value="mode">3 · Enforcement mode</option>
+<option value="widget">4 · The public agent</option>
+<option value="dashboard">5 · Who spent what</option>
+<option value="roles">6 · Roles &amp; permissions</option>
+<option value="brand">7 · Make it yours</option>
+</select>
+<label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+</div>
+
+<main id="main">
+
+<!-- ===== 01 ===== -->
+<section id="runaway" aria-labelledby="runaway-heading">
+<p class="eyebrow"><b>01</b> THE RUNAWAY BILL</p>
+<h1 id="runaway-heading">One pool of credits. No idea who spent it.</h1>
+
+<p class="console-open"><a class="console-link" href="https://admin.powerplatform.microsoft.com" target="_blank" rel="noopener">Open the Power Platform admin center</a></p>
+
+<div class="controls"><button type="button" id="burn-play" class="primary-button">▶ Run the month</button></div>
+<p class="step-caption" id="burn-caption" aria-live="polite">&nbsp;</p>
+
+<figure class="figure">
+  <div class="meter-wrap">
+    <div class="meter"><span class="meter-fill" id="burn-fill"></span></div>
+    <span class="meter-mark is-prepaid"><i>prepaid</i></span>
+    <span class="meter-mark is-enforce" id="burn-cap" hidden><i>125% · agents blocked</i></span>
+  </div>
+  <div class="burn-head">
+    <div><strong id="burn-spend">0</strong><span>Copilot Credits used this month</span></div>
+    <div class="is-right"><strong id="burn-top">0%</strong><span>from one looping agent</span></div>
+  </div>
+  <div class="dotgrid" id="burn-dots" role="img" aria-labelledby="burn-alt"></div>
+  <p class="sr-only" id="burn-alt"></p>
+  <div class="dot-legend"><span><i class="d-normal"></i>normal use</span><span><i class="d-heavy"></i>reasoning-model turns</span><span><i class="d-runaway"></i>looping trigger</span></div>
+</figure>
+<p class="pnote" hidden>Copilot Studio bills in Copilot Credits from a prepaid pack pooled across the tenant, or pay-as-you-go through an Azure subscription. Reasoning models add a premium charge of 10 credits per 1,000 billed tokens on top of the feature rate, so a few long turns can cost a lot. If an environment draws on the tenant pool and the tenant reaches 125% of its prepaid capacity, Microsoft blocks the agents in those environments, even mid-conversation. The tenant admin gets an email and a notice in the Power Platform admin center.</p>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="scopes" aria-labelledby="scopes-heading">
+<p class="eyebrow"><b>02</b> WHERE THE CAP SITS</p>
+<h2 id="scopes-heading">Four places to stop the spend.</h2>
+
+<div class="choices" role="group" aria-label="Choose a scope" id="scope-picker"></div>
+<div class="nest" id="nest">
+  <div class="nest-ring is-tenant" data-scope="tenant"><span class="nest-tag">TENANT · PREPAID POOL</span>
+    <div class="nest-ring is-group" data-scope="environment"><span class="nest-tag">ENVIRONMENT · ALLOCATION</span>
+      <div class="nest-ring is-user" data-scope="agent"><span class="nest-tag">AGENT · MONTHLY LIMIT</span>
+        <div class="nest-dots" id="nest-dots" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+  <div class="nest-ring is-agent" data-scope="payg"><span class="nest-tag">PAY-AS-YOU-GO BILLING PLAN</span><span class="nest-note">Azure subscription · one or more environments</span></div>
+</div>
+<p class="scope-caption" id="scope-caption"></p>
+<p class="pnote" hidden>All four levers are in the Power Platform admin center under Licensing &gt; Copilot Studio. Manage capacity sets each environment's allocation and its overage source. A billing plan links environments to an Azure subscription. Manage agents sets a monthly limit for each agent, with notifications and an optional hard stop. There's no per-user credit cap. You control people through sharing, security groups and the Copilot Author setting. The user consumption report tells you who used what.</p>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="mode" aria-labelledby="mode-heading">
+<p class="eyebrow"><b>03</b> ENFORCEMENT MODE</p>
+<h2 id="mode-heading">What happens when it runs out.</h2>
+
+<p class="field-label">When this environment's allocation runs out</p>
+<div class="choices" role="group" aria-label="Overage source" id="mode-picker"></div>
+
+<figure class="figure">
+  <p class="field-label">Set the situation <span class="field-hint">tap to change</span></p>
+  <div class="switch-row" id="state-toggles"></div>
+  <div class="verdict" id="verdict"><strong id="verdict-word">ANSWERS</strong><span id="verdict-why"></span></div>
+</figure>
+<p class="pnote" hidden>Overage sources are set per environment under Capacity overages. You can draw from unallocated tenant capacity (the default for environments with no allocation set), bill a pay-as-you-go plan, or neither. An environment with credits left in its own allocation isn't blocked, even if the tenant is past 125%. An agent that hits a monthly limit with hard stop is turned off whatever the overage setting. Limits take effect after a delay, not instantly. Agent flows are checked separately: new runs are blocked only when the environment has no credits left. Power Automate cloud flows use Power Automate licensing, not credits.</p>
+</section>
+
+<!-- ===== 04 ===== -->
+<section id="widget" aria-labelledby="widget-heading">
+<p class="eyebrow"><b>04</b> THE PUBLIC AGENT</p>
+<h2 id="widget-heading">Anyone on the internet can use it.</h2>
+
+<div class="choices" role="group" aria-label="Protection for the public agent">
+<button type="button" data-agentcap="off" aria-pressed="true">No agent limit</button>
+<button type="button" data-agentcap="on" aria-pressed="false">Monthly limit + hard stop</button>
+<button type="button" data-agentcap="auth" aria-pressed="false">Sign-in required</button>
+</div>
+
+<figure class="figure">
+  <p class="kicker">ADMISSIONS AGENT · WEBSITE · NO SIGN-IN</p>
+  <div class="flood" id="flood" aria-hidden="true"></div>
+  <div class="pool-row">
+    <div class="pool"><span class="pool-label">AGENT LIMIT</span><div class="pool-bar"><i id="pool-agent"></i></div><span id="pool-agent-n">—</span></div>
+    <div class="pool"><span class="pool-label">TENANT POOL · EVERY OTHER AGENT</span><div class="pool-bar"><i id="pool-org"></i></div><span id="pool-org-n">—</span></div>
+  </div>
+  <div class="controls"><button type="button" id="flood-play" class="primary-button">▶ Send 10,000 questions</button></div>
+  <p class="figure-takeaway" id="flood-verdict">A capped agent fails alone. An uncapped one takes the institution with it.</p>
+</figure>
+<p class="pnote" hidden>A monthly agent limit is charged to that agent, so abuse uses up one budget and not the shared pool. Limits take effect after a short delay, so a few more requests get through first. Two more controls: Web channel security (Require secured access) makes clients present a Direct Line secret or token. A data policy that blocks the "Chat without Microsoft Entra ID authentication in Copilot Studio" connector stops anyone publishing an agent without sign-in. Anonymous usage appears in the user report under user ID 00000000-0000-0000-0000-000000000000.</p>
+</section>
+
+<!-- ===== 05 ===== -->
+<section id="dashboard" aria-labelledby="dashboard-heading">
+<p class="eyebrow"><b>05</b> WHO SPENT WHAT</p>
+<h2 id="dashboard-heading">The invoice, itemised.</h2>
+
+<div class="choices" role="group" aria-label="Period" id="period-picker"></div>
+
+<div class="stat-row" id="stat-row"></div>
+
+<div class="panel-pair">
+  <figure class="figure"><span class="kicker">TOP AGENTS · CREDITS</span><div class="bars" id="bars-people"></div></figure>
+  <figure class="figure"><span class="kicker" id="split-kicker">BY ENVIRONMENT</span>
+    <div class="choices is-small" role="group" aria-label="Break down by" id="split-picker"></div>
+    <div class="bars" id="bars-groups"></div></figure>
+</div>
+
+<h3 class="mini-head">Beyond the bill: where the signals live</h3>
+<div class="signal-grid" role="group" aria-label="Monitoring surfaces" id="signal-grid"></div>
+<p class="signal-detail" id="signal-detail" aria-live="polite"></p>
+<p class="pnote" hidden>Under Licensing &gt; Copilot Studio you can download consumption reports by environment, by agent, or by user (user rows for standard-harness agents). The detailed report adds Product / AI feature, Channel, LLM model and Knowledge sources / Tool used. It doesn't show token counts or single conversations. Quality data comes from each agent's Monitor page in Copilot Studio. Your own telemetry goes to Application Insights, and audit records go to Microsoft Purview. Agent inventory is in the Microsoft 365 admin center (Agents &gt; All agents &gt; Registry).</p>
+</section>
+
+<!-- ===== 06 ===== -->
+<section id="roles" aria-labelledby="roles-heading">
+<p class="eyebrow"><b>06</b> ROLES &amp; PERMISSIONS</p>
+<h2 id="roles-heading">Same platform. Different powers.</h2>
+
+<div class="choices" role="group" aria-label="Choose a role" id="role-picker"></div>
+<p class="role-source" id="role-source"></p>
+<div class="perm-grid" id="perm-grid"></div>
+<p class="perm-caption" id="perm-caption"></p>
+<p class="pnote" hidden>Permissions come from several places. The Power Platform Administrator is an Entra ID role. Environment Maker, System Administrator and Bot Transcript Viewer are Dataverse security roles in each environment. Editor, Viewer and Analytics Viewer are sharing roles on each agent. You can also limit who can build agents with the Copilot Author setting (a security group). Managed environments add sharing limits, such as no Editor sharing or a cap on the number of viewers. Environment group rules lock those settings across every member environment.</p>
+</section>
+
+<!-- ===== 07 ===== -->
+<section id="brand" aria-labelledby="brand-heading">
+<p class="eyebrow"><b>07</b> MAKE IT YOURS</p>
+<h2 id="brand-heading">Your name on the door.</h2>
+
+<div class="brand-controls">
+  <label class="field">Institution<input type="text" id="brand-name" value="Lakeshore University" autocomplete="off" maxlength="28"></label>
+  <div class="field"><span>Accent</span><div class="swatches" id="swatches" role="group" aria-label="Accent colour"></div></div>
+</div>
+
+<div class="choices is-small" role="group" aria-label="Preview surface" id="surface-picker">
+<button type="button" data-surface="web" aria-pressed="true">Website web chat</button>
+<button type="button" data-surface="teams" aria-pressed="false">Teams app details</button>
+</div>
+
+<div class="preview" id="preview">
+  <div class="preview-web" id="preview-web">
+    <div class="preview-bar"><span class="preview-mark" id="preview-mark">L</span><strong id="preview-name">Lakeshore University Assistant</strong><span class="preview-chip">Web chat</span></div>
+    <div class="chat-body">
+      <div class="bubble is-bot"><span class="bubble-avatar" aria-hidden="true">L</span><p id="preview-greeting">Hi, I'm the Lakeshore University Assistant. Ask me about admissions, IT or the library.</p></div>
+      <div class="bubble is-user"><p>When does spring registration open?</p></div>
+      <div class="chat-input"><span>Type your message</span><i class="chat-send" aria-hidden="true">➤</i></div>
+    </div>
+  </div>
+  <div class="preview-teams" id="preview-teams" hidden>
+    <div class="teams-head"><span class="teams-icon" id="teams-icon">L</span><div><strong id="teams-name">Lakeshore University Assistant</strong><span id="teams-dev">Lakeshore University</span></div><span class="teams-add">Add</span></div>
+    <p class="teams-desc" id="teams-desc">Admissions, IT and library help for Lakeshore University students and staff.</p>
+    <dl class="teams-meta">
+      <div><dt>Icon colour</dt><dd><i class="teams-swatch" aria-hidden="true"></i><span id="teams-hex">#087985</span></dd></div>
+      <div><dt>Developer name</dt><dd id="teams-dev2">Lakeshore University</dd></div>
+      <div><dt>Privacy statement</dt><dd>lakeshore.edu/privacy</dd></div>
+      <div><dt>Terms of use</dt><dd>lakeshore.edu/terms</dd></div>
+      <div><dt>Group &amp; meeting chats</dt><dd>Allowed · answers only when @mentioned</dd></div>
+    </dl>
+  </div>
+</div>
+<p class="pnote" hidden>Set the agent's name and icon under Settings &gt; Details in Copilot Studio (Microsoft recommends a transparent 32×32 or 64×64 PNG). For Teams and Microsoft 365, Edit details sets the icon, its background colour, short and long descriptions, developer name, website, privacy statement and terms of use. Agents approved by an admin always use the Teams app icon, and changes can take up to 24 hours to appear. You can restyle web chat with Bot Framework Web Chat styleOptions (accent colour, bubbles, avatar) or build a fully custom canvas.</p>
+<p class="closing-question">Which of these would your CIO ask about first?</p>
+<p class="micro">Illustrative figures · not product output</p>
+</section>
+
+</main>
+
+<div class="closing"><a href="/ontology.html">← Data Bridge</a><a href="/virtual-teaching-assistant.html">Teaching assistant →</a></div>
+</div>
+
+<p id="live" class="sr-only" role="status" aria-live="polite"></p>
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body></html>
