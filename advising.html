@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advising Lab · Campus Copilot</title>
+  <meta name="description" content="Visual companion for Advising on Microsoft Copilot Studio: an advisor-facing agent in Teams that prepares the meeting brief, checks a course drop across systems, and logs what was promised.">
+  <meta name="theme-color" content="#023347">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css">
+  <link rel="stylesheet" href="/advising.css">
+  <script src="/advising.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the Advising Lab</a>
+  <nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html" aria-current="page">Advising</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+
+  <div class="story-shell">
+    <header class="brand-header">
+      <img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31">
+      <span>Advising Lab</span>
+      <label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <header class="intro">
+        <p class="eyebrow">Advising</p>
+        <h1>The meeting is thirty minutes. Finding out who the student is takes most of it.</h1>
+        <ul class="intro-chips" aria-label="Where it runs">
+          <li>Copilot Studio agent</li>
+          <li>Advisors only · in Microsoft Teams</li>
+          <li>The advisor decides</li>
+        </ul>
+        <p class="pnote" hidden>One Copilot Studio agent, published to the Microsoft Teams channel and shared only with the advising security group in Entra ID. Advisors use it in a 1:1 chat. Students never talk to this agent. It reads the student record and drafts work for the advisor, and nothing goes to a student until the advisor confirms it.</p>
+      </header>
+
+      <section aria-labelledby="math-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">01</p>
+          <div>
+            <p class="eyebrow">The arithmetic</p>
+            <h2 id="math-title">Preparation is the first thing the caseload takes away.</h2>
+          </div>
+        </div>
+
+        <div class="caseload">
+          <div class="caseload-dots" id="caseload-dots" role="img" aria-label="One advisor to roughly three hundred advisees"></div>
+          <dl class="caseload-figures">
+            <div><dt>Advisees per advisor</dt><dd>312</dd></div>
+            <div><dt>Meetings a year, each</dt><dd>2</dd></div>
+            <div><dt>Minutes per meeting</dt><dd>30</dd></div>
+          </dl>
+        </div>
+
+        <div class="split-stage">
+          <div class="split-controls" role="group" aria-label="Compare how the meeting is spent">
+            <button type="button" class="toggle" id="split-today" aria-pressed="true">Today</button>
+            <button type="button" class="toggle" id="split-prepared" aria-pressed="false">Brief waiting in Teams</button>
+          </div>
+          <div class="split-bar" id="split-bar">
+            <span class="split-gather" id="split-gather"><b>22</b> min gathering</span>
+            <span class="split-advise" id="split-advise"><b>8</b> min advising</span>
+          </div>
+          <p class="figure-note">Illustrative split across a 30-minute meeting · not a measured result</p>
+        </div>
+        <p class="pnote" hidden>The figures are illustrative. The point: if the record is put together before the meeting, the meeting can be spent on the student. Sections 02 and 03 show how a Copilot Studio agent does that putting-together. Nothing here comes from a Microsoft benchmark.</p>
+      </section>
+
+      <section aria-labelledby="sources-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">02</p>
+          <div>
+            <p class="eyebrow">Before one meeting</p>
+            <h2 id="sources-title">Eight places hold the answer. None of them hold all of it.</h2>
+          </div>
+        </div>
+
+        <div class="sources-stage">
+          <div class="source-column" id="source-column"></div>
+          <div class="source-middle" aria-hidden="true">
+            <svg class="source-wires" id="source-wires" viewBox="0 0 120 360" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="source-out">
+            <article class="out-card" id="out-card">
+              <span class="eyebrow" id="out-kicker">Eight open tabs</span>
+              <strong id="out-title">The advisor assembles it</strong>
+              <span id="out-sub">Every meeting, from scratch</span>
+            </article>
+          </div>
+        </div>
+        <div class="sources-controls" role="group" aria-label="Compare how the record is assembled">
+          <button type="button" class="toggle" id="src-today" aria-pressed="true">Today</button>
+          <button type="button" class="toggle" id="src-workspace" aria-pressed="false">With Campus Copilot</button>
+        </div>
+        <p class="figure-note">Representative source systems · How each one connects is shown when joined · Names vary by institution</p>
+        <p class="pnote" hidden>A Recurrence event trigger wakes the agent early each morning. It reads the day's advising bookings from the advisor's Outlook calendar and calls its tools for each student. Student information and the degree audit come through an MCP server. The LMS, financial aid and career systems come through Power Platform connectors or custom connectors. Tutoring visits and earlier notes come from Dataverse. Campus life comes from SharePoint knowledge. The brief is posted to the advisor in Teams. One caveat: event triggers run with the agent maker's credentials, so use a dedicated service account with read-only access to advising data. Generative orchestration must be on, and every trigger run uses Copilot Credits.</p>
+      </section>
+
+      <section aria-labelledby="brief-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">03</p>
+          <div>
+            <p class="eyebrow">The brief</p>
+            <h2 id="brief-title">Sorted by what needs saying, not by which system said it.</h2>
+          </div>
+        </div>
+
+        <div class="brief-card">
+          <header class="brief-head">
+            <div>
+              <span class="avatar" aria-hidden="true">ML</span>
+              <div>
+                <strong>Maya Lindqvist</strong>
+                <span>Thursday 12 November · 30 minutes</span>
+              </div>
+            </div>
+            <span class="brief-tag">Posted in Teams · 6:10 am</span>
+          </header>
+
+          <div class="lane-tabs" role="tablist" aria-label="Choose a part of the brief">
+            <button id="tab-raise" type="button" role="tab" aria-selected="true" aria-controls="panel-raise" tabindex="0">
+              Raise today <b>4</b>
+            </button>
+            <button id="tab-know" type="button" role="tab" aria-selected="false" aria-controls="panel-know" tabindex="-1">
+              Worth knowing <b>3</b>
+            </button>
+            <button id="tab-track" type="button" role="tab" aria-selected="false" aria-controls="panel-track" tabindex="-1">
+              On track <b>3</b>
+            </button>
+          </div>
+
+          <div id="panel-raise" role="tabpanel" aria-labelledby="tab-raise" tabindex="0"></div>
+          <div id="panel-know" role="tabpanel" aria-labelledby="tab-know" tabindex="0" hidden></div>
+          <div id="panel-track" role="tabpanel" aria-labelledby="tab-track" tabindex="0" hidden></div>
+        </div>
+        <p class="figure-note">Fictional student · Every line names the tool or source it came from</p>
+        <p class="pnote" hidden>The agent writes the brief from what its tools return. Its instructions tell it to sort lines into three groups and to name the tool or source behind each line. Answers from knowledge sources such as SharePoint come with citations. The advisor can ask follow-up questions in the same Teams chat. Questions about the whole caseload, such as "which of my advisees have a hold?", go to a connected Fabric data agent (preview, validated only in Teams). Set it to user authentication so each advisor sees only the students they're allowed to see.</p>
+      </section>
+
+      <section aria-labelledby="whatif-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">04</p>
+          <div>
+            <p class="eyebrow">The check</p>
+            <h2 id="whatif-title">“Can I drop this course?” is five questions in four systems.</h2>
+          </div>
+        </div>
+
+        <div class="whatif">
+          <div class="whatif-ask">
+            <span class="eyebrow">Advisor asks in Teams</span>
+            <strong>Can Maya drop ECO-415?</strong>
+            <button type="button" class="run-button" id="run-check">Run the check</button>
+            <ul class="tool-trace" id="tool-trace" aria-label="Tools the agent called"></ul>
+          </div>
+          <ol class="whatif-results" id="whatif-results"></ol>
+        </div>
+        <p class="status-line" id="check-status" role="status" aria-live="polite"></p>
+        <p class="figure-note">Illustrative consequences · Rules are set by the institution · The agent reads, it does not drop</p>
+        <p class="pnote" hidden>With generative orchestration, the agent plans one question as several tool calls in a single turn. Here it calls a registration tool and a degree audit tool on the SIS MCP server, a custom connector for financial aid, and SharePoint knowledge for the academic calendar. It then puts the answers together, with each line labelled by its source. All of these tools only read data. If you later add a tool that changes a registration, set "Ask the end user before running" on that tool so the advisor has to confirm each run.</p>
+      </section>
+
+      <section aria-labelledby="loop-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">05</p>
+          <div>
+            <p class="eyebrow">After the meeting</p>
+            <h2 id="loop-title">What was promised survives the walk back to the office.</h2>
+          </div>
+        </div>
+
+        <ol class="loop" id="loop"></ol>
+        <div class="promises">
+          <span class="eyebrow">Open promises</span>
+          <strong>9</strong>
+          <span>carried across the caseload, each with a name and a date</span>
+        </div>
+        <p class="figure-note">The advisor writes and approves the note. The record keeps the commitment.</p>
+        <p class="pnote" hidden>The advisor pastes rough notes into the Teams chat. For a transcribed Teams meeting, an agent flow can fetch the transcript from Microsoft Graph instead, through a custom connector with OnlineMeetingTranscript.Read.All. This only works if the Teams admin allows Graph access to transcripts. The agent drafts a note with a summary, decisions and actions, and the advisor edits it. Agent flows (Power Automate) then save the note and each promise as Dataverse rows, or in the CRM through its connector, email the student a summary through Outlook, and add the follow-up to the calendar. Each of these tools has "Ask the end user before running" turned on, so the advisor sees and confirms every send.</p>
+      </section>
+
+      <section aria-labelledby="leader-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">06</p>
+          <div>
+            <p class="eyebrow">Leadership</p>
+            <h2 id="leader-title">The same record, counted.</h2>
+          </div>
+        </div>
+
+        <div class="charts">
+          <figure class="chart">
+            <figcaption>Students seen this term, by school</figcaption>
+            <div class="bars" id="bars-school"></div>
+          </figure>
+          <figure class="chart">
+            <figcaption>Advising meetings by week</figcaption>
+            <div class="bars is-weekly" id="bars-week"></div>
+          </figure>
+          <figure class="chart">
+            <figcaption>Holds by type</figcaption>
+            <div class="bars" id="bars-holds"></div>
+          </figure>
+          <figure class="chart">
+            <figcaption>Registration readiness</figcaption>
+            <div class="readiness" id="readiness"></div>
+          </figure>
+        </div>
+
+        <div class="governance">
+          <span class="eyebrow">Also on the administration side</span>
+          <ul>
+            <li>Entra ID groups · who can use the agent</li>
+            <li>Environments and DLP · Power Platform admin center</li>
+            <li>Copilot Credits consumption</li>
+            <li>Copilot Studio analytics</li>
+            <li>Microsoft Purview audit</li>
+            <li>Advisor thumbs up / down</li>
+          </ul>
+        </div>
+        <p class="figure-note">Illustrative figures · not product output</p>
+        <p class="pnote" hidden>Meeting notes and promises are stored in Dataverse, and Link to Microsoft Fabric copies them into OneLake next to the SIS data. A Power BI report shows the charts. Deans can ask their own questions in Teams through the Fabric data agent. Admins control who can use the agent through Entra ID groups, and set environments and data loss prevention (DLP) policies in the Power Platform admin center. Copilot Studio analytics shows sessions, outcomes and advisor feedback. Microsoft Purview audits agent activity, and Copilot Credits consumption is reported per environment.</p>
+      </section>
+
+      <footer class="closing-summary">
+        <p>An advisor who arrives prepared spends the meeting on the student.</p>
+        <ul aria-label="Advising summary">
+          <li>One agent in Teams</li>
+          <li>Brief before the meeting</li>
+          <li>Advisor confirms every send</li>
+        </ul>
+        <p class="micro">Illustrative figures · not product output</p>
+      </footer>
+    </main>
+
+    <div class="closing"><a href="/recruitment.html">← Recruitment</a><a href="/pricing.html">Pricing →</a></div>
+  </div>
+  <noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body>
+</html>
