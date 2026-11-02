@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Data Bridge Lab · Campus Copilot</title><meta name="description" content="Visual companion for the Data Bridge demonstration: campus systems brought into Microsoft Fabric OneLake, given shared meaning with Fabric IQ, and queried read-only by Fabric data agents connected to a Copilot Studio agent."><meta name="theme-color" content="#023347"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css"><link rel="stylesheet" href="/ontology.css"><script src="/ontology.js" defer></script></head>
+<body><a class="skip" href="#main">Skip to the Lab</a><nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html" aria-current="page">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+
+<div class="shell">
+<div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>DATA BRIDGE LAB</span></div>
+
+<div class="section-nav">
+<select id="section-jump" aria-label="Jump to section">
+<option value="architecture">1 · Architecture</option>
+<option value="layer">2 · The wiring</option>
+<option value="sources">3 · The systems</option>
+<option value="governance">4 · Who sees what</option>
+<option value="ask">5 · Agents</option>
+<option value="workiq">6 · Work IQ</option>
+</select>
+<label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+</div>
+
+<main id="main">
+
+<!-- ===== 01 ===== -->
+<section id="architecture" aria-labelledby="architecture-heading">
+<p class="eyebrow"><b>01</b> ARCHITECTURE</p>
+<h1 id="architecture-heading">A question goes all the way down.<br>Only the answer comes back.</h1>
+
+<div class="controls">
+<button type="button" id="trace-play" class="primary-button">▶ Trace a question</button>
+</div>
+<p class="step-caption" id="trace-caption" aria-live="polite">&nbsp;</p>
+
+<div class="stack" id="stack"></div>
+<p class="pnote" hidden>Campus Copilot is a Copilot Studio agent published to Microsoft Teams. Each Fabric data agent is added to it as a connected agent (preview), and the orchestrator calls one when the question matches the data agent's description. A data agent can use up to five sources, including lakehouses, warehouses, Power BI semantic models, KQL databases and Fabric IQ ontologies. Its connections are read-only. Fabric IQ includes the ontology item (preview) and Power BI semantic models, both built over OneLake. Data arrives in OneLake through mirroring, shortcuts, pipelines and Dataflows Gen2, and the source systems keep running unchanged.</p>
+<p class="micro">Illustrative figures · not product output · Fabric IQ ontology and connected Fabric data agents are in preview</p>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="layer" aria-labelledby="layer-heading">
+<p class="eyebrow"><b>02</b> THE WIRING</p>
+<h2 id="layer-heading">One use case, or a hundred.</h2>
+
+<div class="range-row"><label class="sr-only" for="usecases">Use cases</label><input type="range" id="usecases" min="1" max="30" value="1" step="1"><output id="usecases-value" for="usecases">1</output></div>
+
+<div class="net-pair">
+  <figure class="net-card" id="net-direct-card">
+    <figcaption><span class="net-title">Point to point</span><strong id="net-direct-n">13</strong></figcaption>
+    <svg id="net-direct" viewBox="0 0 200 240" role="img" aria-label="Every use case wired to every source system"></svg>
+  </figure>
+  <figure class="net-card is-good">
+    <figcaption><span class="net-title">Through OneLake</span><strong id="net-layer-n">14</strong></figcaption>
+    <svg id="net-layer" viewBox="0 0 200 240" role="img" aria-label="Every source system and every use case connected through one layer"></svg>
+  </figure>
+</div>
+<p class="legend"><span class="key k-src"></span>source system<span class="key k-use"></span>use case<span class="key k-hub"></span>OneLake + Fabric IQ</p>
+<p class="pnote" hidden>The first use case is cheaper without a layer. By the tenth, it isn't. Point to point means every agent, flow and report keeps its own connector, credentials and copy of the logic. With Fabric, each system lands in OneLake once. Data agents, Power BI reports, notebooks and Copilot Studio then read the same governed tables and reuse the same semantic model measures.</p>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="sources" aria-labelledby="sources-heading">
+<p class="eyebrow"><b>03</b> THE SYSTEMS</p>
+<h2 id="sources-heading">Thirteen systems that never talk.</h2>
+
+<div class="choices" role="group" aria-label="View">
+<button type="button" data-sysview="today" aria-pressed="true">Today</button>
+<button type="button" data-sysview="layer" aria-pressed="false">With OneLake</button>
+</div>
+
+<div class="sys-field" id="sys-field"></div>
+<div class="sys-bar" id="sys-bar" hidden><span>ONELAKE · ONE GOVERNED COPY</span></div>
+<p class="sys-caption" id="sys-caption">Thirteen contracts · thirteen logins · thirteen definitions of a student</p>
+<p class="pnote" hidden>Each system comes in a different way. Mirroring replicates a supported database into OneLake in near real time. That list includes Oracle, so a Banner database can be mirrored, along with SQL Server, Snowflake and SharePoint lists (preview). Shortcuts point at data where it already sits, without copying it. Data Factory pipelines, Copy jobs and Dataflows Gen2 cover the rest using built-in connectors such as Salesforce objects, Dataverse and ServiceNow. Workday, Canvas and Slate have no dedicated Fabric connector, so they're pulled with the generic REST connector or from scheduled file (SFTP) exports. That's a pattern you build.</p>
+</section>
+
+<!-- ===== 04 ===== -->
+<section id="governance" aria-labelledby="governance-heading">
+<p class="eyebrow"><b>04</b> WHO SEES WHAT</p>
+<h2 id="governance-heading">Same question. Same layer. Different rows.</h2>
+
+<div class="choices" role="group" aria-label="Who is asking">
+<button type="button" data-role="student" aria-pressed="true">Student</button>
+<button type="button" data-role="advisor" aria-pressed="false">Advisor</button>
+<button type="button" data-role="provost" aria-pressed="false">Provost</button>
+</div>
+
+<figure class="figure">
+  <div class="rls-head"><strong id="rls-count">1</strong><span id="rls-label">row reachable of 1,000</span></div>
+  <div class="dotgrid is-rls" id="rls-dots" role="img" aria-labelledby="rls-alt"></div>
+  <p class="sr-only" id="rls-alt"></p>
+  <p class="figure-takeaway" id="rls-note">Enforced underneath, not in the prompt</p>
+</figure>
+
+<div class="chip-row">
+<span class="gchip">Entra ID</span><span class="gchip">OneLake security · rows &amp; columns</span><span class="gchip">Semantic model RLS</span><span class="gchip">Purview</span><span class="gchip">Audit</span><span class="gchip">Read only</span>
+</div>
+<p class="pnote" hidden>A prompt isn't a security boundary. In Copilot Studio, set the connected Fabric data agent to User authentication, not Agent author authentication, so every query runs with the asker's own Entra ID credentials. Rows and columns are then limited by OneLake security roles or row-level security on the semantic model. Each person needs at least read access to the data agent and to its underlying sources. The data agent stays read-only and follows Purview policies on its sources. Its activity can be audited in Purview.</p>
+</section>
+
+<!-- ===== 05 ===== -->
+<section id="ask" aria-labelledby="ask-heading">
+<p class="eyebrow"><b>05</b> AGENTS</p>
+<h2 id="ask-heading">Copy. Paste. Narrate.</h2>
+
+<p class="agent-hint">Open <strong>Campus Copilot in Microsoft Teams</strong> and paste each question in order. The orchestrator sends each one to the right Fabric data agent.</p>
+
+<div id="agent-list"></div>
+<p class="pnote" hidden>These are two Fabric data agents, each connected to Campus Copilot with a detailed description so the orchestrator can tell them apart. Microsoft has validated this setup only in Teams. It isn't supported in Microsoft 365 Copilot, so demo it in Teams. Turn on Notes to see which source answers each question.</p>
+</section>
+
+<!-- ===== 06 ===== -->
+<section id="workiq" aria-labelledby="workiq-heading">
+<p class="eyebrow"><b>06</b> WORK IQ</p>
+<h2 id="workiq-heading">The decision is not in the database.</h2>
+
+<div class="controls"><button type="button" id="wiq-play" class="primary-button">▶ Follow the 25</button></div>
+<p class="step-caption" id="wiq-caption" aria-live="polite">&nbsp;</p>
+
+<figure class="figure">
+  <div class="wiq-head">
+    <div><strong id="wiq-a">25</strong><span>in the record (Fabric)</span></div>
+    <div><strong id="wiq-b">—</strong><span>discussed by staff (Work IQ)</span></div>
+    <div><strong id="wiq-c">—</strong><span>actually contacted</span></div>
+  </div>
+  <div class="wiq-grid" id="wiq-grid" role="img" aria-labelledby="wiq-alt"></div>
+  <p class="sr-only" id="wiq-alt"></p>
+  <div class="dot-legend"><span><i class="w-record"></i>record only</span><span><i class="w-talked"></i>discussed by staff</span><span><i class="w-contacted"></i>contacted</span></div>
+</figure>
+
+<p class="rel-line">The record knows a student is blocked. Only the mailbox knows whether anyone did anything about it.</p>
+
+<div id="workiq-agent"></div>
+<p class="pnote" hidden>Work IQ is Microsoft 365's workplace intelligence layer. Alongside Fabric IQ, it's part of Microsoft IQ. It reasons over the asker's own email, meetings, Teams chats, OneDrive and SharePoint files and people context. Results are permission-trimmed, so a staff member only sees threads they already have access to. In Copilot Studio, Work IQ is generally available for agents on the GitHub Copilot harness, and Work IQ tools are in preview for other agents. Usage is billed in Copilot Credits, and a tenant admin has to enable Work IQ first. Here, Fabric supplies the 25 blocked students and Work IQ supplies the email threads. Five were named in an email between two administrators. None of the 25 got a message. A conversation nobody answers never becomes a case, so the record shows nothing.</p>
+<p class="micro">Illustrative figures · not product output</p>
+</section>
+
+</main>
+
+<div class="closing"><a href="/campus-chat-plus.html">← Campus Chat Plus</a><a href="/admin-console.html">Admin Console →</a></div>
+</div>
+
+<p id="live" class="sr-only" role="status" aria-live="polite"></p>
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body></html>
