@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teaching Assistant Lab · Campus Copilot</title>
+  <meta name="description" content="Visual companion for a course teaching assistant built on Microsoft Copilot Studio: grounded on course files, reachable in Teams, an LMS page and Microsoft 365 Copilot, with academic-integrity guardrails and instructor escalation.">
+  <meta name="theme-color" content="#023347">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css">
+  <link rel="stylesheet" href="/virtual-teaching-assistant.css">
+  <script src="/virtual-teaching-assistant.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the Teaching Assistant Lab</a>
+  <nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html" aria-current="page">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+
+  <div class="story-shell">
+    <header class="brand-header">
+      <img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31">
+      <div class="brand-side">
+        <span>Teaching assistant on Copilot Studio</span>
+        <label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <header class="intro">
+        <p class="eyebrow">Virtual Teaching Assistant</p>
+        <h1>Course help, right where students are learning.</h1>
+        <p>One Copilot Studio agent per course, grounded on the instructor's own materials and reachable from the class team in Teams, a page in the LMS, and Microsoft 365 Copilot.</p>
+        <div class="live-courses">
+          <div class="course-picker" id="course-picker" role="group" aria-label="Choose a sample course"></div>
+          <p class="live-hint" id="course-hint"></p>
+          <ul class="try-list" id="course-questions" aria-label="Questions to try in this course"></ul>
+        </div>
+        <p class="pnote" hidden>Each course gets an agent in Copilot Studio (or one agent template copied per course). Its knowledge is the course's SharePoint library, which is where a class team's files already live: syllabus, slides, readings, lecture transcripts. SharePoint knowledge answers on behalf of the signed-in student, so each student only gets content they're allowed to open. Paste these questions into the agent's test chat in Copilot Studio, or into a pilot published to Teams.</p>
+      </header>
+
+      <section class="integration-section" aria-labelledby="integration-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">01</p>
+          <div>
+            <p class="eyebrow">Where students reach it</p>
+            <h2 id="integration-title">One assistant. Three course environments.</h2>
+          </div>
+        </div>
+
+        <div class="integration-stage">
+          <div class="lms-tabs" role="tablist" aria-label="Choose where the assistant runs">
+            <button id="teams-tab" type="button" role="tab" aria-selected="true" aria-controls="teams-panel" tabindex="0">
+              <span class="platform-mark teams-mark" aria-hidden="true">T</span><span>Teams class team</span>
+            </button>
+            <button id="lms-tab" type="button" role="tab" aria-selected="false" aria-controls="lms-panel" tabindex="-1">
+              <span class="platform-mark lms-mark" aria-hidden="true">LMS</span><span>LMS course page</span>
+            </button>
+            <button id="m365-tab" type="button" role="tab" aria-selected="false" aria-controls="m365-panel" tabindex="-1">
+              <span class="platform-mark m365-mark" aria-hidden="true">M</span><span>Microsoft 365 Copilot</span>
+            </button>
+          </div>
+
+          <div class="lms-panels">
+            <figure id="teams-panel" role="tabpanel" aria-labelledby="teams-tab" tabindex="0">
+              <div class="surface">
+                <span class="placeholder-kicker">Microsoft Teams</span>
+                <div class="mock" aria-hidden="true">
+                  <div class="mock-bar"><span></span><span></span><span></span><strong>CHEM 110 · Section 2 &rsaquo; Course TA</strong></div>
+                  <div class="mock-body">
+                    <p class="bubble user">What should I review before Friday's quiz on atomic structure?</p>
+                    <p class="bubble agent">Start with Unit 5 slides 12–20 (electron configuration) and the practice set in Week 6. Want a checklist? <em>Sources: Unit 5 slides, Syllabus</em></p>
+                  </div>
+                </div>
+                <ul class="facts">
+                  <li><b>How</b> Teams and Microsoft Copilot channel; installed for the class team</li>
+                  <li><b>Sign-in</b> Authenticate with Microsoft (no extra prompt)</li>
+                  <li><b>Watch for</b> course-file answers come in the 1:1 chat; in channels, it can't use SharePoint knowledge</li>
+                </ul>
+              </div>
+              <figcaption>Students chat with the TA one-to-one in Teams, next to their class team.</figcaption>
+              <p class="pnote" hidden>Publish to the Teams and Microsoft Copilot channel and turn on "Users can add this agent to a team" so it can sit in the class team. Teammates can @mention it in channels, but Microsoft documents that in Teams group chats and channels a Copilot Studio agent can't use knowledge that needs end-user sign-in, such as SharePoint. So course-file answers belong in each student's 1:1 chat with the agent, while channel @mentions suit general questions. Share the agent with the course's security group.</p>
+            </figure>
+
+            <figure id="lms-panel" role="tabpanel" aria-labelledby="lms-tab" tabindex="0" hidden>
+              <div class="surface">
+                <span class="placeholder-kicker">Canvas · Blackboard · Brightspace · Moodle</span>
+                <div class="mock" aria-hidden="true">
+                  <div class="mock-bar"><span></span><span></span><span></span><strong>Course home &rsaquo; Ask the course TA</strong></div>
+                  <div class="mock-body">
+                    <p class="bubble agent">Sign in with your school account to get answers from your course files.</p>
+                    <p class="bubble user">When is the thermochemistry lab report due?</p>
+                    <p class="bubble agent">Thursday 11:59 pm, per the Week 7 module. <em>Source: LMS assignments</em></p>
+                  </div>
+                </div>
+                <ul class="facts">
+                  <li><b>How</b> website channel: web chat embedded on a course page</li>
+                  <li><b>Sign-in</b> Authenticate manually with a Microsoft Entra ID app registration</li>
+                  <li><b>Watch for</b> the LMS must allow the embed; the LMS login isn't passed to the agent</li>
+                </ul>
+              </div>
+              <figcaption>The same agent, embedded as web chat on a page inside the course.</figcaption>
+              <p class="pnote" hidden>Copilot Studio has no LMS-specific channel. The website channel gives you web chat to embed on a page, and it works wherever the LMS lets instructors or admins add an iframe or HTML block (check your LMS's embed and allowlist policy). Using SharePoint knowledge there needs Authenticate manually with Entra ID, with Sites.Read.All and Files.Read.All scopes on the app registration; students sign in inside the chat. The Microsoft 365 LTI app (Canvas, Blackboard, Brightspace, Moodle, Schoology) is separate: it adds Assignments, OneDrive, OneNote and Teams links to the course, including a link to the course's class team where the agent lives. It doesn't host Copilot Studio agents.</p>
+            </figure>
+
+            <figure id="m365-panel" role="tabpanel" aria-labelledby="m365-tab" tabindex="0" hidden>
+              <div class="surface">
+                <span class="placeholder-kicker">Microsoft 365 Copilot</span>
+                <div class="mock" aria-hidden="true">
+                  <div class="mock-bar"><span></span><span></span><span></span><strong>Agents &rsaquo; CHEM 110 Course TA</strong></div>
+                  <div class="mock-body">
+                    <p class="bubble user">Summarize the key points from the reading on thermochemistry.</p>
+                    <p class="bubble agent">Three ideas: enthalpy as heat at constant pressure, Hess's law, and calorimetry… <em>Source: Week 7 reading</em></p>
+                  </div>
+                </div>
+                <ul class="facts">
+                  <li><b>How</b> the same Teams and Microsoft Copilot channel, with Copilot turned on</li>
+                  <li><b>Sign-in</b> Authenticate with Microsoft</li>
+                  <li><b>Watch for</b> admin approval to list it for everyone; usage billing depends on licence</li>
+                </ul>
+              </div>
+              <figcaption>Students who already work in Microsoft 365 Copilot find the TA in their agent list.</figcaption>
+              <p class="pnote" hidden>When you add the Teams and Microsoft Copilot channel, you choose whether the agent also appears in Microsoft 365 Copilot. Share it with the course group, or submit it for admin approval to appear under "Built for your org". Billing: authenticated use by a user with a Microsoft 365 Copilot licence is covered under the terms in the Copilot Studio licensing guide; other users' messages consume Copilot Credits from the institution's capacity. Whether students can open Microsoft 365 Copilot at all depends on your tenant's settings.</p>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="questions-section" aria-labelledby="questions-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">02</p>
+          <div>
+            <p class="eyebrow">Throughout the course</p>
+            <h2 id="questions-title">Help with the questions students already ask.</h2>
+            <p class="section-intro">From getting started on an assignment to catching up on a missed lecture. Each card shows the part of the agent that answers.</p>
+          </div>
+        </div>
+
+        <div class="question-groups">
+          <article class="question-group assignment-group">
+            <header><span class="category-icon" aria-hidden="true">01</span><div><p>Assignment help</p><h3>Find a productive next step.</h3></div></header>
+            <span class="source-chip">Instructions + course knowledge</span>
+            <ul>
+              <li>I'm stuck on the assignment about periodic trends. Can you guide me on how to start?</li>
+              <li>Can you explain the concept of electronegativity in simple terms?</li>
+              <li>What method should I use to solve the stoichiometry problems in my assignment?</li>
+              <li>Can you help me create a timeline for my project on chemical bonding due next week?</li>
+            </ul>
+            <p class="pnote" hidden>The agent's instructions tell it to coach: ask what the student has tried, explain the concept, and suggest the next step, using the assignment brief from the course SharePoint library as the source. The timeline uses the due date it finds there.</p>
+          </article>
+
+          <article class="question-group content-group">
+            <header><span class="category-icon" aria-hidden="true">02</span><div><p>Course content</p><h3>Reconnect with the course.</h3></div></header>
+            <span class="source-chip">SharePoint knowledge · LMS tool (MCP)</span>
+            <ul>
+              <li>Has Dr. Lindqvist announced any extra credit opportunities recently?</li>
+              <li>Can you summarize the key points from Unit 5: The Atom?</li>
+              <li>What are the main takeaways from the reading on thermochemistry?</li>
+              <li>I missed class on 9/7. What did I miss in the lecture on gases?</li>
+            </ul>
+            <p class="pnote" hidden>Units, readings and lecture notes come from SharePoint knowledge, with citations. Announcements and due dates live in the LMS, so the agent reads them through an MCP server added as a tool (or a custom connector) that calls the LMS's REST API as the student. The Power Platform connector reference doesn't list a certified Canvas, Blackboard, Brightspace or Moodle connector today, so plan to build or host that server. MCP tools need generative orchestration turned on.</p>
+          </article>
+
+          <article class="question-group quiz-group">
+            <header><span class="category-icon" aria-hidden="true">03</span><div><p>Quiz help</p><h3>Prepare with purpose.</h3></div></header>
+            <span class="source-chip">Prompt tool · course knowledge</span>
+            <ul>
+              <li>Can you help me create a checklist of what I should understand before taking the quiz on atomic structure?</li>
+              <li>What are some high-priority topics that usually show up on quizzes about bonding and nomenclature?</li>
+              <li>Can you generate a study guide based on this week's content on the mole concept?</li>
+            </ul>
+            <p class="pnote" hidden>A prompt tool turns the week's module into a checklist or study guide in a fixed format. "High-priority topics" comes from the learning objectives the instructor publishes, not from quiz banks. Keep quiz banks and answer keys out of the agent's knowledge entirely.</p>
+          </article>
+
+          <article class="question-group lecture-group">
+            <header><span class="category-icon" aria-hidden="true">04</span><div><p>Lecture and video help</p><h3>Return to the moment that matters.</h3></div></header>
+            <span class="source-chip">Transcripts in SharePoint</span>
+            <ul><li>Can you provide the video lecture on balancing chemical equations?</li></ul>
+            <p class="pnote" hidden>The agent answers from lecture transcripts saved to the course library (DOCX or PDF) and links to the recording file. It doesn't watch video; whatever is in the transcript is what it can cite.</p>
+          </article>
+
+          <article class="question-group guardrail-group">
+            <header><span class="category-icon" aria-hidden="true">05</span><div><p>Guardrails</p><h3>Some requests need a different kind of help.</h3></div></header>
+            <p class="guardrail-note">The assistant holds the course boundary while helping the student keep learning, and brings in the instructor when it should.</p>
+            <ul>
+              <li><span>Direct quiz answer</span>Can you just give me the correct answers for my quiz on thermochemistry?</li>
+              <li><span>Complete student work</span>Can you complete my assignment on the periodic table and give me the final result?</li>
+            </ul>
+            <div class="reply-controls" role="group" aria-label="See how the assistant responds">
+              <button type="button" class="reply-btn" data-reply="guide" aria-pressed="false">How it responds</button>
+              <button type="button" class="reply-btn" data-reply="escalate" aria-pressed="false">Ask the instructor</button>
+            </div>
+            <div class="reply-panel" id="reply-panel" aria-live="polite" hidden></div>
+            <p class="pnote" hidden>Two layers. The agent's instructions set the policy (guide, don't give answers or finished work). An "Academic integrity" topic, described so the orchestrator routes these requests to it, replies with a fixed message and offers a next step, so the wording doesn't depend on the model. "Ask the instructor" calls an agent flow (Power Automate) that posts the question to the instructor in Teams as an adaptive card and records it in a SharePoint list. Instructions guide the model; they're not a guarantee, so test these prompts before each term.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="summary">
+        <p>Support that stays connected to the course.</p>
+        <ul aria-label="Teaching assistant summary"><li>Teams, LMS and Microsoft 365 Copilot</li><li>Grounded on course files</li><li>Learning-focused</li></ul>
+      </footer>
+      <p class="micro">Illustrative figures · not product output</p>
+    </main>
+
+    <div class="closing"><a href="/admin-console.html">← Admin Console</a><a href="/retention.html">Retention →</a></div>
+  </div>
+  <p class="sr-only" id="platform-status" role="status" aria-live="polite"></p>
+</body>
+</html>
