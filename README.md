@@ -8,7 +8,24 @@ A static, single-page "Lab" showing how one **Microsoft Copilot Studio** agent c
 - **Topics** for guided questions, escalation and system behaviour (start over, feedback).
 - Publishing to **Microsoft Teams**, including group chats.
 
-## Sections
+## Labs
+
+| Page | What it shows |
+|---|---|
+| `/` | Labs home |
+| `/campus-chat` | One institution-wide agent in Teams, model choice, group chats |
+| `/campus-chat-plus` | Agent Store sharing, multi-source answers, child/connected/Fabric agents, website channel |
+| `/ontology` (Data Bridge) | OneLake ingestion, Fabric IQ ontology (preview), Fabric data agents, row security, Work IQ |
+| `/admin-console` | Copilot Credits capacity and limits, DLP, consumption reports, observability, roles, branding |
+| `/virtual-teaching-assistant` | Course TA in Teams, an LMS page (web chat embed) and Microsoft 365 Copilot |
+| `/retention` | Early-alert signals in Fabric, thresholds, outreach flows, advisor context |
+| `/recruitment` | Student and staff/faculty recruitment, with human-only decisions |
+| `/advising` | Advisor brief, cross-system checks, confirmed follow-up flows |
+| `/pricing` | Copilot Credits estimator: prepaid packs vs pay-as-you-go, with sources |
+
+Each page has a **Notes** toggle (or a "How it's built" box) naming the exact Microsoft component, setting and preview caveat behind each section.
+
+## Campus Chat sections
 
 1. Everyone, or nobody: individual subscriptions compared with one institution-billed agent (Copilot Credits).
 2. Every model: only models offered in Copilot Studio. GPT Chat Latest (default), Claude Sonnet 4.6 and Opus 4.8 (also 4.7 and 4.6), Mistral (preview), Grok 4.2 (experimental), plus Llama, DeepSeek and the rest of the Azure AI Foundry catalog in prompt tools.

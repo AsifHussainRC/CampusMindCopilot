@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing Builder · Campus Copilot</title>
+  <meta name="description" content="Estimate Copilot Credits and monthly cost for Campus Copilot agents on Microsoft Copilot Studio: prepaid packs vs pay-as-you-go, Fabric capacity and Power Automate, at list prices.">
+  <meta name="theme-color" content="#023347">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css">
+  <link rel="stylesheet" href="/pricing.css">
+  <script src="/pricing.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the builder</a>
+  <div class="page-atmosphere" aria-hidden="true"></div>
+  <nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/pricing.html" aria-current="page">Pricing</a>
+  </nav>
+
+  <div class="shell">
+    <div class="masthead">
+      <div class="masthead-brand">
+        <img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31">
+        <span>PRICING BUILDER</span>
+      </div>
+      <label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+    </div>
+
+    <nav class="builder-steps" aria-label="Pricing builder sections">
+      <a href="#offerings"><span>01</span>Agents</a>
+      <a href="#about"><span>02</span>About you</a>
+      <a href="#detail"><span>03</span>Usage</a>
+      <a href="#usage"><span>04</span>Volume</a>
+      <a href="#quote"><span>05</span>Quote</a>
+    </nav>
+
+    <div class="totalbar" id="totalbar">
+      <div class="tb-main">
+        <span class="tb-label" id="tb-label">Per month, all in</span>
+        <strong class="tb-total" id="tb-total">$0</strong>
+      </div>
+      <button type="button" class="tb-toggle" id="tb-toggle" aria-expanded="false" aria-controls="tb-detail">Breakdown</button>
+      <div class="tb-detail" id="tb-detail" hidden></div>
+    </div>
+
+    <main id="main">
+
+      <section id="offerings" aria-labelledby="offerings-heading">
+        <p class="eyebrow"><b>01</b> WHAT DO YOU NEED</p>
+        <h1 id="offerings-heading">Pick everything you are interested in.</h1>
+        <div class="offer-grid" id="offer-grid"></div>
+        <p class="hint" id="offer-hint">Each step adds to the same Copilot Studio agent. Recruitment, Retention and Advising are separate agents and stand on their own.</p>
+        <p class="pnote" hidden>There is no Campus Copilot licence. Everything here is Microsoft list pricing: Copilot Studio agents consume Copilot Credits, bought as prepaid capacity packs, a one-year pre-purchase plan, or pay-as-you-go through an Azure subscription linked by a billing policy in the Power Platform admin center. Makers need a Copilot Studio user licence ($0, with a capacity pack), the Copilot Studio author role (pay-as-you-go or pre-purchase), or a Microsoft 365 Copilot licence. Data Bridge adds a Fabric capacity (F2 or larger) for the Fabric data agent. Partner build and onboarding services are not included.</p>
+      </section>
+
+      <section id="about" aria-labelledby="about-heading">
+        <p class="eyebrow"><b>02</b> ABOUT YOU</p>
+        <h2 id="about-heading">Only what your selection needs.</h2>
+        <div id="about-questions"></div>
+        <p class="pnote" hidden>Microsoft 365 Copilot (rebranded Microsoft Copilot in August 2026) licensed users who use an agent in Copilot Chat, Teams or SharePoint under their own signed-in identity are not charged Copilot Credits for employee-facing scenarios, subject to fair-usage limits. This covers agent flows only when the "When an agent calls the flow" trigger is used. Autonomous (event-triggered) runs, public website visitors and Computer-Using Agents always consume credits. The builder treats students as unlicensed, so the estimate stays on the safe side.</p>
+      </section>
+
+      <section id="detail" aria-labelledby="detail-heading" hidden>
+        <p class="eyebrow"><b>03</b> THE DETAIL</p>
+        <h2 id="detail-heading">A few follow-ups per product.</h2>
+        <div id="detail-questions"></div>
+        <p class="pnote" hidden>Each conversation is priced by what the agent does in it. Classic answer (an authored topic message): 1 credit. Generative answer: 2. Agent action (a tool, connector, MCP tool, trigger or topic transition on the activity map): 5. Tenant graph grounding: 10 per grounded message. Agent flow actions: 13 per 100. Prompt tools: basic 1 and standard 15 per 10 responses. Reasoning models add 10 credits per 1,000 billed tokens. Open the activity map in the test pane to count your own agent's steps, or use Microsoft's Copilot Studio agent usage estimator.</p>
+      </section>
+
+      <section id="usage" aria-labelledby="usage-heading" hidden>
+        <p class="eyebrow"><b>04</b> VOLUME</p>
+        <h2 id="usage-heading">What each tier costs.</h2>
+        <div class="tier-grid" id="tier-grid"></div>
+        <div class="tier-card rates-card">
+          <h3>Copilot Credit rates (Microsoft list)</h3>
+          <dl class="rates" id="rates"></dl>
+          <p class="tier-note">Rates apply to all language models Copilot Studio provides. Bring-your-own Azure AI Foundry models are billed separately in Azure.</p>
+        </div>
+        <p class="pnote" hidden>Prepaid capacity packs are pooled across the tenant and can be allocated per environment in the Power Platform admin center (Licensing → Copilot Studio). Unused credits don't carry over to the next month. If prepaid usage reaches 125%, agents in environments without pay-as-you-go are blocked. Agent flows are blocked separately. Admins can set a monthly limit for each agent.</p>
+      </section>
+
+      <section id="quote" aria-labelledby="quote-heading">
+        <p class="eyebrow"><b>05</b> THE NUMBER</p>
+        <h2 id="quote-heading">Indicative quote.</h2>
+        <div class="quote-table" id="quote-table"></div>
+
+        <div class="lead-fields">
+          <label for="lead-name">Name<input type="text" id="lead-name" autocomplete="off" placeholder="Who you spoke to"></label>
+          <label for="lead-contact">Contact<input type="text" id="lead-contact" autocomplete="off" placeholder="Email or phone"></label>
+        </div>
+
+        <div class="controls">
+          <button type="button" class="primary-button" id="copy-quote">Copy quote</button>
+          <button type="button" class="ghost-button" id="reset-all">Start over</button>
+        </div>
+
+        <div class="saved-bar" id="saved-bar" hidden>
+          <span id="saved-count"></span>
+          <button type="button" class="link-button" id="download-saved">Download CSV</button>
+          <button type="button" class="link-button is-danger" id="clear-saved">Clear</button>
+        </div>
+        <p class="assumption" id="quote-assumptions"></p>
+
+        <div class="sources" id="sources">
+          <h3>Sources (all fetched 2 Nov 2026)</h3>
+          <ol>
+            <li>Microsoft Copilot Studio Licensing Guide, November 2026 edition: pay-as-you-go $0.01 per Copilot Credit; capacity pack $200 a month (billed annually) for 25,000 credits; pre-purchase plan tiers. <a href="https://go.microsoft.com/fwlink/?linkid=2320995">go.microsoft.com/fwlink/?linkid=2320995</a></li>
+            <li>Billing rates and management (Learn, updated 31 Oct 2026): credits per feature, Microsoft 365 Copilot inclusion, 125% enforcement, agent flow enforcement. <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/requirements-messages-management">learn.microsoft.com/…/requirements-messages-management</a></li>
+            <li>Copilot Studio licensing (Learn, updated 15 Oct 2026). <a href="https://learn.microsoft.com/en-us/microsoft-copilot-studio/billing-licensing">learn.microsoft.com/…/billing-licensing</a></li>
+            <li>Pay-as-you-go meters (Learn, updated 14 Oct 2026): Copilot Studio $0.01 per credit; Power Automate premium cloud flow run $0.60. <a href="https://learn.microsoft.com/en-us/power-platform/admin/pay-as-you-go-meters">learn.microsoft.com/…/pay-as-you-go-meters</a></li>
+            <li>Use a Fabric data agent in Copilot Studio (Learn, preview): needs a paid F2 or larger Fabric capacity (or P1+). <a href="https://learn.microsoft.com/en-us/fabric/data-science/data-agent-microsoft-copilot-studio">learn.microsoft.com/…/data-agent-microsoft-copilot-studio</a>. Fabric SKUs and capacity units: <a href="https://learn.microsoft.com/en-us/fabric/enterprise/licenses">learn.microsoft.com/…/fabric/enterprise/licenses</a></li>
+            <li>Azure Retail Prices API, Microsoft Fabric "Compute Pool Capacity Usage CU", East US, pay-as-you-go: $0.18 per CU-hour. Prices vary by region. <a href="https://prices.azure.com/api/retail/prices">prices.azure.com/api/retail/prices</a></li>
+            <li>Microsoft Copilot licence options (Learn, updated 19 Oct 2026): academic offering for faculty, staff and students 13+, through EES or CSP. No per-user price is published there. <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-license-options">learn.microsoft.com/…/copilot-license-options</a></li>
+          </ol>
+        </div>
+        <p class="micro">Indicative · list prices in USD · excl. tax · academic and enterprise agreements differ</p>
+        <p class="micro">Illustrative usage figures · not product output</p>
+      </section>
+
+    </main>
+
+    <div class="closing"><a href="/advising.html">← Advising</a><a href="/">All Labs →</a></div>
+  </div>
+
+  <p id="live" class="sr-only" role="status" aria-live="polite"></p>
+  <noscript><p style="padding:22px">Enable JavaScript to use the pricing builder.</p></noscript>
+</body>
+</html>
