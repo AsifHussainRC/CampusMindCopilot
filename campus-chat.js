@@ -44,21 +44,22 @@ pressGroup('[data-access]', b => showAccess(b.dataset.access));
 showAccess('individual');
 
 /* ================= 02 · every model ================= */
-/* Models offered in Copilot Studio (Microsoft Learn, "Select a primary AI model" and
-   "Bring your own model for your prompts", checked November 2026).
-   GPT-4.1, GPT-5.x Chat/Auto/Reasoning are retired or retiring into GPT Chat Latest. */
+/* Exactly the models in the Copilot Studio agent model picker (Overview page → Model), Nov 2026.
+   Per Microsoft Learn, GPT-5 Chat/Auto/Reasoning and GPT-4.1 retire into GPT Chat Latest on 12 Nov 2026. */
 const MODELS = [
-  { name: 'GPT Chat Latest', house: 'OpenAI · default · GA' },
-  { name: 'Claude Sonnet 4.6', house: 'Anthropic · GA · admin-enabled' },
-  { name: 'Claude Opus 4.8', house: 'Anthropic · GA · also 4.7, 4.6' },
-  { name: 'Mistral', house: 'Mistral · external · preview' },
-  { name: 'Grok 4.2', house: 'xAI · experimental · early access' },
-  { name: 'Llama', house: 'Meta · Azure AI Foundry · prompts' },
-  { name: 'DeepSeek', house: 'DeepSeek · Azure AI Foundry · prompts' },
-  { name: '1,800+ more', house: 'Foundry catalog · connected, not renegotiated' }
+  { name: 'GPT Chat Latest', house: 'OpenAI · default' },
+  { name: 'GPT-5 Chat', house: 'OpenAI · retiring 12 Nov' },
+  { name: 'GPT-5 Auto', house: 'OpenAI · preview' },
+  { name: 'GPT-5 Reasoning', house: 'OpenAI · preview' },
+  { name: 'GPT-4.1', house: 'OpenAI · retiring 12 Nov' },
+  { name: 'Claude Sonnet 4.6', house: 'Anthropic' },
+  { name: 'Claude Opus 4.6', house: 'Anthropic' },
+  { name: 'Claude Opus 4.7', house: 'Anthropic' },
+  { name: 'Claude Opus 4.8', house: 'Anthropic' },
+  { name: 'Grok 4.2', house: 'xAI · experimental', next: true }
 ];
 $('model-wall').innerHTML = MODELS.map((m, i) =>
-  `<div class="model${i === MODELS.length - 1 ? ' is-next' : ''}"><strong>${m.name}</strong><span>${m.house}</span></div>`
+  `<div class="model${m.next ? ' is-next' : ''}"><strong>${m.name}</strong><span>${m.house}</span></div>`
 ).join('');
 
 /* ================= shared thread rendering ================= */
@@ -96,7 +97,7 @@ const SWITCH_THREAD = [
   { from: 'sys', who: 'Orchestrator', text: 'Routing to Editor agent (connected agent · Claude Opus 4.8). Conversation history passed along.' },
   { from: 'ai', model: 'Editor agent · Claude Opus 4.8', text: 'Trimmed to 380 words. Two figures were off — spring highs are upper 50s, not upper 60s.' },
   { from: 'you', who: 'You', text: 'Give me a two-line summary for the newsletter.' },
-  { from: 'ai', model: 'Summary prompt · Llama via Foundry', text: 'Chicago swings from icy winters to humid summers. Spring and autumn are short, mild and changeable.' }
+  { from: 'ai', model: 'Summariser agent · Claude Sonnet 4.6', text: 'Chicago swings from icy winters to humid summers. Spring and autumn are short, mild and changeable.' }
 ];
 $('switch-play').addEventListener('click', () => {
   const b = $('switch-play');

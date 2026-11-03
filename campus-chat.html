@@ -38,7 +38,7 @@
 <!-- ===== 01 ===== -->
 <section id="everyone" aria-labelledby="everyone-heading">
 <p class="eyebrow"><b>01</b> EVERYONE, OR NOBODY</p>
-<h1 id="everyone-heading">AI shouldn't be something you can afford.</h1>
+<h1 id="everyone-heading">No one on campus should be priced out of AI.</h1>
 
 <div class="choices" role="group" aria-label="How it is paid for">
 <button type="button" data-access="individual" aria-pressed="true">Individual subscriptions</button>
@@ -63,7 +63,7 @@
 <h2 id="models-heading">Not one vendor. Several.</h2>
 <div class="model-wall" id="model-wall"></div>
 <p class="figure-takeaway">One Microsoft agreement. No separate contract per model vendor.</p>
-<p class="pnote" hidden>The agent's main model is picked on its Overview page. GPT Chat Latest is the default and follows the newest supported GPT chat model. Claude Sonnet 4.6 and Claude Opus 4.6, 4.7 and 4.8 are generally available once an admin turns on external models (Power Platform admin center) and allows Anthropic (Microsoft 365 admin center). Mistral (preview) and Grok 4.2 (experimental, early-access environments in the US) are external models that aren't meant for production. Prompt tools can also connect Azure AI Foundry models such as Llama and DeepSeek. Models marked cross-geo may process data outside your region.</p>
+<p class="pnote" hidden>These are the models in the agent's model picker (Overview page → Model). GPT Chat Latest is the default and follows the newest supported GPT chat model. GPT-5 Auto and GPT-5 Reasoning are in preview, and GPT-5 Chat, GPT-5 Auto, GPT-5 Reasoning and GPT-4.1 retire into GPT Chat Latest on 12 November 2026. The Anthropic models appear once an admin turns on external models (Power Platform admin center) and allows Anthropic (Microsoft 365 admin center). Grok 4.2 is experimental and stays disabled until an admin allows xAI.</p>
 </section>
 
 <!-- ===== 03 ===== -->
@@ -74,7 +74,7 @@
 <div class="controls"><button type="button" id="switch-play" class="primary-button">▶ Play the thread</button></div>
 <div class="thread" id="switch-thread"></div>
 <p class="figure-takeaway" id="switch-note">One thread. The context carries from step to step.</p>
-<p class="pnote" hidden>Users don't pick models in chat. The agent's generative orchestration does it, sending each step to the agent or tool whose description fits. Here an Editor agent running on Claude Opus 4.8 checks the main agent's GPT Chat Latest draft, and a prompt tool connected to Llama in Azure AI Foundry summarises the result. Conversation history and variables carry across, so nobody copies text between tabs.</p>
+<p class="pnote" hidden>Users don't pick models in chat. The agent's generative orchestration does it, sending each step to the agent or tool whose description fits. Here an Editor agent running on Claude Opus 4.8 checks the main agent's GPT Chat Latest draft, and a Summariser agent on Claude Sonnet 4.6 writes the newsletter line. Conversation history and variables carry across, so nobody copies text between tabs.</p>
 </section>
 
 <!-- ===== 04 ===== -->

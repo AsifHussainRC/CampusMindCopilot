@@ -101,11 +101,15 @@ showCampus('apart');
 /* Primary-model options in Copilot Studio, as documented on Microsoft Learn (November 2026). */
 const MODELS = [
   { name: 'GPT Chat Latest', by: 'OpenAI · default', status: 'GA' },
+  { name: 'GPT-5 Chat', by: 'OpenAI · retiring 12 Nov', status: 'GA' },
+  { name: 'GPT-5 Auto', by: 'OpenAI', status: 'Preview' },
+  { name: 'GPT-5 Reasoning', by: 'OpenAI', status: 'Preview' },
+  { name: 'GPT-4.1', by: 'OpenAI · retiring 12 Nov', status: 'GA' },
   { name: 'Claude Sonnet 4.6', by: 'Anthropic · admin turns on', status: 'GA' },
-  { name: 'Claude Opus 4.8', by: 'Anthropic · also 4.7, 4.6', status: 'GA' },
-  { name: 'Mistral', by: 'Mistral AI · external', status: 'Preview' },
-  { name: 'Grok 4.2', by: 'xAI · US early access', status: 'Experimental' },
-  { name: 'Foundry models', by: 'Llama, DeepSeek · prompt tools', status: 'Prompts' }
+  { name: 'Claude Opus 4.6', by: 'Anthropic · admin turns on', status: 'GA' },
+  { name: 'Claude Opus 4.7', by: 'Anthropic · admin turns on', status: 'GA' },
+  { name: 'Claude Opus 4.8', by: 'Anthropic · admin turns on', status: 'GA' },
+  { name: 'Grok 4.2', by: 'xAI · admin turns on', status: 'Experimental' }
 ];
 /* The Agents tab lists whatever is added from the Agent Store below. */
 const MARKET = [
