@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Services Lab · Campus Copilot</title>
+  <meta name="description" content="Visual companion for Student Services on Microsoft Copilot Studio: one front-door agent in Teams and on the website that routes to specialist agents for each office, answers personal questions after sign-in, covers the night shift and hands off to staff with the full story.">
+  <meta name="theme-color" content="#023347">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css">
+  <link rel="stylesheet" href="/student-services.css">
+  <script src="/student-services.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the Student Services Lab</a>
+  <nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/student-services.html" aria-current="page">Student services</a>
+    <a href="/financial-aid.html">Financial aid</a>
+    <a href="/transfer-credit.html">Transfer credit</a>
+    <a href="/career-services.html">Careers</a>
+    <a href="/research-administration.html">Research admin</a>
+    <a href="/campus-operations.html">Campus operations</a>
+    <a href="/alumni-advancement.html">Alumni</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+  <div class="partner-strip">
+    <span class="partner-item"><img src="/assets/copilot-studio-icon.png" alt="" width="22" height="22"><span>Built on <strong>Microsoft Copilot Studio</strong></span></span>
+    <span class="partner-item"><span>Implementation partner</span><img class="partner-rc" src="/assets/royal-cyber-logo.png" alt="Royal Cyber" width="103" height="24"></span>
+  </div>
+
+  <div class="story-shell">
+    <header class="brand-header">
+      <img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31">
+      <span>Student Services Lab</span>
+    </header>
+  </div>
+
+  <div class="section-nav">
+    <div class="section-nav-inner">
+      <select id="section-jump" aria-label="Jump to section">
+        <option value="runaround">1 · The runaround</option>
+        <option value="front-door">2 · One front door</option>
+        <option value="signed-in">3 · Public or personal</option>
+        <option value="after-hours">4 · After hours</option>
+        <option value="handoff">5 · Handoff to a person</option>
+        <option value="built">6 · How it's built</option>
+        <option value="offices">7 · What each office learns</option>
+      </select>
+      <label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+    </div>
+  </div>
+
+  <div class="story-shell">
+    <main id="main" tabindex="-1">
+      <header class="intro">
+        <p class="eyebrow">Student services</p>
+        <h1>Students shouldn't need an org chart to get an answer.</h1>
+        <ul class="intro-chips" aria-label="Where it runs">
+          <li>One Copilot Studio agent</li>
+          <li>Teams and the website</li>
+          <li>Seven offices behind it</li>
+          <li>Staff decide</li>
+        </ul>
+        <p class="pnote" hidden>One main Copilot Studio agent ("Campus Copilot") is the front door. It uses generative orchestration to pass each question to a specialist agent for the office that owns the answer. It's published to Microsoft Teams for signed-in students and to the university website through Web Chat. Specialists answer from their own knowledge and tools. Anything that changes a record, money or eligibility goes to a person.</p>
+      </header>
+
+      <section id="runaround" aria-labelledby="runaround-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">01</p>
+          <div>
+            <p class="eyebrow">The problem today</p>
+            <h2 id="runaround-title">“Why can't I register?” takes four offices and nine days.</h2>
+          </div>
+        </div>
+
+        <div class="run-controls" role="group" aria-label="Compare the student's path">
+          <button type="button" class="toggle" id="run-today" aria-pressed="true">Today</button>
+          <button type="button" class="toggle" id="run-door" aria-pressed="false">One front door</button>
+          <button type="button" class="run-button" id="run-play">Play the student's week</button>
+        </div>
+
+        <div class="runaround">
+          <svg class="run-map" id="run-map" viewBox="0 0 520 300" role="img" aria-labelledby="run-map-title">
+            <title id="run-map-title">The student's path between offices</title>
+          </svg>
+          <ol class="run-log" id="run-log" aria-label="What happened, step by step"></ol>
+        </div>
+        <dl class="run-totals" id="run-totals">
+          <div><dt>Offices contacted</dt><dd id="tot-offices">4</dd></div>
+          <div><dt>Times the story was retold</dt><dd id="tot-retold">5</dd></div>
+          <div><dt>Days to an answer</dt><dd id="tot-days">9</dd></div>
+        </dl>
+        <p class="figure-note">Illustrative journey · fictional student · not a measured result</p>
+        <p class="pnote" hidden>The figures are illustrative. A registration hold usually belongs to one office (here, the bursar), but the student meets it at the registrar. Each office answers its own part well. Nobody owns the whole question. Section 02 shows the agent setup that does.</p>
+      </section>
+
+      <section id="front-door" aria-labelledby="door-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">02</p>
+          <div>
+            <p class="eyebrow">How it routes</p>
+            <h2 id="door-title">One agent at the door. A specialist behind it for every office.</h2>
+          </div>
+        </div>
+
+        <div class="route-ask" role="group" aria-label="Pick a student question">
+          <span class="eyebrow">Ask the front door</span>
+          <div class="route-questions" id="route-questions"></div>
+        </div>
+
+        <div class="door-stage">
+          <svg class="door-map" id="door-map" viewBox="0 0 560 360" aria-hidden="true"></svg>
+          <div class="door-offices" id="door-offices" role="group" aria-label="Specialist agents. Select one to see what it owns."></div>
+        </div>
+
+        <div class="door-detail" id="door-detail" aria-live="polite"></div>
+        <p class="figure-note">Child agent = lives inside the main agent · Connected agent = its own published agent, owned by the office</p>
+        <p class="pnote" hidden>Multi-agent orchestration in Copilot Studio. Child agents sit inside the main agent and group instructions, tools and knowledge. Connected agents are separate Copilot Studio agents in the same environment. They must be published, and each office can manage and publish its own. The main agent's orchestrator picks agents by their name and description, and one question can call more than one. Microsoft suggests splitting into connected agents once a single agent has more than about 30 to 40 tools, topics and agents to choose from. Each extra hop adds some latency. An agent that has connected agents of its own can't also be a connected agent for another main agent.</p>
+      </section>
+
+      <section id="signed-in" aria-labelledby="signed-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">03</p>
+          <div>
+            <p class="eyebrow">Public or personal</p>
+            <h2 id="signed-title">Anyone gets the rules. Only the student gets their own record.</h2>
+          </div>
+        </div>
+
+        <div class="auth-controls" role="group" aria-label="Who is asking">
+          <button type="button" class="toggle" id="auth-public" aria-pressed="true">Website · not signed in</button>
+          <button type="button" class="toggle" id="auth-signed" aria-pressed="false">Signed in with university account</button>
+        </div>
+
+        <div class="auth-stage">
+          <div class="chat" id="auth-chat" aria-live="polite" aria-label="Conversation"></div>
+          <aside class="auth-side">
+            <span class="eyebrow">What the agent can see</span>
+            <ul class="scope" id="auth-scope"></ul>
+          </aside>
+        </div>
+        <p class="figure-note">Fictional student · Illustrative answer · Records shown only to the signed-in student</p>
+        <p class="pnote" hidden>Set the agent's authentication to Authenticate manually with Microsoft Entra ID and clear "Require users to sign in". Public questions are then answered without sign-in, from website and SharePoint knowledge. Topics that need a personal record start with an Authenticate node, so the student signs in only when they ask about their own account. Tools then call the SIS and the bursar system with the student's identity, so they see only their own data. In Teams, configure single sign-on (SSO) with Entra ID so students aren't prompted again. If you'd rather keep a public agent completely separate, publish a second agent with No authentication on the website. Follow the institution's records policy on what may be shown in chat.</p>
+      </section>
+
+      <section id="after-hours" aria-labelledby="hours-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">04</p>
+          <div>
+            <p class="eyebrow">After hours</p>
+            <h2 id="hours-title">Offices close at five. The questions keep coming.</h2>
+          </div>
+        </div>
+
+        <figure class="hours-chart">
+          <figcaption>Questions to the front door, by hour of day</figcaption>
+          <div class="hours-bars" id="hours-bars"></div>
+          <div class="hours-axis" aria-hidden="true"><span>12 am</span><span>6 am</span><span>12 pm</span><span>6 pm</span><span>11 pm</span></div>
+          <div class="hours-legend"><span class="key-open">Offices open</span><span class="key-closed">Offices closed</span></div>
+        </figure>
+
+        <div class="hours-pick" role="group" aria-label="When the question arrives">
+          <span class="eyebrow">Same question, different hour</span>
+          <div class="hours-buttons">
+            <button type="button" class="toggle" data-hour="14" aria-pressed="true">Tuesday, 2:10 pm</button>
+            <button type="button" class="toggle" data-hour="23" aria-pressed="false">Tuesday, 11:40 pm</button>
+            <button type="button" class="toggle" data-hour="sat" aria-pressed="false">Saturday, 10:05 am</button>
+          </div>
+        </div>
+        <div class="hours-outcome" id="hours-outcome" aria-live="polite"></div>
+        <p class="figure-note" id="hours-note">Illustrative figures · not product output</p>
+        <p class="pnote" hidden>The agent answers from knowledge and read-only tools at any hour. The after-hours path is a pattern you build, not a switch you turn on. The Escalate topic checks the office's hours, either with a condition or an agent flow that reads hours from a Dataverse table. When the office is open, it transfers the conversation live. When it's closed, it calls an agent flow that creates a case and tells the student when to expect a reply. Each office owns its hours and its queue.</p>
+      </section>
+
+      <section id="handoff" aria-labelledby="handoff-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">05</p>
+          <div>
+            <p class="eyebrow">Handoff to a person</p>
+            <h2 id="handoff-title">When it needs a person, the person gets the whole story.</h2>
+          </div>
+        </div>
+
+        <div class="handoff-controls" role="group" aria-label="How the handoff happens">
+          <button type="button" class="toggle" id="ho-live" aria-pressed="true">Office open · live transfer</button>
+          <button type="button" class="toggle" id="ho-case" aria-pressed="false">Office closed · case created</button>
+        </div>
+
+        <div class="handoff-stage">
+          <div class="handoff-col">
+            <span class="eyebrow">Student · in Teams</span>
+            <div class="chat" id="ho-chat" aria-live="polite" aria-label="Student conversation"></div>
+          </div>
+          <div class="handoff-col">
+            <span class="eyebrow" id="ho-staff-label">International office · staff view</span>
+            <article class="context-card" id="ho-card" hidden>
+              <header><strong id="ho-card-title">Transfer from Campus Copilot</strong><span id="ho-card-tag">Live chat</span></header>
+              <dl id="ho-card-fields"></dl>
+            </article>
+            <div class="chat" id="ho-staff" aria-live="polite" aria-label="Staff side"></div>
+            <p class="ho-wait" id="ho-wait">Nothing here yet. Play the conversation.</p>
+          </div>
+        </div>
+        <div class="handoff-play">
+          <button type="button" class="run-button" id="ho-play">Play the conversation</button>
+          <p class="status-line" id="ho-status" role="status" aria-live="polite"></p>
+        </div>
+        <p class="figure-note">Fictional student and staff member · The agent never changes enrollment or immigration records</p>
+        <p class="pnote" hidden>Live: the Escalate system topic ends in a Transfer conversation node. Its "Private message to agent" carries a summary the agent writes, and Dynamics 365 Customer Service receives the full conversation history and the variables collected. It routes the chat to the international office queue. Other engagement hubs, such as ServiceNow, connect through the generic handoff pattern, which needs integration work. Closed: an agent flow creates the case instead. That's the ServiceNow connector's Create Record action (Premium), or a Case row in Dynamics 365 Customer Service through the Microsoft Dataverse connector's Add a new row. The older Dynamics 365 connector is deprecated. Advice on immigration status comes only from the designated school official.</p>
+      </section>
+
+      <section id="built" aria-labelledby="built-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">06</p>
+          <div>
+            <p class="eyebrow">How it's built</p>
+            <h2 id="built-title">Microsoft parts, put together for one front door.</h2>
+          </div>
+        </div>
+
+        <div class="stack-filter" role="group" aria-label="Filter the stack">
+          <button type="button" class="toggle" data-layer="all" aria-pressed="true">Everything</button>
+          <button type="button" class="toggle" data-layer="reach" aria-pressed="false">Where students meet it</button>
+          <button type="button" class="toggle" data-layer="think" aria-pressed="false">Agents</button>
+          <button type="button" class="toggle" data-layer="know" aria-pressed="false">Knowledge and data</button>
+          <button type="button" class="toggle" data-layer="act" aria-pressed="false">Actions</button>
+          <button type="button" class="toggle" data-layer="guard" aria-pressed="false">Control</button>
+        </div>
+        <ul class="stack" id="stack"></ul>
+
+        <div class="control">
+          <span class="eyebrow">Who decides</span>
+          <h3>The agent reads, explains and prepares. Staff change things.</h3>
+          <div class="control-grid" id="control-grid"></div>
+        </div>
+        <p class="figure-note">Connector names checked against the Power Platform connector reference · Systems vary by institution</p>
+        <p class="pnote" hidden>Tools that only read run when the orchestrator calls them. Tools that write, such as creating a case, are set to "Ask the end user before running", so the student confirms what will be sent. Changes to holds, charges, aid or enrollment aren't tools on this agent at all. They go to staff as a case or a live transfer. Admins limit who can use each agent through Entra ID and sharing. They set environments and data loss prevention (DLP) policies in the Power Platform admin center. Microsoft Purview audits agent activity.</p>
+      </section>
+
+      <section id="offices" aria-labelledby="offices-title">
+        <div class="section-heading">
+          <p class="section-number" aria-hidden="true">07</p>
+          <div>
+            <p class="eyebrow">What each office learns</p>
+            <h2 id="offices-title">Unanswered questions become next week's knowledge fixes.</h2>
+          </div>
+        </div>
+
+        <div class="office-filter" role="group" aria-label="Choose an office" id="office-filter"></div>
+
+        <div class="analytics">
+          <figure class="chart">
+            <figcaption>Sessions this month · outcome</figcaption>
+            <div class="outcome-bar" id="outcome-bar"></div>
+            <ul class="outcome-key" id="outcome-key"></ul>
+          </figure>
+          <figure class="chart">
+            <figcaption>Question themes · answer rate</figcaption>
+            <ul class="themes" id="themes"></ul>
+          </figure>
+        </div>
+
+        <div class="gaps">
+          <span class="eyebrow">Knowledge gaps to close</span>
+          <ol class="gap-list" id="gap-list"></ol>
+        </div>
+
+        <dl class="outcomes">
+          <div><dt>Questions answered without a handoff</dt><dd>71%</dd></div>
+          <div><dt>Asked outside office hours</dt><dd>38%</dd></div>
+          <div><dt>Handoffs that arrive with a summary</dt><dd>100%</dd></div>
+          <div><dt>Median days to an answer</dt><dd>9 → 0.2</dd></div>
+        </dl>
+        <p class="figure-note">Illustrative figures · not product output</p>
+        <p class="pnote" hidden>Copilot Studio analytics shows session outcomes (Resolved, Escalated, Abandoned) and the generated answer rate, with unanswered questions listed. Themes (preview) groups the questions that triggered generative answers and shows the answer rate and reactions for each group. To see themes, a user needs the Bot Transcript Viewer security role, and transcripts must be stored in Dataverse. Because each office's connected agent is its own agent, each office can watch its own analytics. A theme with a low answer rate shows a knowledge gap: fix the page, then watch the rate.</p>
+      </section>
+
+      <footer class="closing-summary">
+        <p>One conversation, the right office behind it, and a person when it matters.</p>
+        <ul aria-label="Student services summary">
+          <li>One front door</li>
+          <li>Seven specialists</li>
+          <li>Open at night</li>
+          <li>Staff confirm changes</li>
+        </ul>
+        <p class="micro">Illustrative figures · not product output</p>
+      </footer>
+    </main>
+
+    <div class="closing"><a href="/advising.html">← Advising</a><a href="/financial-aid.html">Financial aid →</a></div>
+  </div>
+  <noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body>
+</html>
