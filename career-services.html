@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Career Services Lab · Campus Copilot</title>
+<meta name="description" content="Visual companion for Career Services on Microsoft Copilot Studio: resume feedback the student stays the author of, interview practice, job matching from the institution's job board, counselor booking through Microsoft Bookings, an employer events digest, and first-destination outcomes through a Fabric data agent.">
+<meta name="theme-color" content="#023347">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css">
+<link rel="stylesheet" href="/career-services.css">
+<script src="/career-services.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the Career Services Lab</a>
+<nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/student-services.html">Student services</a>
+    <a href="/financial-aid.html">Financial aid</a>
+    <a href="/transfer-credit.html">Transfer credit</a>
+    <a href="/career-services.html" aria-current="page">Careers</a>
+    <a href="/research-administration.html">Research admin</a>
+    <a href="/campus-operations.html">Campus operations</a>
+    <a href="/alumni-advancement.html">Alumni</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+  <div class="partner-strip">
+    <span class="partner-item"><img src="/assets/copilot-studio-icon.png" alt="" width="22" height="22"><span>Built on <strong>Microsoft Copilot Studio</strong></span></span>
+    <span class="partner-item"><span>Implementation partner</span><img class="partner-rc" src="/assets/royal-cyber-logo.png" alt="Royal Cyber" width="103" height="24"></span>
+  </div>
+
+<div class="shell">
+<div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>CAREER SERVICES LAB</span></div>
+
+<div class="section-nav">
+<select id="section-jump" aria-label="Jump to section">
+<option value="reach">1 · Six counselors, every student</option>
+<option value="resume">2 · Resume feedback</option>
+<option value="interview">3 · Interview practice</option>
+<option value="match">4 · Jobs and employer events</option>
+<option value="book">5 · A counselor when it matters</option>
+<option value="built">6 · How it's built</option>
+<option value="outcomes">7 · Outcomes for the office</option>
+</select>
+<label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+</div>
+
+<main id="main" tabindex="-1">
+
+<!-- ===== 01 ===== -->
+<section id="reach" aria-labelledby="reach-heading">
+<p class="eyebrow"><b>01</b> THE REACH GAP</p>
+<h1 id="reach-heading">Six counselors. Eleven thousand students. Prep goes to whoever books first.</h1>
+
+<div class="choices" role="group" aria-label="Compare who gets prepared">
+<button type="button" data-reach="today" aria-pressed="true">Today · appointments only</button>
+<button type="button" data-reach="agent" aria-pressed="false">With Campus Copilot</button>
+</div>
+
+<figure class="figure">
+  <div class="access-head">
+    <div><strong id="reach-on">—</strong><span id="reach-on-label">got 1:1 prep</span></div>
+    <div class="is-right"><strong id="reach-off">—</strong><span id="reach-off-label">did not</span></div>
+  </div>
+  <div class="dotgrid" id="reach-dots" role="img" aria-labelledby="reach-alt"></div>
+  <p class="sr-only" id="reach-alt"></p>
+  <div class="legend" id="reach-legend"></div>
+  <p class="figure-takeaway" id="reach-note"></p>
+</figure>
+
+<p class="mini-head">Resume feedback before a first application</p>
+<div class="gapbars" id="gap-bars"></div>
+<p class="micro">Illustrative figures · not product output · one dot ≈ 10 students</p>
+<p class="pnote" hidden>The numbers are illustrative. The point is equity: today, prep goes to students who know to book early, which tends to skew away from first-generation and transfer students. One Copilot Studio agent, published to Microsoft Teams and to the career centre website with Microsoft Entra ID sign-in, gives every student a first pass at any hour. Usage is billed to the institution in Copilot Credits, so students need no personal AI subscription. Counselor time then goes to the conversations that need a person.</p>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="resume" aria-labelledby="resume-heading">
+<p class="eyebrow"><b>02</b> RESUME FEEDBACK</p>
+<h2 id="resume-heading">Feedback on the draft. The words stay the student's.</h2>
+
+<div class="policy" role="group" aria-labelledby="policy-label">
+  <p class="policy-label" id="policy-label">Coaching mode · set by the career office</p>
+  <div class="choices is-tight">
+    <button type="button" data-mode="questions" aria-pressed="false">Questions only</button>
+    <button type="button" data-mode="patterns" aria-pressed="true">Questions + patterns</button>
+    <button type="button" data-mode="rewrite" aria-pressed="false">Rewrite it for me</button>
+  </div>
+  <p class="policy-desc" id="policy-desc"></p>
+</div>
+
+<div class="resume-stage">
+  <article class="doc" aria-label="Uploaded resume, fictional student">
+    <div class="doc-file"><span class="file-ico" aria-hidden="true">PDF</span><span>jonah-mbeki-resume.pdf · uploaded in Teams</span></div>
+    <div class="doc-page" id="doc-page"></div>
+  </article>
+  <div class="review">
+    <div class="review-head">
+      <span>Target role</span><strong>Data analyst intern</strong>
+      <button type="button" class="primary-button" id="run-review">Review against the rubric</button>
+    </div>
+    <ol class="rubric" id="rubric" aria-label="Career office rubric"></ol>
+  </div>
+</div>
+<ul class="feedback" id="feedback" aria-label="Feedback items"></ul>
+<p class="status-line" id="review-status" role="status" aria-live="polite"></p>
+<p class="micro">Fictional student · the rubric is the career office's own · illustrative output</p>
+<p class="pnote" hidden>A "Resume review" topic asks for the file with a Question node set to Identify: File (or reads First(System.Activity.Attachments) if the student already attached it). File uploads must be on (Settings → Generative AI → File uploads); they work in Teams and the website channel, not the SharePoint channel, and encrypted or sensitivity-labelled files can't be read. The topic passes the file to an agent flow that calls Run a prompt: a prompt whose instructions hold the office's rubric and coaching mode and which returns JSON. Calling it through an agent flow is deliberate, because document input isn't yet supported for prompts added directly as tools. Prompt document input takes PDF, PNG and JPG; Word files need code interpreter on in the prompt settings. The coaching mode is a line in the prompt instructions, a design choice rather than a product switch. Nothing is stored unless the student chooses to save it.</p>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="interview" aria-labelledby="interview-heading">
+<p class="eyebrow"><b>03</b> INTERVIEW PRACTICE</p>
+<h2 id="interview-heading">Practise at midnight. Arrive at the real one having said it out loud once.</h2>
+
+<div class="choices" role="group" aria-label="Choose a practice role">
+<button type="button" data-role="analyst" aria-pressed="true">Data analyst intern</button>
+<button type="button" data-role="nonprofit" aria-pressed="false">Program assistant · nonprofit</button>
+</div>
+<div class="controls"><button type="button" class="primary-button" id="play-interview">▶ Play the practice</button></div>
+<div class="chatframe">
+  <div class="chatbar"><span class="room-tag">TEAMS · 1:1 WITH CAMPUS COPILOT</span><span id="interview-turn">Text role-play</span></div>
+  <div class="thread" id="interview-thread" aria-live="polite"></div>
+</div>
+<p class="micro">Text Q&amp;A role-play · illustrative conversation</p>
+<p class="pnote" hidden>An "Interview coach" child agent inside the main Copilot Studio agent, with its own instructions: ask one question at a time, wait for the answer, give feedback on structure (situation, task, action, result) and specifics, never rate the student as a candidate, and point to a counselor for anything about a live offer. It's text role-play in the chat. Practice notes are written to a Dataverse table only after the student says yes in the conversation, and only that student and staff they choose to share with can read them (row-level security in Dataverse).</p>
+</section>
+
+<!-- ===== 04 ===== -->
+<section id="match" aria-labelledby="match-heading">
+<p class="eyebrow"><b>04</b> JOBS AND EMPLOYER EVENTS</p>
+<h2 id="match-heading">The job board, read with the student's goals in mind.</h2>
+
+<div class="lane-tabs" role="tablist" aria-label="Opportunities">
+  <button type="button" role="tab" id="tab-jobs" aria-selected="true" aria-controls="panel-jobs" tabindex="0">Matched listings</button>
+  <button type="button" role="tab" id="tab-events" aria-selected="false" aria-controls="panel-events" tabindex="-1">Weekly events digest</button>
+</div>
+
+<div role="tabpanel" id="panel-jobs" aria-labelledby="tab-jobs">
+  <div class="ask-line"><span class="msg-who">JONAH ASKS</span>“Any paid analytics internships for summer? I can't relocate.”</div>
+  <div class="filters" role="group" aria-label="Filter listings">
+    <button type="button" class="chipbtn" data-f="all" aria-pressed="true">All</button>
+    <button type="button" class="chipbtn" data-f="Internship" aria-pressed="false">Internship</button>
+    <button type="button" class="chipbtn" data-f="Part-time" aria-pressed="false">Part-time</button>
+    <button type="button" class="chipbtn" data-f="remote" aria-pressed="false">Remote or local</button>
+    <label class="switch"><input type="checkbox" id="fed-toggle"> Include federal listings</label>
+  </div>
+  <ul class="jobs" id="jobs"></ul>
+  <p class="status-line" id="jobs-status" role="status" aria-live="polite"></p>
+</div>
+
+<div role="tabpanel" id="panel-events" aria-labelledby="tab-events" hidden>
+  <div class="card-teams">
+    <div class="card-teams-head"><span class="room-tag">ADAPTIVE CARD · TEAMS</span><strong>Your employer events · week of 16 November</strong><span>Matched to the interests you saved: analytics, public sector</span></div>
+    <div class="filters" role="group" aria-label="Filter events by interest">
+      <button type="button" class="chipbtn" data-ev="all" aria-pressed="true">All 5</button>
+      <button type="button" class="chipbtn" data-ev="analytics" aria-pressed="false">Analytics</button>
+      <button type="button" class="chipbtn" data-ev="public" aria-pressed="false">Public sector</button>
+      <button type="button" class="chipbtn" data-ev="any" aria-pressed="false">Open to all majors</button>
+    </div>
+    <ul class="events" id="events"></ul>
+  </div>
+  <p class="status-line" id="events-status" role="status" aria-live="polite"></p>
+</div>
+<p class="micro">Fictional employers and listings · illustrative</p>
+<p class="pnote" hidden>Listings come from the institution's own job board. The connector reference has no certified connector for the common campus job-board platforms (checked November 2026), and the LinkedIn V2 connector only posts content, so if the vendor offers an API, wrap it in a custom connector or an MCP server. Listings the office curates itself can sit in a Dataverse table or SharePoint list. Federal roles can come from the USAJOBS (Independent Publisher) connector, which is in preview and has a Search for jobs action. The agent explains fit from what the student chose to share; it never applies for them. The digest is a weekly scheduled cloud flow that reads the office's events list, filters by each opted-in student's saved interests in Dataverse, and uses the Teams action "Post adaptive card in a chat or channel". If employers publish on Eventbrite, that connector's "When an event is created (V2)" trigger can feed the list.</p>
+</section>
+
+<!-- ===== 05 ===== -->
+<section id="book" aria-labelledby="book-heading">
+<p class="eyebrow"><b>05</b> A COUNSELOR WHEN IT MATTERS</p>
+<h2 id="book-heading">The agent knows when to hand over, and the counselor arrives briefed.</h2>
+
+<p class="mini-head">The agent suggests a person when</p>
+<div class="chip-row" id="handover-chips"></div>
+
+<div class="controls">
+  <button type="button" class="primary-button" id="book-play">▶ Play the booking</button>
+  <button type="button" class="ghost-button" id="book-next">Next step</button>
+</div>
+<ol class="steps" id="book-steps"></ol>
+<p class="status-line" id="book-status" role="status" aria-live="polite"></p>
+<p class="micro">Illustrative flow · fictional counselor and student</p>
+<p class="pnote" hidden>The Microsoft Bookings connector can't create an appointment for a student: it offers triggers (When a appointment is Created, Updated or Cancelled) and one admin action that lists booking businesses. So the agent shares the counselor team's Bookings page link and the student books there. A cloud flow on "When a appointment is Created" matches the student by email in Dataverse and, only if the student agreed in chat, posts a prep pack (latest resume review and practice notes) to the counselor in Teams; it sends the student a short checklist. Updated and Cancelled triggers keep the record current. The connector page says a Bookings licence is needed.</p>
+</section>
+
+<!-- ===== 06 ===== -->
+<section id="built" aria-labelledby="built-heading">
+<p class="eyebrow"><b>06</b> HOW IT'S BUILT, AND WHO DECIDES</p>
+<h2 id="built-heading">One agent, a few tools, and a person at every decision.</h2>
+
+<div class="stackmap" id="stackmap" role="group" aria-label="Components. Select one to see how it is used"></div>
+<div class="stack-detail" id="stack-detail" aria-live="polite"></div>
+
+<p class="mini-head">Who decides</p>
+<div class="decide" id="decide"></div>
+<p class="micro">Connector names checked against the Power Platform connector reference · November 2026</p>
+<p class="pnote" hidden>Students sign in with Microsoft Entra ID, and every tool that reads student data runs with the signed-in user's identity, so a student sees only their own records. Staff use is limited to an Entra ID security group. Admins set the environment and data loss prevention (DLP) policies in the Power Platform admin center; Microsoft Purview audits agent activity; Copilot Studio analytics shows sessions, outcomes and satisfaction. Any tool that writes to a record has "Ask the end user before running" turned on. Retention of resumes and notes follows the institution's records policy.</p>
+</section>
+
+<!-- ===== 07 ===== -->
+<section id="outcomes" aria-labelledby="outcomes-heading">
+<p class="eyebrow"><b>07</b> OUTCOMES FOR THE OFFICE</p>
+<h2 id="outcomes-heading">First-destination data, asked in plain words.</h2>
+
+<div class="chatframe">
+  <div class="chatbar"><span class="room-tag">TEAMS · CAREER OFFICE STAFF</span><span>Fabric data agent</span></div>
+  <div class="qrow" role="group" aria-label="Ask the data agent" id="q-row"></div>
+  <div class="answer" id="answer" aria-live="polite"></div>
+</div>
+
+<p class="pnote" hidden>A Fabric data agent over the office's first-destination survey tables in OneLake, added to the Copilot Studio agent as a connected agent. That connection is in preview and validated only in Microsoft Teams, not in Microsoft 365 Copilot. Set it to user authentication so only staff with access to the outcomes data get answers; topics can't redirect to a Fabric data agent, so the orchestrator routes these questions by the agent's description. Small groups should be suppressed in the views the data agent reads. The figures are illustrative, and the second answer is careful by design: students who chose to use resume review may differ from those who didn't.</p>
+<footer class="closing-summary">
+  <p>Every student gets prep. Counselors get the conversations only a person can have.</p>
+  <ul aria-label="Career Services summary">
+    <li>Agent suggests, student writes</li>
+    <li>Bookings link, briefed counselor</li>
+    <li>Outcomes in Teams</li>
+  </ul>
+  <p class="micro">Illustrative figures · not product output</p>
+</footer>
+</section>
+
+</main>
+
+<div class="closing"><a href="/transfer-credit.html">← Transfer credit</a><a href="/research-administration.html">Research admin →</a></div>
+</div>
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body>
+</html>
