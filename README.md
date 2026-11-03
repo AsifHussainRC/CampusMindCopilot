@@ -8,6 +8,8 @@ A static, single-page "Lab" showing how one **Microsoft Copilot Studio** agent c
 - **Topics** for guided questions, escalation and system behaviour (start over, feedback).
 - Publishing to **Microsoft Teams**, including group chats.
 
+Designed and delivered by **Royal Cyber**, implementation partner for agentic solutions built on Microsoft Copilot Studio. Every page shows a partner strip under the navigation (`assets/copilot-studio-icon.png`, `assets/royal-cyber-logo.png`, styled in `labs-navigation.css`).
+
 ## Labs
 
 | Page | What it shows |

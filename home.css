@@ -26,3 +26,5 @@ h1{margin-bottom:14px;color:var(--navy);font-size:clamp(2.3rem,9vw,4.2rem);line-
 .stack-note strong{color:var(--navy)}
 @media(max-width:359px){main{padding-inline:16px}.hero img{margin-bottom:34px}.lab-card{grid-template-columns:30px minmax(0,1fr);padding:18px 15px}.arrow{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.delivered{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:16px 0 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+.delivered img{height:28px;width:auto}
