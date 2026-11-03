@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Financial Aid Lab · Campus Copilot</title><meta name="description" content="Visual companion for financial aid and student accounts on Microsoft Copilot Studio: a signed-in student sees their own holds, balance and aid status, uploads missing documents for staff review, confirms a payment plan, and gets reminders before deadlines, while the aid office keeps every decision."><meta name="theme-color" content="#023347"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css"><link rel="stylesheet" href="/financial-aid.css"><script src="/financial-aid.js" defer></script></head>
+<body><a class="skip" href="#main">Skip to the Lab</a><nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/student-services.html">Student services</a>
+    <a href="/financial-aid.html" aria-current="page">Financial aid</a>
+    <a href="/transfer-credit.html">Transfer credit</a>
+    <a href="/career-services.html">Careers</a>
+    <a href="/research-administration.html">Research admin</a>
+    <a href="/campus-operations.html">Campus operations</a>
+    <a href="/alumni-advancement.html">Alumni</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+  <div class="partner-strip">
+    <span class="partner-item"><img src="/assets/copilot-studio-icon.png" alt="" width="22" height="22"><span>Built on <strong>Microsoft Copilot Studio</strong></span></span>
+    <span class="partner-item"><span>Implementation partner</span><img class="partner-rc" src="/assets/royal-cyber-logo.png" alt="Royal Cyber" width="103" height="24"></span>
+  </div>
+
+<div class="shell">
+<div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>FINANCIAL AID LAB</span></div>
+
+<div class="section-nav">
+<select id="section-jump" aria-label="Jump to section">
+<option value="today">1 · Three offices, one hold</option>
+<option value="account">2 · My account</option>
+<option value="documents">3 · Missing documents</option>
+<option value="money">4 · Plans, refunds, tax forms</option>
+<option value="nudges">5 · Before the deadline</option>
+<option value="office">6 · The aid office view</option>
+<option value="built">7 · How it's built</option>
+</select>
+<label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+</div>
+
+<main id="main" tabindex="-1">
+
+<!-- ===== 01 ===== -->
+<section id="today" aria-labelledby="today-heading">
+<p class="eyebrow"><b>01</b> THE QUESTION</p>
+<h1 id="today-heading">“Why is there a hold on my account?”</h1>
+<p class="lede">The answer usually lives in two or three systems owned by two or three offices. The student finds out by walking between them, often the week registration opens.</p>
+
+<div class="choices" role="group" aria-label="Compare how the question gets answered">
+<button type="button" data-route="today" aria-pressed="true">Today</button>
+<button type="button" data-route="agent" aria-pressed="false">With Campus Copilot</button>
+</div>
+
+<figure class="figure">
+  <ol class="route" id="route" aria-live="polite"></ol>
+  <p class="figure-takeaway" id="route-note"></p>
+</figure>
+<p class="side-link">Money is one of the reasons students leave, and a missing form should never be the one that decides it. The <a href="/retention.html">Retention Lab</a> shows the early-alert side of the same story.</p>
+<p class="pnote" hidden>The route is illustrative. The point: holds, balances and aid status sit in the student information system (SIS), the bursar or student-accounts system and the aid management system, each with its own office and front desk. One Copilot Studio agent, published to Teams and the student portal (website channel with Microsoft Entra ID sign-in), reads all three on the student's behalf and says which office owns the next step. It explains; it does not release holds or change aid.</p>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="account" aria-labelledby="account-heading">
+<p class="eyebrow"><b>02</b> MY ACCOUNT</p>
+<h2 id="account-heading">Signed in, a student sees their own record. Nobody else's.</h2>
+
+<div class="choices" role="group" aria-label="Who is asking">
+<button type="button" data-auth="out" aria-pressed="false">Not signed in</button>
+<button type="button" data-auth="in" aria-pressed="true">Signed in with campus account</button>
+</div>
+
+<div class="chat">
+  <div class="chat-bar"><span id="auth-bar">Signed in · Dani Okonkwo · only this student's record</span><span class="chat-tag">Student portal</span></div>
+  <div class="thread" id="account-thread" aria-live="polite"></div>
+  <div class="chat-foot"><button type="button" class="primary-button" id="account-play">Ask the question</button></div>
+</div>
+
+<div class="ledger" id="ledger" hidden>
+  <div><span>Account balance</span><strong>$412.50</strong><em>Past due since 15 Oct</em></div>
+  <div><span>Holds</span><strong>1</strong><em>Student accounts · blocks registration</em></div>
+  <div><span>Aid waiting to pay out</span><strong>$1,200</strong><em>Held for one missing document</em></div>
+</div>
+<p class="micro">Fictional student · Every line names the system it came from</p>
+<p class="pnote" hidden>Authentication is set to "Authenticate with Microsoft" (Entra ID), so the agent knows who is asking. The holds and balance tools pass the signed-in user's identity, never a student ID typed into chat, so a student can only reach their own record. There's no Power Platform connector for most SIS and bursar platforms. These tools come from an MCP server the institution or its partner hosts in front of the SIS (MCP tools are GA in Copilot Studio), or from a custom connector over the vendor's API. Not signed in, the agent answers only from public knowledge: the student-accounts pages in SharePoint or on the public site. Disclosure rules follow the institution's records policy (for US schools, its FERPA policy), set by the registrar, not by the agent.</p>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="documents" aria-labelledby="documents-heading">
+<p class="eyebrow"><b>03</b> MISSING DOCUMENTS</p>
+<h2 id="documents-heading">The aid is ready. One document is not.</h2>
+
+<p class="mini-head">Where Dani's aid stands</p>
+<ol class="timeline" id="timeline" aria-label="Aid timeline. Select a stage for details"></ol>
+<p class="stage-detail" id="stage-detail" aria-live="polite"></p>
+
+<p class="mini-head">Checklist for 2026–27</p>
+<ul class="checklist" id="checklist"></ul>
+
+<ol class="pipeline" id="pipeline" aria-label="What happens to an uploaded document"></ol>
+<p class="status-line" id="upload-status" role="status" aria-live="polite"></p>
+<p class="micro">Document names and stages are generic · Your institution's checklist differs · The agent files, staff decide</p>
+<p class="pnote" hidden>File uploads are on in the agent's settings (Teams and website channels accept PDF, JPG and PNG, up to 15 MB a file). A topic picks the file up from System.Activity.Attachments and passes contentBytes and name to an agent flow (Power Automate). The flow saves it to a SharePoint document library with the student, aid year and document type as metadata, and adds a "ready for review" row in Dataverse that the aid office works from. The agent never marks a document accepted, never decides on verification, and never changes a package. Those stay with aid staff in the aid system. Whether an application is selected for verification, and what's needed, comes from the aid system and the institution's rules.</p>
+</section>
+
+<!-- ===== 04 ===== -->
+<section id="money" aria-labelledby="money-heading">
+<p class="eyebrow"><b>04</b> PLANS, REFUNDS, TAX FORMS</p>
+<h2 id="money-heading">The three questions every student-accounts desk hears in January.</h2>
+
+<div class="choices" role="tablist" aria-label="Choose a question">
+<button type="button" role="tab" id="tab-plan" aria-controls="money-panel" aria-selected="true" data-money="plan">Payment plan</button>
+<button type="button" role="tab" id="tab-refund" aria-controls="money-panel" aria-selected="false" data-money="refund" tabindex="-1">Refund</button>
+<button type="button" role="tab" id="tab-tax" aria-controls="money-panel" aria-selected="false" data-money="tax" tabindex="-1">Tax form</button>
+</div>
+
+<div class="chat" id="money-panel" role="tabpanel" aria-labelledby="tab-plan">
+  <div class="chat-bar"><span id="money-bar">Payment plan · enrolment needs the student's yes</span><span class="chat-tag">Teams</span></div>
+  <div class="thread" id="money-thread" aria-live="polite"></div>
+  <div class="confirm" id="plan-confirm" hidden>
+    <p class="confirm-title">Enrol in the spring payment plan?</p>
+    <dl class="confirm-terms">
+      <div><dt>Amount</dt><dd>$2,940.00</dd></div>
+      <div><dt>Instalments</dt><dd>4 monthly</dd></div>
+      <div><dt>Plan fee</dt><dd>Set by the institution</dd></div>
+      <div><dt>First due</dt><dd>15 January</dd></div>
+    </dl>
+    <div class="controls"><button type="button" class="primary-button" id="plan-yes">Confirm enrolment</button><button type="button" class="ghost-button" id="plan-no">Not now</button></div>
+  </div>
+  <div class="chat-foot"><button type="button" class="primary-button" id="money-play">Play the conversation</button></div>
+</div>
+<p class="status-line" id="money-status" role="status" aria-live="polite"></p>
+<p class="micro">Illustrative amounts and terms · Plans, refund timing and tax forms follow your institution's published policy</p>
+<p class="pnote" hidden>Payment plan: the enrol tool calls the bursar or payment-plan provider's API (custom connector or MCP tool) and has "Ask the end user before running" set to Yes, so the student sees the terms and confirms before anything is written. Refund: a read-only tool returns refund status and the method on file; the agent explains the institution's timing from knowledge and doesn't promise a date. Tax form: the US annual tuition statement (Form 1098-T) is answered from the institution's FAQ in SharePoint knowledge, with citations, plus a link to download it from the student portal. The agent explains what the form is and where to get it. It doesn't give tax advice and suggests a tax professional for anything about the student's own return.</p>
+</section>
+
+<!-- ===== 05 ===== -->
+<section id="nudges" aria-labelledby="nudges-heading">
+<p class="eyebrow"><b>05</b> BEFORE THE DEADLINE</p>
+<h2 id="nudges-heading">Remind early. Bring in a person when money gets serious.</h2>
+
+<div class="choices" role="group" aria-label="Compare how reminders go out">
+<button type="button" data-nudge="blast" aria-pressed="true">One email to everyone</button>
+<button type="button" data-nudge="flow" aria-pressed="false">Scheduled flow, per student</button>
+</div>
+<figure class="figure">
+  <ol class="nudge-track" id="nudge-track"></ol>
+  <p class="figure-takeaway" id="nudge-note"></p>
+</figure>
+
+<p class="mini-head">When the conversation turns</p>
+<div class="chat">
+  <div class="chat-bar"><span>Dani · Teams · a week later</span><span class="chat-tag">Counselor handoff</span></div>
+  <div class="thread" id="handoff-thread" aria-live="polite"></div>
+  <div class="handoff-card" id="handoff-card" hidden>
+    <p class="mini-head">What the counselor sees first</p>
+    <ul>
+      <li><b>Asked about</b> sitting out spring because of the balance</li>
+      <li><b>Account</b> $412.50 past due · 1 registration hold</li>
+      <li><b>Aid</b> $1,200 waiting on the verification worksheet, now under review</li>
+      <li><b>Already tried</b> payment plan offered, not yet confirmed</li>
+    </ul>
+  </div>
+  <div class="chat-foot"><button type="button" class="primary-button" id="handoff-play">Play the conversation</button></div>
+</div>
+<p class="micro">Fictional student and counselor · Timing and channels are set by the aid office</p>
+<p class="pnote" hidden>Reminders: a scheduled cloud flow (Recurrence trigger) queries the aid system for students with open checklist items and a deadline inside the window, then sends each one a proactive message in Teams through the Microsoft Teams connector ("Post message in a chat or channel", posted as the Copilot Studio agent) and an Outlook email. Proactive Teams messages only reach students who have the agent installed in Teams, so keep email as the fallback. Handoff: the Escalate system topic with a Transfer conversation node passes the whole conversation and variables to a live engagement hub such as Omnichannel for Customer Service, or, without one, the topic books a counselor appointment and posts the summary to the aid team in Teams. The counselor, not the agent, talks about options like emergency funds or a professional-judgment review.</p>
+</section>
+
+<!-- ===== 06 ===== -->
+<section id="office" aria-labelledby="office-heading">
+<p class="eyebrow"><b>06</b> THE AID OFFICE VIEW</p>
+<h2 id="office-heading">“Who still has incomplete verification, by cohort?”</h2>
+
+<div class="staff-ask">
+  <span class="msg-who">AID OFFICE · TEAMS · FABRIC DATA AGENT</span>
+  <div class="choices" role="group" aria-label="Choose how to break it down">
+  <button type="button" data-cut="cohort" aria-pressed="true">By cohort</button>
+  <button type="button" data-cut="item" aria-pressed="false">By missing item</button>
+  <button type="button" data-cut="deadline" aria-pressed="false">By days to deadline</button>
+  </div>
+</div>
+<figure class="figure">
+  <figcaption class="fig-cap" id="cut-caption"></figcaption>
+  <div class="bars" id="cut-bars"></div>
+  <p class="figure-takeaway" id="cut-note"></p>
+</figure>
+
+<p class="mini-head">What the office would watch</p>
+<div class="choices" role="group" aria-label="Compare before and after">
+<button type="button" data-out="before" aria-pressed="true">Before</button>
+<button type="button" data-out="after" aria-pressed="false">After one term</button>
+</div>
+<div class="tiles" id="tiles"></div>
+<p class="micro">Illustrative figures · not product output</p>
+<p class="pnote" hidden>A Fabric data agent over the aid and SIS data in OneLake (mirrored or loaded by the data team) is added to the agent as a connected agent. This is preview, and Microsoft validates it only in Microsoft Teams, not in Microsoft 365 Copilot. Use user authentication so each staff member sees only the data their Fabric permissions allow. This agent is published to aid-office staff only, through an Entra ID security group; students never reach it. The before/after tiles are illustrative targets an office might track in Power BI. They are not results from any deployment.</p>
+</section>
+
+<!-- ===== 07 ===== -->
+<section id="built" aria-labelledby="built-heading">
+<p class="eyebrow"><b>07</b> HOW IT'S BUILT</p>
+<h2 id="built-heading">One agent explains. Staff decide.</h2>
+
+<div class="stack" id="stack" role="list"></div>
+<p class="stack-detail" id="stack-detail" aria-live="polite"></p>
+
+<p class="mini-head">Who does what</p>
+<div class="duties" id="duties"></div>
+<p class="figure-takeaway">Nothing that changes money, eligibility or a record happens without a person saying yes.</p>
+<p class="pnote" hidden>Every tool that writes, such as enrolling a payment plan or filing a document, has "Ask the end user before running" on, or runs inside an agent flow that ends in a staff step (a Dataverse review queue or the Approvals connector's "Start and wait for an approval"). Admins limit who can use each agent with Entra ID groups, set environments and data loss prevention (DLP) policies in the Power Platform admin center, read sessions and outcomes in Copilot Studio analytics, and audit agent activity in Microsoft Purview. Agents with event triggers run those triggers with the maker's credentials, so the reminder flow uses a dedicated service account with read-only access to the aid data it needs.</p>
+<p class="closing-question">How many of your holds are waiting on a form the student doesn't know about?</p>
+<p class="micro">Illustrative figures · not product output</p>
+</section>
+
+</main>
+
+<div class="closing"><a href="/student-services.html">← Student services</a><a href="/transfer-credit.html">Transfer credit →</a></div>
+</div>
+
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body></html>
