@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Campus Operations Lab · Campus Copilot</title>
+  <meta name="description" content="Visual companion for campus operations on Microsoft Copilot Studio: maintenance requests with a photo become work orders, requesters get status updates, rooms are booked through Outlook, FAQs come from the website, emergencies go straight to people, and facilities managers ask a Fabric data agent.">
+  <meta name="theme-color" content="#023347">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css">
+  <link rel="stylesheet" href="/campus-operations.css">
+  <script src="/campus-operations.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the Campus Operations Lab</a>
+  <nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/student-services.html">Student services</a>
+    <a href="/financial-aid.html">Financial aid</a>
+    <a href="/transfer-credit.html">Transfer credit</a>
+    <a href="/career-services.html">Careers</a>
+    <a href="/research-administration.html">Research admin</a>
+    <a href="/campus-operations.html" aria-current="page">Campus operations</a>
+    <a href="/alumni-advancement.html">Alumni</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+  <div class="partner-strip">
+    <span class="partner-item"><img src="/assets/copilot-studio-icon.png" alt="" width="22" height="22"><span>Built on <strong>Microsoft Copilot Studio</strong></span></span>
+    <span class="partner-item"><span>Implementation partner</span><img class="partner-rc" src="/assets/royal-cyber-logo.png" alt="Royal Cyber" width="103" height="24"></span>
+  </div>
+
+  <div class="shell">
+    <div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>CAMPUS OPERATIONS LAB</span></div>
+
+    <div class="section-nav">
+      <select id="section-jump" aria-label="Jump to section">
+        <option value="today">1 · The problem today</option>
+        <option value="report">2 · Report it with a photo</option>
+        <option value="spaces">3 · Rooms and event setup</option>
+        <option value="answers">4 · Quick answers, urgent issues</option>
+        <option value="manager">5 · The facilities manager's view</option>
+        <option value="built">6 · How it's built</option>
+        <option value="control">7 · People in control · outcome</option>
+      </select>
+      <label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+    </div>
+
+    <main id="main" tabindex="-1">
+
+      <!-- 01 -->
+      <section id="today" aria-labelledby="today-heading">
+        <p class="eyebrow"><b>01</b> THE PROBLEM TODAY</p>
+        <h1 id="today-heading">A dripping pipe passes through four inboxes before anyone picks up a wrench.</h1>
+        <p class="lede">Follow one leak in a residence hall bathroom from the moment a student notices it.</p>
+
+        <div class="choices" role="group" aria-label="Compare how the request travels">
+          <button type="button" id="j-today" aria-pressed="true">Today</button>
+          <button type="button" id="j-copilot" aria-pressed="false">With Campus Copilot</button>
+        </div>
+
+        <ol class="journey" id="journey" aria-live="polite"></ol>
+
+        <dl class="tally" id="tally">
+          <div><dt>People who retype it</dt><dd id="t-touch">4</dd></div>
+          <div><dt>Days to first update</dt><dd id="t-days">3</dd></div>
+          <div><dt>Photo reaches technician</dt><dd id="t-photo">No</dd></div>
+        </dl>
+        <p class="micro">Illustrative figures · not product output</p>
+        <p class="pnote" hidden>The "today" path is a composite of common campus patterns, not a measurement. The Campus Copilot path is one Copilot Studio agent published to Microsoft Teams and the campus website. It takes the photo and location in chat, creates the work order in the facilities system through a connector, and sends status updates back to the same chat. The sections that follow show each step and the exact mechanism behind it.</p>
+      </section>
+
+      <!-- 02 -->
+      <section id="report" aria-labelledby="report-heading">
+        <p class="eyebrow"><b>02</b> REPORT IT WITH A PHOTO</p>
+        <h2 id="report-heading">A photo and a room number become a work order. The student checks it before it's sent.</h2>
+
+        <p class="field-label">Where your work orders live</p>
+        <div class="choices is-small" role="group" aria-label="Choose the facilities system" id="sys-pick">
+          <button type="button" data-sys="snow" aria-pressed="true">ServiceNow</button>
+          <button type="button" data-sys="d365" aria-pressed="false">Dynamics 365 Field Service</button>
+          <button type="button" data-sys="cmms" aria-pressed="false">Another CMMS</button>
+        </div>
+
+        <div class="chat-frame">
+          <div class="chat-top"><span class="chat-dot" aria-hidden="true">CC</span><strong>Campus Copilot</strong><span class="chat-chan">Teams · signed in</span></div>
+          <div class="chat-body" id="report-chat" aria-live="polite"></div>
+          <div class="chat-actions">
+            <button type="button" class="primary-button" id="report-next">▶ Start</button>
+            <button type="button" class="ghost-button" id="report-reset">Reset</button>
+          </div>
+        </div>
+
+        <h3 class="mini-head">Tool calls <span class="field-hint">what the agent ran, in order</span></h3>
+        <ul class="tool-trace" id="report-trace" aria-label="Tool calls"></ul>
+
+        <h3 class="mini-head">Then: updates come back to the same chat</h3>
+        <ol class="status-track" id="status-track"></ol>
+        <div class="controls"><button type="button" class="ghost-button" id="status-play">▶ Play the updates</button></div>
+        <p class="micro">Fictional student and building · Illustrative conversation · not product output</p>
+        <p class="pnote" hidden>File input: Copilot Studio lets users attach images (JPG, PNG, WebP, GIF, up to 15 MB) in Teams and on the website channel, not on SharePoint. The agent can read the photo to suggest a trade, and the student confirms it. A topic takes the file from First(System.Activity.Attachments) and passes contentBytes and name to an agent flow (Learn: "Pass files to agent flows, connectors, and tools"). ServiceNow: the ServiceNow connector's Create Record and "Upload a binary file as an attachment" actions, against the facilities table your instance uses. Dynamics 365 Field Service: work orders are Dataverse rows, so the flow uses the Microsoft Dataverse connector's "Add a new row" on the Work Order table. Another CMMS: a custom connector over its REST API, or an MCP server if the vendor ships one. Status updates: the ServiceNow connector has no "record changed" trigger, so a scheduled cloud flow polls List Records (or ServiceNow calls a flow over HTTP). For Field Service, the Dataverse trigger "When a row is added, modified or deleted" fires instead. The flow posts back with the Teams connector's "Post message in a chat or channel", posting as the Copilot Studio agent, which needs the agent installed for that user.</p>
+      </section>
+
+      <!-- 03 -->
+      <section id="spaces" aria-labelledby="spaces-heading">
+        <p class="eyebrow"><b>03</b> ROOMS AND EVENT SETUP</p>
+        <h2 id="spaces-heading">"A room for 24 on Thursday, with a projector" takes one message.</h2>
+
+        <div class="book-grid">
+          <div class="book-form">
+            <p class="field-label">People</p>
+            <div class="choices is-small" role="group" aria-label="Group size" id="b-size">
+              <button type="button" data-v="8" aria-pressed="false">8</button>
+              <button type="button" data-v="24" aria-pressed="true">24</button>
+              <button type="button" data-v="80" aria-pressed="false">80</button>
+            </div>
+            <p class="field-label">Needs</p>
+            <div class="choices is-small" role="group" aria-label="Room needs" id="b-needs">
+              <button type="button" data-v="proj" aria-pressed="true">Projector</button>
+              <button type="button" data-v="access" aria-pressed="false">Step-free access</button>
+            </div>
+            <p class="field-label">Event setup</p>
+            <div class="choices is-small" role="group" aria-label="Event setup" id="b-setup">
+              <button type="button" data-v="none" aria-pressed="true">Room only</button>
+              <button type="button" data-v="setup" aria-pressed="false">Chairs, AV tech, catering</button>
+            </div>
+            <button type="button" class="primary-button" id="b-find">Find rooms</button>
+          </div>
+          <div class="book-out">
+            <p class="kicker" id="b-kicker">THURSDAY 19 NOVEMBER · 14:00–15:30</p>
+            <ul class="rooms" id="rooms" aria-live="polite"></ul>
+            <div class="confirm" id="b-confirm" hidden></div>
+          </div>
+        </div>
+        <ul class="tool-trace" id="book-trace" aria-label="Tool calls"></ul>
+        <p class="micro">Fictional rooms · Illustrative · not product output</p>
+        <p class="pnote" hidden>Rooms are Exchange room mailboxes, grouped into room lists. The agent uses the Office 365 Outlook connector: "Get rooms in room list (V2)" to list candidates (Get rooms (V2) returns at most 100), "Find meeting times (V2)" with the rooms as resource attendees to check availability, and "Create event (V4)" with the chosen room to book it. The room mailbox's own booking policy still decides whether it accepts. Capacity, step-free access and equipment come from room metadata you keep in Dataverse, or in Microsoft Places if you use it (Places core room booking is included in A1/A3/A5; check-in and auto-release need per-space licensing). The agent books through the room mailboxes that Places also uses; it doesn't call Places directly. Event setup isn't a booking. It becomes a request to the events team, created by an agent flow, and staff approve anything with a cost.</p>
+      </section>
+
+      <!-- 04 -->
+      <section id="answers" aria-labelledby="answers-heading">
+        <p class="eyebrow"><b>04</b> QUICK ANSWERS, URGENT ISSUES</p>
+        <h2 id="answers-heading">Parking and dining get an answer. Smoke gets a phone number and a person.</h2>
+
+        <div class="faq-chips" role="group" aria-label="Ask the agent" id="faq-chips"></div>
+        <div class="answer" id="answer" aria-live="polite"></div>
+        <p class="micro">Example numbers and URLs · Use your institution's real campus safety number</p>
+        <p class="pnote" hidden>FAQs: the campus parking, transport and dining pages are added as public website knowledge sources, so answers are generated from them and come with citations. Emergencies: a dedicated topic ("Emergency – call campus safety") whose description and trigger phrases cover fire, smoke, gas, injury and threats. It sends a fixed Message node, not generated text, and ends there. The agent's instructions also say never to troubleshoot an emergency. Topic detection can't be guaranteed, so the website and Teams welcome message shows the safety number too. Urgent but not life-threatening issues, such as water coming through a ceiling, go to the Escalate system topic. It gives the on-call number, and an agent flow posts a card to the on-call channel with the Teams connector's "Post card in a chat or channel". If you use Dynamics 365 Customer Service or ServiceNow for live chat, add a Transfer conversation node to Escalate so the person sees the full history.</p>
+      </section>
+
+      <!-- 05 -->
+      <section id="manager" aria-labelledby="manager-heading">
+        <p class="eyebrow"><b>05</b> THE FACILITIES MANAGER'S VIEW</p>
+        <h2 id="manager-heading">Ask the work order history a question, in Teams.</h2>
+
+        <div class="choices is-small" role="group" aria-label="Ask the Fabric data agent" id="mgr-q">
+          <button type="button" data-q="building" aria-pressed="true">Open work orders by building</button>
+          <button type="button" data-q="response" aria-pressed="false">Median first response, by trade</button>
+          <button type="button" data-q="aging" aria-pressed="false">Oldest open, over 14 days</button>
+        </div>
+        <figure class="figure">
+          <p class="kicker" id="mgr-kicker">FABRIC DATA AGENT · CONNECTED</p>
+          <p class="mgr-answer" id="mgr-answer"></p>
+          <div class="bars" id="mgr-bars"></div>
+          <p class="figure-takeaway" id="mgr-take"></p>
+        </figure>
+
+        <h3 class="mini-head">Buildings that report themselves <span class="field-hint">optional · Fabric Real-Time Intelligence</span></h3>
+        <div class="sensor">
+          <div class="sensor-gauge">
+            <span class="kicker">LAB FREEZER · SCIENCE HALL B-112</span>
+            <strong id="s-temp">−20.4 °C</strong>
+            <div class="sensor-track"><i id="s-fill"></i><span class="sensor-line" aria-hidden="true"></span></div>
+            <span class="sensor-rule">Activator rule: above −15 °C</span>
+          </div>
+          <ol class="sensor-steps" id="sensor-steps"></ol>
+        </div>
+        <div class="controls"><button type="button" class="ghost-button" id="sensor-run">▶ Simulate a warming freezer</button></div>
+        <p class="micro">Illustrative figures · not product output</p>
+        <p class="pnote" hidden>The Fabric data agent is added to a separate manager-facing Copilot Studio agent as a connected agent (preview). It's validated only in Microsoft Teams, not in Microsoft 365 Copilot. Use user authentication so each manager sees only the buildings they're permitted to see. Data: Fabric Data Factory's ServiceNow connector copies work orders into a lakehouse, or for Field Service, Link to Microsoft Fabric brings in Dataverse. Sensors: IoT data flows into an Eventstream, and an Activator rule watches it. Activator "custom actions" call a Power Automate flow (Learn: "Trigger custom actions"). The flow creates the work order with source "sensor" and posts to the on-call channel. A technician triages it, and nothing is closed automatically.</p>
+      </section>
+
+      <!-- 06 -->
+      <section id="built" aria-labelledby="built-heading">
+        <p class="eyebrow"><b>06</b> HOW IT'S BUILT</p>
+        <h2 id="built-heading">One agent in front. The systems you already run behind it.</h2>
+        <p class="lede">Tap a part to see what it does here.</p>
+
+        <div class="stack" id="stack" role="group" aria-label="Components"></div>
+        <div class="stack-detail" id="stack-detail" aria-live="polite">
+          <p class="kicker" id="sd-kicker"></p>
+          <strong id="sd-title"></strong>
+          <p id="sd-body"></p>
+          <span class="tier-tag" id="sd-tag"></span>
+        </div>
+        <p class="pnote" hidden>Every connector named on this page is in the Power Platform connector reference: ServiceNow (Create Record, Upload a binary file as an attachment, List Records), Office 365 Outlook (Get rooms in room list (V2), Find meeting times (V2), Create event (V4)), Microsoft Teams (Post message in a chat or channel, Post card in a chat or channel), and Microsoft Dataverse (Add a new row, When a row is added, modified or deleted). ServiceNow is a premium connector, so the flows need the matching Power Automate licensing, or agent flows billed as Copilot Credits. Generative orchestration must be on for the agent to choose tools and connected agents by their descriptions.</p>
+      </section>
+
+      <!-- 07 -->
+      <section id="control" aria-labelledby="control-heading">
+        <p class="eyebrow"><b>07</b> PEOPLE IN CONTROL · OUTCOME</p>
+        <h2 id="control-heading">The agent writes things down. People dispatch, approve and close.</h2>
+
+        <div class="choices is-small" role="group" aria-label="Filter by who decides" id="who-filter">
+          <button type="button" data-f="all" aria-pressed="true">All</button>
+          <button type="button" data-f="agent" aria-pressed="false">Agent alone</button>
+          <button type="button" data-f="user" aria-pressed="false">Requester confirms</button>
+          <button type="button" data-f="staff" aria-pressed="false">Staff decide</button>
+          <button type="button" data-f="never" aria-pressed="false">Never the agent</button>
+        </div>
+        <ul class="decide" id="decide"></ul>
+
+        <h3 class="mini-head">Outcome <span class="field-hint">one term, illustrative</span></h3>
+        <div class="choices is-small" role="group" aria-label="Compare outcome" id="out-pick">
+          <button type="button" data-o="before" aria-pressed="true">Before</button>
+          <button type="button" data-o="after" aria-pressed="false">With Campus Copilot</button>
+        </div>
+        <div class="outcome" id="outcome"></div>
+        <p class="micro">Illustrative figures · not product output</p>
+        <p class="pnote" hidden>Tools that change a record (create work order, book a room, create an event request) have "Ask the end user before running" turned on, so the requester confirms every one. Dispatch, priority changes, spending approvals and closing a work order stay in the facilities system with staff. Users sign in with Microsoft Entra ID on Teams and on the authenticated website channel, so each requester sees only their own requests. The flow looks up work orders by the signed-in user's email, never by a number they type. Keep request records and photos according to your institution's records-retention policy. Admins: Power Platform admin center (environments, DLP keeps the ServiceNow connector in the right group), Copilot Studio analytics (sessions, escalations, CSAT), Microsoft Purview audit, and Copilot Credits consumption.</p>
+      </section>
+
+      <footer class="closing-summary">
+        <p class="closing-question">A request written down once, with a photo, and answered in the same chat.</p>
+        <ul aria-label="Campus operations summary">
+          <li>Photo to work order</li>
+          <li>Updates come back</li>
+          <li>Emergencies go to people</li>
+        </ul>
+      </footer>
+    </main>
+
+    <div class="closing"><a href="/research-administration.html">← Research admin</a><a href="/alumni-advancement.html">Alumni →</a></div>
+  </div>
+  <noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body>
+</html>
