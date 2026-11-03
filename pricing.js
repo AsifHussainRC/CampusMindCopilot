@@ -159,7 +159,7 @@ const OFFERINGS = [
     id: 'recruitment',
     name: 'Recruitment',
     tagline: 'A public website agent for prospective students',
-    badge: 'STANDALONE',
+    badge: 'USE CASE',
     m365: false,
     includes: ['Website embed (no sign-in)', 'Generative answers from program pages', 'CRM hand-off via agent flow', 'Human hand-off topic'],
     questions: convQuestions({ conv: 8000, staff: 0, classic: 2, gen: 4, graph: 'off', actions: 1, flow: 15, prompts: 0, promptTier: 'basic', reason: '0' }).filter(q => q.when !== 'm365')
@@ -168,7 +168,7 @@ const OFFERINGS = [
     id: 'retention',
     name: 'Retention',
     tagline: 'An autonomous agent that turns early signals into outreach',
-    badge: 'STANDALONE',
+    badge: 'USE CASE',
     m365: false,
     autonomous: true,
     includes: ['Event and schedule triggers', 'Agent flows for outreach', 'Prompt tool drafts messages', 'Advisor hand-off in Teams'],
@@ -193,10 +193,82 @@ const OFFERINGS = [
     id: 'advising',
     name: 'Advising',
     tagline: 'An advising agent for students and advisors in Teams',
-    badge: 'STANDALONE',
+    badge: 'USE CASE',
     m365: true,
     includes: ['Degree-audit lookups via MCP or connector', 'Appointment booking agent flow', 'Advisor notes in Dataverse', 'Teams for students and staff'],
     questions: convQuestions({ conv: 6000, staff: 20, classic: 1, gen: 3, graph: 'off', actions: 2, flow: 10, prompts: 1, promptTier: 'standard', reason: '0' })
+  },
+  {
+    id: 'teaching-assistant',
+    name: 'Teaching assistant',
+    tagline: 'A course-aware assistant in Teams and on LMS course pages',
+    badge: 'USE CASE',
+    m365: true,
+    includes: ['Course files as SharePoint knowledge', 'LMS data via MCP or custom connector', 'Integrity guardrail topics', 'Instructor escalation flow'],
+    questions: convQuestions({ conv: 15000, staff: 5, classic: 1, gen: 3, graph: 'off', actions: 1, flow: 5, prompts: 0, promptTier: 'basic', reason: '0' })
+  },
+  {
+    id: 'student-services',
+    name: 'Student services',
+    tagline: 'One front door routing to an agent per office',
+    badge: 'USE CASE',
+    m365: true,
+    includes: ['Main agent + connected/child agents per office', 'Public and signed-in answers', 'Handoff with context (Dynamics 365 or ServiceNow case)', 'Per-office analytics'],
+    questions: convQuestions({ conv: 25000, staff: 5, classic: 2, gen: 3, graph: 'off', actions: 2, flow: 15, prompts: 0, promptTier: 'basic', reason: '0' })
+  },
+  {
+    id: 'financial-aid',
+    name: 'Financial aid',
+    tagline: 'Holds, balances, documents and payment plans for signed-in students',
+    badge: 'USE CASE',
+    m365: true,
+    includes: ['SIS / bursar data via MCP or custom connector', 'Document upload to staff review', 'Payment plans the student confirms', 'Scheduled deadline reminders'],
+    questions: convQuestions({ conv: 10000, staff: 5, classic: 1, gen: 2, graph: 'off', actions: 3, flow: 20, prompts: 0, promptTier: 'basic', reason: '0' })
+  },
+  {
+    id: 'transfer-credit',
+    name: 'Transfer credit',
+    tagline: 'Transcript upload, likely equivalencies and an evaluator queue',
+    badge: 'USE CASE',
+    m365: false,
+    includes: ['Transcript upload to an agent flow', 'Document processing (content processing tools)', 'Equivalency table in Dataverse', 'Evaluator approval queue'],
+    questions: convQuestions({ conv: 1500, staff: 0, classic: 1, gen: 2, graph: 'off', actions: 3, flow: 40, prompts: 1, promptTier: 'standard', reason: '0' }).filter(q => q.when !== 'm365').concat([{ id: 'pages', type: 'slider', label: 'Transcript pages processed per conversation', min: 0, max: 20, step: 1, def: 3, note: 'content processing · 8 credits per page' }])
+  },
+  {
+    id: 'career-services',
+    name: 'Career services',
+    tagline: 'Resume coaching, interview practice and counselor prep',
+    badge: 'USE CASE',
+    m365: true,
+    includes: ['Rubric-based resume feedback (prompt)', 'Interview practice topics', 'Listings via custom connector or MCP', 'Bookings-triggered prep flow'],
+    questions: convQuestions({ conv: 6000, staff: 5, classic: 1, gen: 3, graph: 'off', actions: 2, flow: 10, prompts: 2, promptTier: 'standard', reason: '0' })
+  },
+  {
+    id: 'research-administration',
+    name: 'Research administration',
+    tagline: 'Guideline answers, readiness checks and routed approvals for faculty',
+    badge: 'USE CASE',
+    m365: true,
+    includes: ['Sponsor guidelines as SharePoint knowledge', 'Readiness check (prompt)', 'Approvals: chair → dean → research office', 'Deadline reminder flows'],
+    questions: convQuestions({ conv: 2000, staff: 100, classic: 1, gen: 3, graph: 'off', actions: 2, flow: 25, prompts: 1, promptTier: 'standard', reason: '0' })
+  },
+  {
+    id: 'campus-operations',
+    name: 'Campus operations',
+    tagline: 'Work orders from a photo, room booking and on-call escalation',
+    badge: 'USE CASE',
+    m365: true,
+    includes: ['Work orders via ServiceNow, Field Service or CMMS', 'Outlook room booking', 'Fixed safety topic + escalation', 'Status updates in the same chat'],
+    questions: convQuestions({ conv: 5000, staff: 30, classic: 1, gen: 2, graph: 'off', actions: 2, flow: 15, prompts: 0, promptTier: 'basic', reason: '0' })
+  },
+  {
+    id: 'alumni-advancement',
+    name: 'Alumni & advancement',
+    tagline: 'An alumni website agent and donor briefs for gift officers',
+    badge: 'USE CASE',
+    m365: true,
+    includes: ['Alumni website agent (optional sign-in)', 'CRM via Dataverse, Salesforce or custom connector', 'Consent-aware outreach flows', 'Drafts officers edit and send'],
+    questions: convQuestions({ conv: 4000, staff: 15, classic: 1, gen: 3, graph: 'off', actions: 2, flow: 15, prompts: 1, promptTier: 'standard', reason: '0' })
   }
 ];
 
@@ -229,7 +301,15 @@ const OFFERING_ICONS = {
   recruitment: '<circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 4a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v2"/>',
   retention: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8z"/><path d="M7 12h3l1-2 2 4 1-2h3"/>',
   advising: '<path d="M4 19V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13"/><path d="M2 19h20M9 8h6M9 12h4"/>',
-  fabric: '<path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/>'
+  fabric: '<path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/>',
+  'teaching-assistant': '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>',
+  'student-services': '<path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/>',
+  'financial-aid': '<rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/>',
+  'transfer-credit': '<path d="M7 7h11l-3-3M17 17H6l3 3"/>',
+  'career-services': '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
+  'research-administration': '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>',
+  'campus-operations': '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
+  'alumni-advancement': '<path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/>'
 };
 function offeringIcon(id) {
   return `<span class="offer-icon" aria-hidden="true"><svg viewBox="0 0 24 24">${OFFERING_ICONS[id] || OFFERING_ICONS.chat}</svg></span>`;
@@ -408,6 +488,7 @@ function perConversation(oid) {
     const r = ans(oid, 'promptTier') === 'standard' ? RATE.promptStandard : RATE.promptBasic;
     add('Prompt tool', a('prompts') * r, `${a('prompts')} × ${r} (${ans(oid, 'promptTier')})`);
   }
+  add('Content processing', a('pages') * RATE.contentPage, `${a('pages')} pages × ${RATE.contentPage}`);
   if (a('reason')) add('Reasoning model tokens', a('reason') / 1000 * RATE.premiumPer1k, `${num(a('reason'))} tokens × ${RATE.premiumPer1k}/1,000`);
   /* Data Bridge rides on the ladder agent's conversations. */
   if ((oid === 'chat' || oid === 'plus') && state.picked.includes('fabric')) {
@@ -581,6 +662,10 @@ function renderQuote(q) {
   if (state.picked.includes('fabric')) a.push('Fabric capacity is priced at the East US pay-as-you-go rate and assumes it runs all month. Azure bills it per second, prices vary by region and reservations cost less. F2 is the minimum Microsoft lists. Size it to your query load. Each Fabric data agent call is counted here as one agent action, which is our assumption.');
   if (state.picked.includes('retention')) a.push('Retention runs autonomously, so Microsoft 365 Copilot licences never zero-rate it.');
   if (state.picked.includes('recruitment')) a.push('Recruitment visitors are anonymous, so every conversation is billed.');
+  if (state.picked.includes('transfer-credit')) a.push('Transfer credit applicants are usually not staff, so no Microsoft 365 Copilot zero-rating applies; transcript pages are billed as content processing (8 credits per page).');
+  if (state.picked.includes('alumni-advancement')) a.push('Alumni on the website are always billed; only gift officers using the agent in Teams under their own licensed identity can be zero-rated.');
+  if (state.picked.includes('research-administration')) a.push('Research administration users are faculty and staff, so licensed users reduce the bill the most here.');
+  if (state.picked.some(id => ['student-services','financial-aid','career-services','teaching-assistant'].includes(id))) a.push('Student-facing agents are billed for student conversations; Microsoft 365 Copilot licences only zero-rate employee-facing use.');
   a.push('Students count as unlicensed. Teams publishing adds no channel fee. Copilot Studio user licences for makers are $0. Partner build and support services are not included.');
   $('quote-assumptions').textContent = a.join(' ');
 }
