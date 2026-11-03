@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transfer Credit Lab · Campus Copilot</title>
+  <meta name="description" content="Visual companion for transfer credit on Microsoft Copilot Studio: a transfer student uploads a transcript, an agent flow extracts the courses, matches them to the equivalency table and shows an unofficial degree-progress estimate, and evaluators approve or override every new decision.">
+  <meta name="theme-color" content="#023347">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css">
+  <link rel="stylesheet" href="/transfer-credit.css">
+  <script src="/transfer-credit.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the Transfer Credit Lab</a>
+  <nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/student-services.html">Student services</a>
+    <a href="/financial-aid.html">Financial aid</a>
+    <a href="/transfer-credit.html" aria-current="page">Transfer credit</a>
+    <a href="/career-services.html">Careers</a>
+    <a href="/research-administration.html">Research admin</a>
+    <a href="/campus-operations.html">Campus operations</a>
+    <a href="/alumni-advancement.html">Alumni</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+  <div class="partner-strip">
+    <span class="partner-item"><img src="/assets/copilot-studio-icon.png" alt="" width="22" height="22"><span>Built on <strong>Microsoft Copilot Studio</strong></span></span>
+    <span class="partner-item"><span>Implementation partner</span><img class="partner-rc" src="/assets/royal-cyber-logo.png" alt="Royal Cyber" width="103" height="24"></span>
+  </div>
+
+<div class="shell">
+  <div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>TRANSFER CREDIT LAB</span></div>
+
+  <div class="section-nav">
+    <select id="section-jump" aria-label="Jump to section">
+      <option value="wait">1 · The six-week wait</option>
+      <option value="extract">2 · Upload and extract</option>
+      <option value="match">3 · Match to the table</option>
+      <option value="progress">4 · Unofficial progress</option>
+      <option value="review">5 · Evaluator review</option>
+      <option value="stack">6 · How it's built</option>
+      <option value="control">7 · People stay in control</option>
+    </select>
+    <label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+  </div>
+
+  <main id="main" tabindex="-1">
+
+  <!-- ===== 01 ===== -->
+  <section id="wait" aria-labelledby="wait-heading">
+    <p class="eyebrow"><b>01</b> THE SIX-WEEK WAIT</p>
+    <h1 id="wait-heading">“Will my credits transfer?” shouldn’t take a semester to answer.</h1>
+    <ul class="intro-chips" aria-label="Where it runs">
+      <li>Copilot Studio agent</li>
+      <li>Students · website and Teams</li>
+      <li>Evaluators decide</li>
+    </ul>
+
+    <div class="choices" role="group" aria-label="Compare how incoming courses are handled">
+      <button type="button" data-wait="today" aria-pressed="true">Today</button>
+      <button type="button" data-wait="agent" aria-pressed="false">With Campus Copilot</button>
+    </div>
+
+    <div class="wait-grid">
+      <figure class="figure">
+        <figcaption class="fig-cap">100 incoming courses on a typical transcript batch</figcaption>
+        <div class="course-grid" id="course-grid" role="img" aria-labelledby="course-grid-alt"></div>
+        <p class="sr-only" id="course-grid-alt"></p>
+        <ul class="legend" id="course-legend"></ul>
+      </figure>
+      <figure class="figure">
+        <figcaption class="fig-cap">Days until the student learns what counts</figcaption>
+        <ol class="timeline" id="wait-timeline"></ol>
+        <p class="figure-takeaway" id="wait-note"></p>
+      </figure>
+    </div>
+    <p class="micro">Illustrative figures · not product output</p>
+    <p class="pnote" hidden>The figures are illustrative. The point: most incoming courses already have an approved rule in the institution's equivalency table, yet every transcript still waits in one queue. The agent applies the rules the registrar has already approved, labels the result an unofficial estimate, and sends only the courses with no rule to an evaluator. Nothing here is a Microsoft benchmark.</p>
+  </section>
+
+  <!-- ===== 02 ===== -->
+  <section id="extract" aria-labelledby="extract-heading">
+    <p class="eyebrow"><b>02</b> UPLOAD AND EXTRACT</p>
+    <h2 id="extract-heading">A PDF goes in. A course list comes out.</h2>
+
+    <p class="mini-head" id="sample-label">Pick a sample transcript</p>
+    <div class="choices sample-picker" role="group" aria-labelledby="sample-label" id="sample-picker"></div>
+
+    <div class="controls"><button type="button" id="extract-play" class="primary-button">▶ Upload and extract</button></div>
+
+    <div class="extract-stage">
+      <div class="thread" id="extract-thread" aria-live="polite"></div>
+      <div class="extract-pair">
+        <figure class="paper" id="paper" aria-label="Sample transcript (fictional)">
+          <div class="paper-head">
+            <strong id="paper-school"></strong>
+            <span id="paper-sub"></span>
+          </div>
+          <ol class="paper-lines" id="paper-lines"></ol>
+          <span class="paper-stamp">FICTIONAL SAMPLE</span>
+        </figure>
+        <div class="extract-out">
+          <p class="mini-head">Extracted by the agent flow</p>
+          <table class="xtable">
+            <thead><tr><th scope="col">Course</th><th scope="col">Cr</th><th scope="col">Gr</th><th scope="col">Read confidence</th></tr></thead>
+            <tbody id="extract-body"></tbody>
+          </table>
+          <p class="status-line" id="extract-status" role="status"></p>
+        </div>
+      </div>
+    </div>
+    <p class="micro">Fictional colleges and student · Illustrative confidence values</p>
+    <p class="pnote" hidden>File uploads are turned on in Settings → Generative AI → File processing capabilities (supported on Teams and the website / Direct Line channels, not on the SharePoint channel; PDF up to 15 MB and 40 pages). A topic picks up the file with a Question node set to identify a File, or with First(System.Activity.Attachments), and passes contentBytes and name to an agent flow. In the flow, AI Builder's Process documents action runs a custom document processing model trained on the transcript layouts you receive and returns each field with a confidence score. For layouts you haven't trained on, a Run a prompt node with a document input and JSON output can do the same job. Azure AI Document Intelligence (form recognizer) is the pro-code alternative. Note that a prompt added directly as an agent tool can't take a document input yet, which is why the extraction runs inside the flow. Low-confidence rows are shown back to the student to confirm.</p>
+  </section>
+
+  <!-- ===== 03 ===== -->
+  <section id="match" aria-labelledby="match-heading">
+    <p class="eyebrow"><b>03</b> MATCH TO THE TABLE</p>
+    <h2 id="match-heading">Rules the registrar already approved, applied in seconds.</h2>
+
+    <div class="match-top">
+      <div class="controls"><button type="button" id="match-play" class="primary-button">▶ Match courses</button></div>
+      <p class="learned" id="learned-count" hidden></p>
+    </div>
+    <ul class="tool-trace" id="match-trace" aria-label="Tools the agent flow called"></ul>
+
+    <div class="choices filter" role="group" aria-label="Filter matches" id="match-filter">
+      <button type="button" data-filter="all" aria-pressed="true">All <b id="n-all">0</b></button>
+      <button type="button" data-filter="exact" aria-pressed="false">Approved rule <b id="n-exact">0</b></button>
+      <button type="button" data-filter="likely" aria-pressed="false">Likely <b id="n-likely">0</b></button>
+      <button type="button" data-filter="review" aria-pressed="false">Needs evaluator review <b id="n-review">0</b></button>
+      <button type="button" data-filter="nocredit" aria-pressed="false">Not transferable <b id="n-nocredit">0</b></button>
+    </div>
+    <ol class="match-list" id="match-list"></ol>
+    <p class="status-line" id="match-status" role="status"></p>
+    <p class="micro">Match confidence is a score the flow computes from the rules below · Illustrative</p>
+    <p class="pnote" hidden>The equivalency table is a Dataverse table (sending institution, course, home course, credits, minimum grade, status, approved by, effective term). The flow looks up each course with the Microsoft Dataverse connector's List rows action. An approved row is an "Approved rule". When there's no row, a Run a prompt node compares the extracted course title and the sending college's catalog description with your own catalog and proposes a "Likely" equivalent; the flow scores it and never marks it approved. Courses with no plausible equivalent go to "Needs evaluator review". Grade and pass/fail policy (here: C- or better) is a plain condition in the flow. The confidence labels are your own scoring, not a Microsoft feature.</p>
+  </section>
+
+  <!-- ===== 04 ===== -->
+  <section id="progress" aria-labelledby="progress-heading">
+    <p class="eyebrow"><b>04</b> UNOFFICIAL PROGRESS</p>
+    <h2 id="progress-heading">Same courses, different major, different answer.</h2>
+
+    <div class="choices" role="group" aria-label="Program of interest" id="program-picker"></div>
+
+    <div class="estimate-banner" role="note">
+      <strong>Unofficial estimate</strong>
+      <span>Not a credit evaluation. Your official evaluation comes from the Registrar after admission.</span>
+    </div>
+
+    <figure class="figure progress-card">
+      <div class="progress-head">
+        <div><strong id="prog-applied">0</strong><span>credits likely to apply</span></div>
+        <div class="is-right"><strong id="prog-pending">0</strong><span>waiting on an evaluator</span></div>
+      </div>
+      <div class="degree-bar" id="degree-bar" role="img" aria-labelledby="degree-alt">
+        <i class="seg-exact" id="seg-exact"></i><i class="seg-likely" id="seg-likely"></i><i class="seg-review" id="seg-review"></i>
+      </div>
+      <p class="sr-only" id="degree-alt"></p>
+      <ul class="legend">
+        <li><i class="sw sw-exact"></i>Approved rule</li>
+        <li><i class="sw sw-likely"></i>Likely</li>
+        <li><i class="sw sw-review"></i>Pending review</li>
+        <li><i class="sw sw-empty"></i>Still to complete of 120</li>
+      </ul>
+      <div class="buckets" id="buckets"></div>
+      <p class="figure-takeaway" id="progress-note"></p>
+    </figure>
+    <p class="micro">Fictional programs and requirements · Uses the transcript picked in section 02</p>
+    <p class="pnote" hidden>Switching program calls a tool that runs a what-if check. If your degree audit system exposes one, wrap it in an MCP server and add it as a tool (MCP tools are GA in Copilot Studio). Otherwise, an agent flow sums the mapped courses against a Dataverse table of program requirements. The agent's instructions require the "Unofficial estimate" label on every answer, and the transfer policy page in SharePoint is a knowledge source, so policy answers come with citations. Only approved rules and likely matches count, and pending courses are shown separately so the student isn't told something the Registrar hasn't decided.</p>
+  </section>
+
+  <!-- ===== 05 ===== -->
+  <section id="review" aria-labelledby="review-heading">
+    <p class="eyebrow"><b>05</b> EVALUATOR REVIEW</p>
+    <h2 id="review-heading">Evaluators decide. Every decision teaches the table.</h2>
+
+    <div class="review-grid">
+      <div class="queue">
+        <div class="room-bar"><span class="room-tag">EVALUATION QUEUE · TEAMS</span><span id="queue-count">0 open</span></div>
+        <ol class="queue-list" id="queue-list"></ol>
+        <p class="queue-empty" id="queue-empty" hidden>Queue clear. Every course on this transcript has a decision.</p>
+      </div>
+      <div class="loop-side">
+        <p class="mini-head">After the evaluator decides</p>
+        <ol class="loop-steps" id="loop-steps">
+          <li data-step="0"><span class="who is-staff">Evaluator</span><strong>Approve or override</strong><span class="sub">In the queue app or the Teams approval card</span></li>
+          <li data-step="1"><span class="who">Agent flow</span><strong>Write the rule</strong><span class="sub">New row in the equivalency table: status Approved, who, when</span></li>
+          <li data-step="2"><span class="who">Agent flow</span><strong>Tell the student</strong><span class="sub">Teams or email: the course has a decision</span></li>
+          <li data-step="3"><span class="who">Next transcript</span><strong>Matches instantly</strong><span class="sub">Same course, same college: Approved rule</span></li>
+        </ol>
+        <p class="status-line" id="loop-status" role="status"></p>
+
+        <p class="mini-head">Evaluator asks the data, in Teams</p>
+        <div class="thread" id="fabric-thread"></div>
+        <button type="button" class="ghost-button" id="fabric-play">▶ Ask the Fabric data agent</button>
+      </div>
+    </div>
+    <p class="micro">Decisions here update sections 03 and 04 · Illustrative</p>
+    <p class="pnote" hidden>Each "Likely" or "Needs review" course becomes a row in a Dataverse evaluation request table. Evaluators work the queue in a model-driven app or in Teams. A cloud flow can also send an approval with the Standard approvals connector ("Start and wait for an approval"); multistage approvals in agent flows are preview. Because a synchronous agent flow must answer the agent within about two minutes, the wait happens in a separate flow that starts from the Dataverse "When a row is added, modified or deleted" trigger, not inside the chat. Only after the evaluator decides does the flow write the equivalency row. That's the learning loop: a lookup table getting better, not a model retraining itself. The evaluator agent in Teams has a connected Fabric data agent (preview, validated only in Teams) over the same tables, linked into OneLake with Link to Microsoft Fabric.</p>
+  </section>
+
+  <!-- ===== 06 ===== -->
+  <section id="stack" aria-labelledby="stack-heading">
+    <p class="eyebrow"><b>06</b> HOW IT'S BUILT</p>
+    <h2 id="stack-heading">Two agents, one table, every part on the Microsoft stack.</h2>
+
+    <div class="stack-map" id="stack-map"></div>
+    <div class="stack-detail" id="stack-detail" aria-live="polite">
+      <strong id="stack-detail-title"></strong>
+      <p id="stack-detail-body"></p>
+      <span class="lane-src" id="stack-detail-tag"></span>
+    </div>
+    <p class="micro">Select any part to see what it does</p>
+    <p class="pnote" hidden>Connectors named here are in the Power Platform connector reference: Microsoft Dataverse, Standard approvals, Azure AI Document Intelligence (form recognizer), Microsoft Teams, Office 365 Outlook and SharePoint. AI Builder's Process documents and the Run a prompt node are AI capabilities in agent flows. The SIS / degree audit MCP server is something your team or SIS vendor provides; Copilot Studio connects to it, it doesn't ship one. Agent flows use Copilot Studio capacity (Copilot Credits) for each action they run.</p>
+  </section>
+
+  <!-- ===== 07 ===== -->
+  <section id="control" aria-labelledby="control-heading">
+    <p class="eyebrow"><b>07</b> PEOPLE STAY IN CONTROL</p>
+    <h2 id="control-heading">The agent estimates. The Registrar awards credit.</h2>
+
+    <div class="choices" role="group" aria-label="See it as" id="role-picker">
+      <button type="button" data-role="student" aria-pressed="true">Student</button>
+      <button type="button" data-role="evaluator" aria-pressed="false">Evaluator</button>
+      <button type="button" data-role="admin" aria-pressed="false">Registrar admin</button>
+    </div>
+    <div class="rights">
+      <div><p class="mini-head">Can</p><ul class="can" id="role-can"></ul></div>
+      <div><p class="mini-head">Cannot</p><ul class="cannot" id="role-cannot"></ul></div>
+    </div>
+
+    <p class="mini-head">Outcome over two terms</p>
+    <div class="kpis">
+      <div class="kpi"><strong>Minutes</strong><span>to an unofficial estimate, down from weeks</span></div>
+      <div class="kpi"><strong>74% → 88%</strong><span>of incoming courses matched by an approved rule</span></div>
+      <div class="kpi"><strong>−41%</strong><span>evaluator time on courses that already had a rule</span></div>
+    </div>
+    <figure class="figure">
+      <figcaption class="fig-cap">Share of incoming courses matched by an approved rule, by month</figcaption>
+      <div class="month-bars" id="month-bars"></div>
+      <p class="figure-takeaway">Each evaluator decision is one fewer course in next month's queue.</p>
+    </figure>
+    <p class="micro">Illustrative figures · not product output</p>
+    <p class="pnote" hidden>Students sign in before uploading. Use Authenticate with Microsoft or Entra ID for admitted students with campus accounts, and Authenticate manually (Generic OAuth 2) against the applicant portal for prospective students. The agent then reads and writes only that student's evaluation request. Uploaded transcripts are stored in a Dataverse file column or a restricted SharePoint library and kept according to the institution's records retention policy. The agent never writes to the student record. Only an evaluator's decision creates an equivalency row, and posting credit to the SIS stays with the Registrar's existing process. Admins manage environments and DLP in the Power Platform admin center, audit with Microsoft Purview, and see usage in Copilot Studio analytics.</p>
+
+    <p class="closing-question">Which of your transfer rules already exist, but still wait in a queue?</p>
+    <ul class="closing-chips" aria-label="Transfer credit summary">
+      <li>Unofficial estimate in minutes</li>
+      <li>Evaluator approves every new rule</li>
+      <li>Approved rules reused next time</li>
+    </ul>
+  </section>
+
+  </main>
+
+  <div class="closing"><a href="/financial-aid.html">← Financial aid</a><a href="/career-services.html">Careers →</a></div>
+</div>
+
+<p id="live-region" class="sr-only" role="status" aria-live="polite"></p>
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body>
+</html>
