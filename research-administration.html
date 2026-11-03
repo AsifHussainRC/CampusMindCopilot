@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Research Administration Lab · Campus Copilot</title><meta name="description" content="Visual companion for research administration on Microsoft Copilot Studio: sponsor-guideline Q&amp;A, a proposal readiness check, compliance hand-offs, chair-to-dean-to-sponsored-programs approvals, deadline reminders and post-award spend questions through a Fabric data agent."><meta name="theme-color" content="#023347"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css"><link rel="stylesheet" href="/research-administration.css"><script src="/research-administration.js" defer></script></head>
+<body><a class="skip" href="#main">Skip to the Lab</a><nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/student-services.html">Student services</a>
+    <a href="/financial-aid.html">Financial aid</a>
+    <a href="/transfer-credit.html">Transfer credit</a>
+    <a href="/career-services.html">Careers</a>
+    <a href="/research-administration.html" aria-current="page">Research admin</a>
+    <a href="/campus-operations.html">Campus operations</a>
+    <a href="/alumni-advancement.html">Alumni</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+  <div class="partner-strip">
+    <span class="partner-item"><img src="/assets/copilot-studio-icon.png" alt="" width="22" height="22"><span>Built on <strong>Microsoft Copilot Studio</strong></span></span>
+    <span class="partner-item"><span>Implementation partner</span><img class="partner-rc" src="/assets/royal-cyber-logo.png" alt="Royal Cyber" width="103" height="24"></span>
+  </div>
+
+<div class="shell">
+<div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>RESEARCH ADMINISTRATION LAB</span></div>
+
+<div class="section-nav">
+<select id="section-jump" aria-label="Jump to section">
+<option value="queue">1 · The deadline queue</option>
+<option value="guidelines">2 · Ask the guidelines</option>
+<option value="readiness">3 · Readiness check</option>
+<option value="compliance">4 · Compliance hand-offs</option>
+<option value="routing">5 · Routing &amp; reminders</option>
+<option value="postaward">6 · After the award</option>
+<option value="built">7 · How it's built</option>
+</select>
+<label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+</div>
+
+<main id="main" tabindex="-1">
+
+<!-- ===== 01 ===== -->
+<section id="queue" aria-labelledby="queue-heading">
+<p class="eyebrow"><b>01</b> THE DEADLINE QUEUE</p>
+<h1 id="queue-heading">The sponsor's deadline is fixed. Everything before it is a queue.</h1>
+<ul class="intro-chips" aria-label="Where it runs">
+  <li>Copilot Studio agent</li>
+  <li>Faculty &amp; research office · in Teams</li>
+  <li>People approve, people decide</li>
+</ul>
+
+<div class="choices" role="group" aria-label="Compare the last ten working days before a deadline">
+<button type="button" data-queue="today" aria-pressed="true">Today</button>
+<button type="button" data-queue="copilot" aria-pressed="false">With Campus Copilot</button>
+</div>
+
+<figure class="figure">
+  <figcaption class="fig-cap">Last ten working days before a sponsor deadline</figcaption>
+  <div class="days" id="queue-days" role="img" aria-labelledby="queue-alt"></div>
+  <ul class="legend" aria-hidden="true">
+    <li><i class="k-draft"></i>Writing &amp; questions</li>
+    <li><i class="k-route"></i>Waiting for signatures</li>
+    <li><i class="k-review"></i>Sponsored programs review</li>
+    <li><i class="k-buffer"></i>Buffer</li>
+  </ul>
+  <p class="sr-only" id="queue-alt"></p>
+  <p class="figure-takeaway" id="queue-note"></p>
+</figure>
+
+<h3 class="mini-head">What lands in the research office inbox, a typical week</h3>
+<div class="bars" id="inbox-bars"></div>
+<p class="micro">Illustrative figures · not product output</p>
+<p class="pnote" hidden>The figures are illustrative, not a benchmark. The story: most questions to a pre-award office are answerable from documents the office already holds, and most of the last-week crunch is waiting on signatures. One Copilot Studio agent, published to Microsoft Teams and shared with faculty and research-office staff through Entra ID security groups, takes the repeatable part so officers spend their time on review.</p>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="guidelines" aria-labelledby="guidelines-heading">
+<p class="eyebrow"><b>02</b> ASK THE GUIDELINES</p>
+<h2 id="guidelines-heading">Answers from the sponsor's own document, with the page it came from.</h2>
+
+<p class="lede">Dr. Tomasz Wren is applying to the (fictional) Northfield Foundation Early Career Award. Pick a question.</p>
+<div class="choices" role="group" aria-label="Choose a question">
+<button type="button" data-q="limit" aria-pressed="true">Page limit?</button>
+<button type="button" data-q="indirect" aria-pressed="false">Indirect costs?</button>
+<button type="button" data-q="eligible" aria-pressed="false">Am I eligible?</button>
+<button type="button" data-q="unknown" aria-pressed="false">Can I add a co-PI abroad?</button>
+</div>
+<div class="room">
+  <div class="room-bar"><span class="room-tag">TEAMS · 1:1 WITH CAMPUS COPILOT</span><span>Knowledge: Sponsor guidelines library</span></div>
+  <div class="thread" id="qa-thread" aria-live="off"></div>
+</div>
+<p class="figure-takeaway" id="qa-note">Every answer cites the guideline the office uploaded. When the guide is silent, it says so.</p>
+<p class="pnote" hidden>The pre-award office keeps a SharePoint document library of sponsor guidelines and solicitations (PDFs), added to the agent as a SharePoint knowledge source. Answers come with citations to the file. SharePoint knowledge respects the signed-in user's permissions, so draft or internal-only guidance stays with staff. Agent instructions say: answer only from the uploaded guidelines, quote the section, and if the guideline is silent or ambiguous, say so and offer a hand-off to a pre-award officer. Sponsors here are fictional; real sponsor rules change often, so the office owns keeping the library current.</p>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="readiness" aria-labelledby="readiness-heading">
+<p class="eyebrow"><b>03</b> READINESS CHECK</p>
+<h2 id="readiness-heading">It checks the draft against the solicitation. It doesn't write the science.</h2>
+
+<div class="upload">
+  <div class="file"><span class="file-ico" aria-hidden="true">PDF</span><div><strong>Wren_ECA_draft_v4.pdf</strong><span>Uploaded in Teams · 18 pages</span></div></div>
+  <div class="file"><span class="file-ico is-sol" aria-hidden="true">PDF</span><div><strong>Northfield ECA solicitation FY27</strong><span>From the guidelines library</span></div></div>
+</div>
+<div class="controls">
+  <button type="button" id="ready-run" class="primary-button">▶ Run the readiness check</button>
+</div>
+<div class="choices is-small" role="group" aria-label="Filter results">
+<button type="button" data-rf="all" aria-pressed="true">All items</button>
+<button type="button" data-rf="gap" aria-pressed="false">Gaps only</button>
+</div>
+<div class="meter" aria-hidden="true"><i id="ready-meter"></i></div>
+<ol class="checklist" id="ready-list"></ol>
+<p class="status-line" id="ready-status" role="status" aria-live="polite"></p>
+<p class="figure-takeaway">Flags are questions for the PI and the pre-award officer, not edits to the proposal.</p>
+<p class="pnote" hidden>A prompt tool (Tools → New tool → Prompt) with two document inputs: the draft PDF the PI uploads in chat, and the solicitation. Prompt document inputs accept PDF, PNG and JPG. The prompt's instructions ask it to list the solicitation's required sections, page limits and budget-justification items, mark each as present, missing or inconsistent, and quote where it looked. It is told never to rewrite or suggest research content. The output is a checklist for people to review. The pre-award officer still does the formal review in section 05.</p>
+</section>
+
+<!-- ===== 04 ===== -->
+<section id="compliance" aria-labelledby="compliance-heading">
+<p class="eyebrow"><b>04</b> COMPLIANCE HAND-OFFS</p>
+<h2 id="compliance-heading">It asks the screening questions. The compliance offices decide.</h2>
+
+<p class="lede">Answer the way Dr. Wren would. The agent never says "you don't need review."</p>
+<div class="screen" id="screen"></div>
+<div class="handoff" id="handoff" aria-live="polite"></div>
+<p class="pnote" hidden>A Copilot Studio topic asks a fixed set of screening questions with question nodes (multiple-choice: Yes / No / Not sure). The wording comes from the institution's own compliance offices. Any Yes or Not sure triggers a hand-off message, never a determination. The PI confirms, then an agent flow (Power Automate) posts the proposal details to that office's Teams channel with the Microsoft Teams connector, or emails the office with Office 365 Outlook. The agent's instructions forbid legal or compliance conclusions; it points to the institution's policies and the office that decides.</p>
+</section>
+
+<!-- ===== 05 ===== -->
+<section id="routing" aria-labelledby="routing-heading">
+<p class="eyebrow"><b>05</b> ROUTING &amp; REMINDERS</p>
+<h2 id="routing-heading">Chair, dean, sponsored programs. In order, in Teams, with a record.</h2>
+
+<div class="controls">
+  <button type="button" id="route-next" class="primary-button">▶ Submit for internal routing</button>
+  <button type="button" id="route-reset" class="ghost-button">Reset</button>
+</div>
+<ol class="route" id="route"></ol>
+<p class="status-line" id="route-status" role="status" aria-live="polite"></p>
+
+<h3 class="mini-head">Deadline reminders · tap a day</h3>
+<div class="countdown" id="countdown" role="group" aria-label="Reminder schedule"></div>
+<div class="remind-card" id="remind-card" aria-live="polite"></div>
+<p class="pnote" hidden>Routing is an agent flow started from the agent once the PI confirms. It uses the Standard approvals connector's "Start and wait for an approval" action three times in sequence: department chair, then dean, then the sponsored programs officer. Each step only starts after the previous one approves; a rejection stops the flow and returns comments to the PI. Approvers respond from a Teams adaptive card, an Outlook email or the Approvals app in Teams. Multistage approvals in agent flows are also available but are in preview. Reminders are a separate scheduled cloud flow (Recurrence trigger, daily) that reads open proposals from a Dataverse table and posts reminders in Teams. Every flow action consumes Copilot Credits when it runs as an agent flow.</p>
+</section>
+
+<!-- ===== 06 ===== -->
+<section id="postaward" aria-labelledby="postaward-heading">
+<p class="eyebrow"><b>06</b> AFTER THE AWARD</p>
+<h2 id="postaward-heading">"How much is left?" answered from the ledger. Only for your own awards.</h2>
+
+<div class="choices" role="group" aria-label="Signed in as">
+<button type="button" data-pi="wren" aria-pressed="true">Signed in as Dr. Wren</button>
+<button type="button" data-pi="nanda" aria-pressed="false">Signed in as Dr. Nandakumar</button>
+</div>
+<div class="awards" id="awards"></div>
+
+<div class="chip-row" id="spend-qs" role="group" aria-label="Ask a question"></div>
+<div class="room">
+  <div class="room-bar"><span class="room-tag">TEAMS · FABRIC DATA AGENT · GRANTS LEDGER</span><span id="pa-who">Dr. Wren</span></div>
+  <div class="thread" id="pa-thread"></div>
+</div>
+
+<h3 class="mini-head">Coming due on your awards</h3>
+<ul class="due" id="due"></ul>
+<p class="micro">Fictional awards and amounts · Illustrative figures · not product output</p>
+<p class="pnote" hidden>Spend questions go to a Fabric data agent added to the Copilot Studio agent as a connected agent (preview). It is validated only in Microsoft Teams and isn't supported in Microsoft 365 Copilot, so this agent is published to Teams. The data agent queries a grants ledger in a Fabric lakehouse or warehouse, kept up to date from the institution's financial system. It is set to user authentication, so each question runs with the PI's own permissions; the data team enforces "PIs see only their awards" with row-level security on the ledger. Responses from a Fabric data agent may leave Fabric's compliance boundary, which the data owner should review. Questions about whether a cost is allowable go to the post-award officer: the agent reports numbers, it doesn't rule on allowability.</p>
+</section>
+
+<!-- ===== 07 ===== -->
+<section id="built" aria-labelledby="built-heading">
+<p class="eyebrow"><b>07</b> HOW IT'S BUILT</p>
+<h2 id="built-heading">One agent in Teams. Officers keep the decisions.</h2>
+
+<div class="stack" id="stack" role="list"></div>
+<div class="stack-detail" id="stack-detail" aria-live="polite"></div>
+
+<h3 class="mini-head">Who decides</h3>
+<div class="decide" id="decide"></div>
+
+<h3 class="mini-head">After one cycle · illustrative</h3>
+<div class="outcomes" id="outcomes"></div>
+<p class="pnote" hidden>Stack, top to bottom. Copilot Studio agent with generative orchestration and instructions that bar scientific writing and compliance determinations. Knowledge: SharePoint library of sponsor guidelines. Tools: a prompt (readiness check), agent flows using the Standard approvals, Microsoft Teams, Office 365 Outlook and SharePoint connectors. Connected agent: Fabric data agent over the grants ledger (preview, Teams only, user authentication). Topics: compliance screening and hand-off to a person. Data: Dataverse table of proposals in flight. Governance: Entra ID groups for who can use it, Power Platform admin center environments and DLP policies, Copilot Studio analytics, Microsoft Purview audit, Copilot Credits consumption reporting. Records are kept under the institution's own retention policy.</p>
+<p class="closing-question">Which question did your research office answer five times this week?</p>
+<p class="micro">Illustrative figures · not product output</p>
+</section>
+
+</main>
+
+<div class="closing"><a href="/career-services.html">← Careers</a><a href="/campus-operations.html">Campus operations →</a></div>
+</div>
+
+<p id="live-region" class="sr-only" role="status" aria-live="polite"></p>
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body></html>
