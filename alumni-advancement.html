@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Alumni &amp; Advancement Lab · Campus Copilot</title><meta name="description" content="Visual companion for alumni and advancement on Microsoft Copilot Studio: a website agent for alumni requests, a Teams agent that briefs gift officers from the CRM and Fabric, drafts the officer edits and sends, and communication preferences every flow respects."><meta name="theme-color" content="#023347"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/labs-navigation.css"><link rel="stylesheet" href="/alumni-advancement.css"><script src="/alumni-advancement.js" defer></script></head>
+<body><a class="skip" href="#main">Skip to the Lab</a><nav class="labs-navigation" aria-label="Labs">
+    <a href="/">Labs</a>
+    <a href="/campus-chat.html">Campus Chat</a>
+    <a href="/campus-chat-plus.html">Campus Chat Plus</a>
+    <a href="/ontology.html">Data Bridge</a>
+    <a href="/admin-console.html">Admin Console</a>
+    <a href="/virtual-teaching-assistant.html">Teaching assistant</a>
+    <a href="/retention.html">Retention</a>
+    <a href="/recruitment.html">Recruitment</a>
+    <a href="/advising.html">Advising</a>
+    <a href="/student-services.html">Student services</a>
+    <a href="/financial-aid.html">Financial aid</a>
+    <a href="/transfer-credit.html">Transfer credit</a>
+    <a href="/career-services.html">Careers</a>
+    <a href="/research-administration.html">Research admin</a>
+    <a href="/campus-operations.html">Campus operations</a>
+    <a href="/alumni-advancement.html" aria-current="page">Alumni</a>
+    <a href="/pricing.html">Pricing</a>
+  </nav>
+  <div class="partner-strip">
+    <span class="partner-item"><img src="/assets/copilot-studio-icon.png" alt="" width="22" height="22"><span>Built on <strong>Microsoft Copilot Studio</strong></span></span>
+    <span class="partner-item"><span>Implementation partner</span><img class="partner-rc" src="/assets/royal-cyber-logo.png" alt="Royal Cyber" width="103" height="24"></span>
+  </div>
+
+<div class="shell">
+<div class="masthead"><img src="/assets/logo.svg" alt="Campus Copilot" width="190" height="31"><span>ALUMNI &amp; ADVANCEMENT LAB</span></div>
+
+<div class="section-nav">
+<select id="section-jump" aria-label="Jump to section">
+<option value="today">1 · One inbox, five offices</option>
+<option value="alumni">2 · The alumni agent</option>
+<option value="consent">3 · Preferences first</option>
+<option value="brief">4 · The donor brief</option>
+<option value="outreach">5 · Agent drafts, officer sends</option>
+<option value="stack">6 · How it's built</option>
+<option value="outcome">7 · What changes</option>
+</select>
+<label class="notes-toggle"><input type="checkbox" id="notes-on"> Notes</label>
+</div>
+
+<main id="main">
+
+<!-- ===== 01 ===== -->
+<section id="today" aria-labelledby="today-heading">
+<p class="eyebrow"><b>01</b> ONE INBOX, FIVE OFFICES</p>
+<h1 id="today-heading">Alumni write to one address. The answer lives in five offices.</h1>
+
+<div class="choices" role="group" aria-label="Compare how alumni requests are handled">
+<button type="button" data-route="today" aria-pressed="true">Today</button>
+<button type="button" data-route="agent" aria-pressed="false">With Campus Copilot</button>
+</div>
+
+<figure class="figure">
+  <ul class="routes" id="routes" aria-label="Where each kind of alumni request ends up"></ul>
+  <p class="figure-takeaway" id="route-note"></p>
+</figure>
+
+<h3 class="mini-head">Before a donor visit</h3>
+<div class="split-bar" id="prep-bar" role="img" aria-labelledby="prep-alt">
+  <span class="split-gather" id="prep-gather"><b>75</b> min gathering</span>
+  <span class="split-think" id="prep-think"><b>15</b> min planning the visit</span>
+</div>
+<p class="sr-only" id="prep-alt"></p>
+<p class="micro">Illustrative figures · not product output</p>
+<p class="pnote" hidden>Two agents, one per audience. The alumni agent is a Copilot Studio agent published to the institution's website (web channel). The advancement agent is a separate Copilot Studio agent published to Microsoft Teams and shared only with the advancement security group in Entra ID. The alumni agent never reads gift officer notes or giving data. Figures here are illustrative, not a Microsoft benchmark.</p>
+</section>
+
+<!-- ===== 02 ===== -->
+<section id="alumni" aria-labelledby="alumni-heading">
+<p class="eyebrow"><b>02</b> THE ALUMNI AGENT</p>
+<h2 id="alumni-heading">Ask once, on the alumni site. It goes to the right place.</h2>
+
+<div class="choices" role="group" aria-label="Choose an alumni request">
+<button type="button" data-scene="events" aria-pressed="true">Event sign-up</button>
+<button type="button" data-scene="transcript" aria-pressed="false">Transcript</button>
+<button type="button" data-scene="mentor" aria-pressed="false">Mentoring</button>
+<button type="button" data-scene="update" aria-pressed="false">Update my details</button>
+<button type="button" data-scene="giving" aria-pressed="false">Giving question</button>
+</div>
+
+<div class="webchat">
+  <div class="webchat-bar"><span class="room-tag">ALUMNI WEBSITE · CHAT</span><span id="signin-state">Not signed in</span></div>
+  <div class="thread" id="alumni-thread"></div>
+  <div class="webchat-foot"><button type="button" id="alumni-play" class="primary-button">▶ Play the conversation</button><span class="scene-route" id="scene-route"></span></div>
+</div>
+<p class="figure-takeaway" id="scene-note"></p>
+<p class="pnote" hidden id="scene-pnote"></p>
+<p class="pnote" hidden>Published to the website channel. Authentication uses "Authenticate manually" with a Generic OAuth 2 provider (the institution's alumni identity service) and "Require users to sign in" turned off, so anyone can ask about events or giving, and topics that touch a personal record ask the alum to sign in first. Every tool that changes something (register, sign up, update, set preferences) has "Ask the end user before running" set to Yes, which shows the confirmation in chat.</p>
+</section>
+
+<!-- ===== 03 ===== -->
+<section id="consent" aria-labelledby="consent-heading">
+<p class="eyebrow"><b>03</b> PREFERENCES FIRST</p>
+<h2 id="consent-heading">“No” is a setting every flow reads before it sends.</h2>
+
+<div class="consent">
+  <fieldset class="prefs">
+    <legend>Ines Aldana ’09 · communication preferences</legend>
+    <div id="pref-list"></div>
+  </fieldset>
+  <div class="queue">
+    <h3 class="mini-head">Outbound this week</h3>
+    <ul id="queue" aria-live="polite"></ul>
+    <p class="queue-sum" id="queue-sum"></p>
+  </div>
+</div>
+<p class="figure-takeaway">Preferences live in the CRM. The agents read them; they don't decide them.</p>
+<p class="micro">Fictional alum · Preference names vary by CRM and institution</p>
+<p class="pnote" hidden>Preferences are fields on the CRM contact, such as Do not allow Email, Phone, Postal Mail and Bulk Email on the Dataverse contact table in Dynamics 365, or the matching fields in Salesforce or another advancement CRM, plus any solicitation codes the institution keeps. Each agent flow and cloud flow that sends (appeals, reminders, officer drafts) starts with a condition that reads them and drops anyone who has opted out. An opt-out made in chat runs a tool that writes the preference after the alum confirms. Retention and consent rules come from the institution's own policy; this page makes no legal claim.</p>
+</section>
+
+<!-- ===== 04 ===== -->
+<section id="brief" aria-labelledby="brief-heading">
+<p class="eyebrow"><b>04</b> THE DONOR BRIEF</p>
+<h2 id="brief-heading">“Brief me on Tomasz before Thursday.” One message in Teams.</h2>
+
+<div class="teams">
+  <div class="teams-bar"><span class="room-tag">MICROSOFT TEAMS · ADVANCEMENT AGENT</span><span>Hollis Grant · gift officer</span></div>
+  <div class="msg is-you teams-ask"><span class="msg-who">HOLLIS</span><p class="msg-body">Brief me on Tomasz Wieczorek ’94 before Thursday’s lunch.</p></div>
+  <div class="brief-tabs" role="tablist" aria-label="Parts of the brief">
+    <button type="button" role="tab" id="bt-rel" aria-controls="bp-rel" aria-selected="true">Relationship</button>
+    <button type="button" role="tab" id="bt-gift" aria-controls="bp-gift" aria-selected="false" tabindex="-1">Giving</button>
+    <button type="button" role="tab" id="bt-eng" aria-controls="bp-eng" aria-selected="false" tabindex="-1">Engagement</button>
+    <button type="button" role="tab" id="bt-care" aria-controls="bp-care" aria-selected="false" tabindex="-1">Handle with care</button>
+  </div>
+  <div class="brief-panel" role="tabpanel" id="bp-rel" aria-labelledby="bt-rel" tabindex="0"></div>
+  <div class="brief-panel" role="tabpanel" id="bp-gift" aria-labelledby="bt-gift" tabindex="0" hidden></div>
+  <div class="brief-panel" role="tabpanel" id="bp-eng" aria-labelledby="bt-eng" tabindex="0" hidden></div>
+  <div class="brief-panel" role="tabpanel" id="bp-care" aria-labelledby="bt-care" tabindex="0" hidden></div>
+</div>
+
+<h3 class="mini-head">Same question, different officer</h3>
+<div class="choices" role="group" aria-label="Who is asking">
+<button type="button" data-asker="hollis" aria-pressed="true">Hollis · Tomasz is in her portfolio</button>
+<button type="button" data-asker="renata" aria-pressed="false">Renata · different portfolio</button>
+</div>
+<div class="thread" id="scope-thread"></div>
+<p class="micro">Fictional donor · Every line names the source it came from</p>
+<p class="pnote" hidden>Profile, relationships and contact reports come from the CRM through a connector: Microsoft Dataverse for Dynamics 365, Salesforce, or Blackbaud's Raiser's Edge NXT connectors. Any other advancement CRM can be reached through a custom connector or an MCP server. Tools use end-user credentials, so the CRM's own security roles apply. Giving history and engagement totals come from a Fabric data agent connected to the Teams agent (preview, validated only in Microsoft Teams) with User authentication. Row-level security in the Fabric source limits each gift officer to their own portfolio, which is why Renata gets no figures.</p>
+</section>
+
+<!-- ===== 05 ===== -->
+<section id="outreach" aria-labelledby="outreach-heading">
+<p class="eyebrow"><b>05</b> AGENT DRAFTS, OFFICER SENDS</p>
+<h2 id="outreach-heading">The agent writes the first draft. A person writes the last word.</h2>
+
+<div class="choices" role="group" aria-label="Choose an outreach scene">
+<button type="button" data-out="one" aria-pressed="true">One donor</button>
+<button type="button" data-out="event" aria-pressed="false">After an event</button>
+</div>
+
+<div id="out-one">
+  <div class="draft">
+    <div class="draft-head">
+      <span>To: Tomasz Wieczorek</span>
+      <span class="ok-chip" id="pref-check">Email allowed · checked in CRM</span>
+    </div>
+    <div class="choices tone" role="group" aria-label="Tone of the draft">
+      <button type="button" data-tone="warm" aria-pressed="true">Warm</button>
+      <button type="button" data-tone="brief" aria-pressed="false">Brief</button>
+    </div>
+    <label class="sr-only" for="draft-text">Draft email, editable</label>
+    <textarea id="draft-text" rows="9"></textarea>
+    <ul class="facts" id="facts" aria-label="Facts the draft used"></ul>
+    <div class="controls">
+      <button type="button" class="primary-button" id="save-draft">Save to my Outlook drafts</button>
+    </div>
+    <div class="confirm-card" id="confirm-card" hidden>
+      <p><strong>Save this as a draft in Hollis’s mailbox?</strong> It will not be sent.</p>
+      <div class="controls"><button type="button" class="primary-button" id="confirm-yes">Save draft</button><button type="button" class="ghost-button" id="confirm-no">Cancel</button></div>
+    </div>
+    <p class="status-line" id="draft-status" role="status" aria-live="polite"></p>
+  </div>
+</div>
+
+<div id="out-event" hidden>
+  <div class="controls"><button type="button" class="primary-button" id="event-play">▶ Run the follow-up flow</button></div>
+  <ol class="flow" id="flow"></ol>
+  <p class="status-line" id="flow-status" role="status" aria-live="polite"></p>
+</div>
+<p class="micro">Illustrative counts · not product output</p>
+<p class="pnote" hidden>One donor: the agent drafts from the brief, the officer edits in chat, then a tool built on the Office 365 Outlook action "Draft an email message", running with end-user credentials and "Ask the end user before running" on, saves it to the officer's own Drafts folder. Nothing is sent by the agent. After an event: a cloud flow starts when attendance is final. It reads attendees from the events system (a connector such as Eventbrite, or a Dataverse table), drops opted-out contacts, sends the standard thank-you only after the events lead approves it with "Start and wait for an approval" (Approvals connector), and gives each portfolio prospect to their officer as a draft.</p>
+</section>
+
+<!-- ===== 06 ===== -->
+<section id="stack" aria-labelledby="stack-heading">
+<p class="eyebrow"><b>06</b> HOW IT'S BUILT</p>
+<h2 id="stack-heading">Two agents. Shared preferences. Separate access.</h2>
+
+<div class="stack" id="stack-grid"></div>
+<div class="stack-detail" id="stack-detail" aria-live="polite"></div>
+
+<h3 class="mini-head">Who confirms what</h3>
+<div class="table-wrap">
+<table class="confirm-table">
+  <thead><tr><th scope="col">Action</th><th scope="col">Agent does</th><th scope="col">A person confirms</th></tr></thead>
+  <tbody>
+    <tr><td>Event registration</td><td>Prepares it</td><td>The alum, in chat</td></tr>
+    <tr><td>Contact details change</td><td>Shows old and new</td><td>The alum; name changes go to Advancement Services</td></tr>
+    <tr><td>Transcript</td><td>Opens a request</td><td>The Registrar verifies and sends</td></tr>
+    <tr><td>Opt-out</td><td>Writes it after the alum confirms</td><td>The alum</td></tr>
+    <tr><td>Donor outreach</td><td>Drafts it</td><td>The gift officer edits and sends</td></tr>
+    <tr><td>Event thank-you</td><td>Builds the list</td><td>The events lead approves</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="pnote" hidden>Both agents use generative orchestration. Knowledge: the public alumni and giving pages (public website knowledge) and SharePoint for internal guidance. Tools: Power Platform connectors (Microsoft Dataverse, Salesforce, Blackbaud Raiser's Edge NXT, Office 365 Outlook, Approvals), custom connectors or MCP servers for other systems, and agent flows in Power Automate. The Dynamics 365 connector is deprecated, so Dynamics 365 data is reached through the Microsoft Dataverse connector. The Fabric data agent connection is preview and validated only in Teams. Admins set DLP policies and environments in the Power Platform admin center, and Microsoft Purview audits agent activity.</p>
+</section>
+
+<!-- ===== 07 ===== -->
+<section id="outcome" aria-labelledby="outcome-heading">
+<p class="eyebrow"><b>07</b> WHAT CHANGES</p>
+<h2 id="outcome-heading">Fewer forwarded emails. More time with donors. No surprises for alumni.</h2>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="charts">
+  <figure class="chart">
+    <figcaption>Alumni requests this term, by where they went</figcaption>
+    <div class="bars" id="bars-requests"></div>
+  </figure>
+  <figure class="chart">
+    <figcaption>Opt-outs made in chat, by type</figcaption>
+    <div class="bars" id="bars-optouts"></div>
+  </figure>
+</div>
+
+<div class="chip-row gov">
+  <span class="gchip">Entra ID groups · staff access</span>
+  <span class="gchip">Alumni sign-in for personal records</span>
+  <span class="gchip">DLP · Power Platform admin center</span>
+  <span class="gchip">Copilot Studio analytics</span>
+  <span class="gchip">Microsoft Purview audit</span>
+  <span class="gchip">Copilot Credits consumption</span>
+</div>
+<p class="closing-question">How many alumni are waiting on a forwarded email right now?</p>
+<p class="micro">Illustrative figures · not product output</p>
+<p class="pnote" hidden>The figures are illustrative. Copilot Studio analytics reports sessions, outcomes, escalations and satisfaction for each agent. Preference changes and mentor sign-ups are Dataverse rows (or CRM records), so they can be reported in Power BI or a Fabric semantic model. Alumni website conversations use the institution's Copilot Credits; check current billing rules for staff with a Microsoft 365 Copilot licence before budgeting.</p>
+</section>
+
+</main>
+
+<div class="closing"><a href="/campus-operations.html">← Campus operations</a><a href="/pricing.html">Pricing →</a></div>
+</div>
+
+<p id="live-region" class="sr-only" role="status" aria-live="polite"></p>
+<noscript><p style="padding:22px">Enable JavaScript to explore this Lab.</p></noscript>
+</body></html>

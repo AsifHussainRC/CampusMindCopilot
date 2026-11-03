@@ -23,6 +23,13 @@ Designed and delivered by **Royal Cyber**, implementation partner for agentic so
 | `/retention` | Early-alert signals in Fabric, thresholds, outreach flows, advisor context |
 | `/recruitment` | Student and staff/faculty recruitment, with human-only decisions |
 | `/advising` | Advisor brief, cross-system checks, confirmed follow-up flows |
+| `/student-services` | One front door: connected/child agents per office, public vs signed-in answers, handoff with context |
+| `/financial-aid` | Holds, balances, documents, payment plans (student confirms), staff-decided eligibility |
+| `/transfer-credit` | Transcript upload, document processing, equivalency matching, evaluator review loop |
+| `/career-services` | Resume coaching, interview practice, listings, Bookings-triggered prep, outcomes |
+| `/research-administration` | Sponsor-guideline Q&A, readiness check, routed approvals, post-award questions |
+| `/campus-operations` | Photo work orders, room booking, safety escalation, Fabric + Activator facilities view |
+| `/alumni-advancement` | Alumni website agent, consent-aware flows, donor briefs, drafts officers send |
 | `/pricing` | Copilot Credits estimator: prepaid packs vs pay-as-you-go, with sources |
 
 Each page has a **Notes** toggle (or a "How it's built" box) naming the exact Microsoft component, setting and preview caveat behind each section.
